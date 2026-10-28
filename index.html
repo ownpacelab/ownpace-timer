@@ -150,12 +150,12 @@ body.hide{cursor:none}
 <div class="wrap">
   <header>
     <div class="sec" id="sec">인사</div>
-    <div class="stats"><span class="brand">내 페이스 복싱 · </span><b id="total">0:00</b> / 50:00</div>
+    <div class="stats"><span class="brand">오운랩 · </span><b id="total">0:00</b> / 50:00</div>
   </header>
   <main>
     <div class="info">
       <div class="tag" id="tag">시작 전</div>
-      <div class="move" id="move">인생 2라운드</div>
+      <div class="move" id="move">내 페이스 복싱</div>
       <div class="beats" id="beats"></div>
       <div class="who" id="who"></div>
     </div>
@@ -291,8 +291,12 @@ function beep(f,d,v,type='square'){ if(!sound||!ctx) return;
 const SR=22050;
 // 소리 크기: 음악 위로도 들리게 기본은 '크게'. 작게·보통·크게 3단계, 메뉴에서 바꾸면 소리를 다시 만든다(아이폰은 재생 볼륨을 앱이 못 바꿔서)
 const VOLS={'작게':.4,'보통':.7,'크게':1}; let vol='크게'; try{ vol=localStorage.getItem('ownpace-vol')||'크게'; if(!(vol in VOLS)) vol='크게'; }catch(e){}
-function chain(c,level=VOLS[vol]){ const comp=c.createDynamicsCompressor(); comp.threshold.value=-20; comp.knee.value=6; comp.ratio.value=8; comp.attack.value=.002; comp.release.value=.2;
-  const g=c.createGain(); g.gain.value=2.4*level; g.connect(comp).connect(c.destination); return g; }
+// 종소리를 음악만큼 크게(10/28 리허설): 압축기 대신 부드러운 포화(tanh)로 소리 밀도를 올린다. 평균 음량 약 +10dB, 피크는 최대치 안
+let SHAPE=null;
+function chain(c,level=VOLS[vol]){ const g=c.createGain(); g.gain.value=1.5+2.5*level;
+  if(!SHAPE){ const N=4096; SHAPE=new Float32Array(N); for(let i=0;i<N;i++){ const x=i/(N-1)*2-1; SHAPE[i]=Math.tanh(x*3)/Math.tanh(3); } }
+  const sh=c.createWaveShaper(); sh.curve=SHAPE; try{ sh.oversample='4x'; }catch(e){}
+  const o=c.createGain(); o.gain.value=.9*level; g.connect(sh).connect(o).connect(c.destination); g.out=o; return g; }
 function synthStrike(c,dest,t0,vol=1,base=1250){
   const PART=[[1,1,1.6],[2.32,.55,1.1],[4.25,.32,.7],[6.63,.18,.45],[9.1,.08,.3]]; // [ratio, level, decay s]
   PART.forEach(([r,a,d])=>[-1.2,1.2].forEach(det=>{
@@ -353,7 +357,7 @@ function primeSpeech(){ try{ const u=new SpeechSynthesisUtterance(' '); u.volume
 function play(k){ if(!sound) return; if(mixMode){ duck(); liveRing(k); return; } const a=CLIPS[k];
   if(a){ try{ a.muted=false; a.volume=1; a.currentTime=0; const pr=a.play(); if(pr&&pr.catch) pr.catch(()=>{ liveRing(k); if(!ctx||ctx.state!=='running') blockedHint(); }); return; }catch(e){} }
   liveRing(k); }
-function liveRing(k){ if(!ctx){ blockedHint(); return; } if(!liveOut) liveOut=chain(ctx); liveOut.gain.value=2.4*VOLS[vol]; try{ const t=ctx.currentTime; // live fallback
+function liveRing(k){ if(!ctx){ blockedHint(); return; } if(!liveOut) liveOut=chain(ctx); liveOut.gain.value=1.5+2.5*VOLS[vol]; liveOut.out.gain.value=.9*VOLS[vol]; try{ const t=ctx.currentTime; // live fallback
   if(k==='tick') synthTick(ctx,liveOut,t+.01); else if(k==='bell') [0,.16,.32].forEach(d=>synthStrike(ctx,liveOut,t+.01+d)); else if(k==='ding') [0,.22].forEach(d=>synthStrike(ctx,liveOut,t+.01+d)); else synthStrike(ctx,liveOut,t+.01,k==='soft'?.45:1); }catch(e){} }
 const bell=()=>play('bell'), ding=()=>play('ding'), soft=()=>play('soft'), countTick=()=>play('tick');
 // 박자판 그리기: '가드' = 쉬는 박, 화살표 = 이동, 왼/오 = 손(한 칸에 두 손이면 한 박에 두 번)
@@ -390,7 +394,7 @@ function render(){
   document.body.className=cls.join(' ');
   $('sec').innerHTML=nm(s.sec)+(s.mins?`<span>${s.min+1}/${s.mins}</span>`:'');
   const intro=!started&&elapsed===0; // 시작 화면은 맨 처음에서만. 시작 전에 이전/다음으로 옮기면 그 구간을 미리 보여준다
-  $('tag').textContent=intro?'인생 2라운드 복싱':done?'수업 끝':(s.qr&&s.type==='rest'?s.tag+' · '+Math.max(1,Math.ceil(left))+'초':s.tag); // QR 물 시간도 남은 초가 보이게
+  $('tag').textContent=intro?'내 페이스 복싱':done?'수업 끝':(s.qr&&s.type==='rest'?s.tag+' · '+Math.max(1,Math.ceil(left))+'초':s.tag); // QR 물 시간도 남은 초가 보이게
   setMove(late?s.late.move:s.move);
   $('beats').innerHTML=beats(s.hands);
   const whoT=intro?'처음이어도 괜찮아요':done?'다음 주에도, 내 페이스로':late?'':(s.sub||''); // ' · '로 나뉜 덩어리는 중간에서 줄이 바뀌지 않게
