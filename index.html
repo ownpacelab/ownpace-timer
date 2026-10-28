@@ -232,23 +232,28 @@ const PLAN=[
     ['원','원투',P.O,P.OT],['원투','원원투',P.OT,P.AL],['원원투','원투원투',P.AL,P.BL],['원투원투','원투원투 + 원원투',P.BL,th(P.BL,P.AL)],
     ['오른손부터, 원','원투',P.R,P.OR],['원투','원원투',P.OR,P.AR],['원원투','원투원투',P.AR,P.BR],['원투원투','원투원투 + 원원투',P.BR,th(P.BR,P.AR)]]),   // '반대로'는 정규반 레벨업으로 (10/27)
   water(40,'물 마시기','물 한 모금 마셔요','잘하고 있어요'),
-  // 함께하기 (10/28): 규칙 15초 → 각자 1분 → 짝 인사 20초 → 짝 손뼉 2분 → 규칙 15초 → 숫자 펀치 2분 → 마무리 인사 10초 = 6분
-  ...[['규칙, 숫자만큼 손뼉','제자리 걸으며 들어요 · 하나 짝, 둘 짝짝',15,'준비'],['하나 짝, 둘 짝짝','숫자만큼 손뼉 · 점점 빠르게',60],
-      ['짝 정하고, 인사','바로 옆 분과 주먹 인사',20],['짝과 손뼉','하나 짝, 둘 짝짝 · 점점 빠르게',120],
-      ['규칙, 이번엔 펀치','하나 원 · 둘 원투 · 셋 원원투 · 넷 원투원투',15,'준비'],['마주 보고, 숫자만큼 펀치','하나 원 · 둘 원투 · 셋 원원투 · 넷 원투원투',120],
+  // 함께하기 (10/28 리허설): 규칙 15초 → 각자 40초 → 짝 인사 20초 → 짝 손뼉 90초 → 규칙 15초 → 숫자 펀치 170초 → 마무리 인사 10초 = 6분
+  ...[['규칙, 숫자만큼 손뼉','제자리 걸으며 들어요 · 하나 짝, 둘 짝짝',15,'준비'],['하나 짝, 둘 짝짝','숫자만큼 손뼉 · 점점 빠르게',40],
+      ['짝 정하고, 인사','바로 옆 분과 주먹 인사',20],['짝과 손뼉','하나 짝, 둘 짝짝 · 점점 빠르게',90],
+      ['규칙, 이번엔 펀치','하나 원 · 둘 원투 · 셋 원원투 · 넷 원투원투',15,'준비'],['마주 보고, 숫자만큼 펀치','하나 원 · 둘 원투 · 셋 원원투 · 넷 원투원투',170],
       ['짝과 마무리 인사','주먹 인사, 톡',10]]
     .map(([m,sub,dur,tag],i)=>({sec:'함께하기',type:i%2?'up':'base',tag:tag||'다 같이',move:m,sub,dur,min:i,mins:7})),
   {sec:'기술 2',type:'base',tag:'준비',move:'제자리 걷기',sub:'발 순서 먼저 볼게요',dur:30},   // 30초 준비: 걸으며 다음 동작 설명 (10/27 회고)
-  ...work('기술 2',[  // 10/26 회고: 30초마다 앞뒤 전환은 혼란 → 앞으로만 4분 → 뒤로만 4분 → 마지막 1분만 앞뒤. 레벨업 = 펀치 하나 더
-    ['앞으로 스텝만','앞으로, 원투','↑ ↑ 가드 가드 / 가드 가드 ↓ ↓',FW.OT],['앞으로, 원투','앞으로, 원원투',FW.OT,FW.AL],
-    ['앞으로, 원원투','앞으로, 원투원투',FW.AL,FW.BL],['앞으로, 원투원투','앞으로, 원투원투',FW.BL,FW.BL],
-    ['뒤로 스텝만','뒤로, 원투','↓ ↓ 가드 가드 / 가드 가드 ↑ ↑',BW.OT],['뒤로, 원투','뒤로, 원원투',BW.OT,BW.AL],
-    ['뒤로, 원원투','뒤로, 원투원투',BW.AL,BW.BL],['뒤로, 원투원투','뒤로, 원투원투',BW.BL,BW.BL],
-    ['앞으로 원투, 뒤로 원투','앞으로 원투, 뒤로 원투','↑ ↑ 왼 오 / ↓ ↓ 오 왼','↑ ↑ 왼 오 / ↓ ↓ 오 왼']])   // 마지막 1분(8박): 앞으로 와서 원투 → 뒤로 와서 반대손 원투
-    .map(s=>{ const k=s.min*2+(s.type==='up'?1:0);
-      if(k===1) s.sub='왼발 나가면 왼손부터';
-      if(k===9) s.sub='오른발 빼면 오른손부터';
-      return s; }),
+  // 기술 2 (10/28 리허설): 1분 = 같은 동작 두 번(익히고 성공). 같은 동작은 최대 1분. 스텝만은 가드 없이 4박(웜업처럼)
+  // 앞으로 3분 30초 → 뒤로 3분 30초 → 앞뒤 원투 1분(8박) → 앞뒤 원원투 1분(한 박에 빠르게 한 걸음 + 원원투 = 4박씩 8박, 은서 아이디어). 앞뒤 방향·박이 같아 원투로 해도 부딪히지 않음
+  ...[['앞으로, 뒤로','↑ ↑ ↓ ↓','가는 쪽 발 먼저, 가드 없이'],
+      ['앞으로, 원투',FW.OT,'왼발 나가면 왼손부터'],['앞으로, 원투',FW.OT],
+      ['앞으로, 원원투',FW.AL],['앞으로, 원원투',FW.AL],
+      ['앞으로, 원투원투',FW.BL],['앞으로, 원투원투',FW.BL],
+      ['뒤로, 앞으로','↓ ↓ ↑ ↑','이번엔 오른발로 뒤로'],
+      ['뒤로, 원투',BW.OT,'오른발 빼면 오른손부터'],['뒤로, 원투',BW.OT],
+      ['뒤로, 원원투',BW.AL],['뒤로, 원원투',BW.AL],
+      ['뒤로, 원투원투',BW.BL],['뒤로, 원투원투',BW.BL],
+      ['앞으로 원투, 뒤로 원투','↑ ↑ 왼 오 / ↓ ↓ 오 왼','발 따라 손, 천천히'],
+      ['앞으로 원투, 뒤로 원투','↑ ↑ 왼 오 / ↓ ↓ 오 왼','음악에 맞춰'],
+      ['앞으로 원원투, 뒤로 원원투','↑ 왼 왼 오 / ↓ 오 오 왼','한 박에 빠르게 한 걸음 · 힘들면 원투','레벨업'],
+      ['앞으로 원원투, 뒤로 원원투','↑ 왼 왼 오 / ↓ 오 오 왼','소리 내며 · 힘들면 원투','마지막 30초']]
+    .map(([m,hd,sub,tag],i)=>{ const k=i+1; return {sec:'기술 2',type:tag?(tag==='레벨업'?'up':'finish'):'base',tag:tag||'기본',move:m,hands:hd,sub,dur:30,min:Math.floor(k/2),mins:9}; }),
   water(40,'물 마시기','물 한 모금 마셔요','잘하고 있어요'),
   ...work('피지컬',[  // 체력 운동: 1세트 = 2세트(같은 구성). 마지막은 옆으로 한 걸음(2박) → 멈춰서 반대손(투). 이동 기준: 한 걸음 = 2박 = 화살표 2칸. 모두 같은 방향, 왼쪽 먼저
     ['앉았다 일어나기','앉고, 팔 위로'],['뒤로 발 콕','뒤로 콕, 무릎 올리기'],['옆으로, 원 가드','옆으로, 원투','← ← 왼 가드 / → → 오 가드','← ← 왼 오 / → → 오 왼'],
@@ -335,10 +340,17 @@ function pickVoice(){ try{ const vs=speechSynthesis.getVoices().filter(v=>/^ko/i
   koVoice=pref.map(p=>vs.find(v=>v.name.includes(p))).find(Boolean)||vs[0]||null; }catch(e){} }
 try{ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }catch(e){}
 // 소리(종)를 꺼도 음성은 나온다: 코치 폰 = 소리 끔 + 음성 켬
-function say(t){ if(!voiceOn) return; try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t.replace(/,/g,' ')); u.lang='ko-KR'; if(koVoice) u.voice=koVoice; u.rate=1; u.pitch=1; u.volume=1; speechSynthesis.speak(u); }catch(e){} }
+function say(t){ if(!voiceOn) return; try{ duckU=null; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t.replace(/,/g,' ')); u.lang='ko-KR'; if(koVoice) u.voice=koVoice; u.rate=1; u.pitch=1; u.volume=1; speechSynthesis.speak(u); }catch(e){} }
 let warned=false;
 function blockedHint(){ if(warned) return; warned=true; toast('소리가 안 나면 화면을 한 번 누르고, 기기 음량과 무음 모드를 확인해 주세요'); }
-function play(k){ if(!sound) return; if(mixMode){ liveRing(k); return; } const a=CLIPS[k];
+// 음악과 함께 모드: 종·톡이 날 때 음악을 잠깐 줄인다(음성 안내처럼). 소리 없는 음성으로 아이폰의 '음악 줄이기'를 켜고, 마지막 소리 2.5초 뒤 되돌린다
+let duckU=null, duckT=0;
+function duck(){ try{ if(navigator.audioSession) navigator.audioSession.type='transient'; }catch(e){}
+  try{ if(!duckU&&!speechSynthesis.speaking){ const u=new SpeechSynthesisUtterance('음 '.repeat(40)); u.lang='ko-KR'; u.volume=0; u.rate=.5; u.onend=()=>{ if(duckU===u) duckU=null; }; duckU=u; speechSynthesis.speak(u); } }catch(e){}
+  clearTimeout(duckT); duckT=setTimeout(unduck,2500); }
+function unduck(){ try{ if(duckU){ duckU=null; speechSynthesis.cancel(); } }catch(e){} try{ if(navigator.audioSession) navigator.audioSession.type='ambient'; }catch(e){} }
+function primeSpeech(){ try{ const u=new SpeechSynthesisUtterance(' '); u.volume=0; speechSynthesis.speak(u); }catch(e){} }
+function play(k){ if(!sound) return; if(mixMode){ duck(); liveRing(k); return; } const a=CLIPS[k];
   if(a){ try{ a.muted=false; a.volume=1; a.currentTime=0; const pr=a.play(); if(pr&&pr.catch) pr.catch(()=>{ liveRing(k); if(!ctx||ctx.state!=='running') blockedHint(); }); return; }catch(e){} }
   liveRing(k); }
 function liveRing(k){ if(!ctx){ blockedHint(); return; } if(!liveOut) liveOut=chain(ctx); liveOut.gain.value=2.4*VOLS[vol]; try{ const t=ctx.currentTime; // live fallback
@@ -421,6 +433,7 @@ function unlockAudio(skip=[]){
 }
 function wakeAudio(){ if(ctx&&ctx.state!=='running'){ try{ ctx.resume(); }catch(e){} } }
 async function start(){
+  primeSpeech();   // 아이폰: 음성은 탭 안에서 한 번 깨워야 이후에도 나온다
   unlockAudio(started?[]:['bell']);
   if(!started){ started=true; bell(); }
   lastStep=stepAt(elapsed);
