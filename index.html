@@ -362,14 +362,22 @@ function pickVoice(){ try{ const vs=speechSynthesis.getVoices().filter(v=>/^ko/i
   koVoice=pref.map(p=>vs.find(v=>v.name.includes(p))).find(Boolean)||vs[0]||null; }catch(e){} }
 try{ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }catch(e){}
 // 소리(종)를 꺼도 음성은 나온다: 코치 폰 = 소리 끔 + 음성 켬
-function say(t){ if(!voiceOn) return; try{ duckU=null; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t.replace(/,/g,' ')); u.lang='ko-KR'; if(koVoice) u.voice=koVoice; u.rate=1; u.pitch=1; u.volume=1; speechSynthesis.speak(u); }catch(e){} }
+function say(t){ if(!voiceOn) return; try{ duckU=null; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t.replace(/,/g,' ')); u.lang='ko-KR'; if(koVoice) u.voice=koVoice; u.rate=1; u.pitch=1; u.volume=1; speechSynthesis.speak(u);
+  if(holding){ const d=new SpeechSynthesisUtterance('음 '.repeat(60)); d.lang='ko-KR'; d.volume=0; d.rate=.5; d.onend=()=>{ if(duckU===d) duckU=null; }; duckU=d; speechSynthesis.speak(d); }   // 말하는 구간이면 음성 바로 뒤에 소리 없는 음성을 이어 붙여 음악이 다시 커지지 않게
+  }catch(e){} }
 let warned=false;
 function blockedHint(){ if(warned) return; warned=true; toast('소리가 안 나면 화면을 한 번 누르고, 기기 음량과 무음 모드를 확인해 주세요'); }
 // 음악과 함께 모드: 종·톡이 날 때 음악을 잠깐 줄인다(음성 안내처럼). 소리 없는 음성으로 아이폰의 '음악 줄이기'를 켜고, 마지막 소리 2.5초 뒤 되돌린다
 let duckU=null, duckT=0;
 function duck(){ try{ if(navigator.audioSession) navigator.audioSession.type='transient'; }catch(e){}
   try{ if(!duckU&&!speechSynthesis.speaking){ const u=new SpeechSynthesisUtterance('음 '.repeat(40)); u.lang='ko-KR'; u.volume=0; u.rate=.5; u.onend=()=>{ if(duckU===u) duckU=null; }; duckU=u; speechSynthesis.speak(u); } }catch(e){}
-  clearTimeout(duckT); duckT=setTimeout(unduck,2500); }
+  clearTimeout(duckT); if(!holding) duckT=setTimeout(unduck,2500); }
+// 말하는 시간(인사·준비 설명·규칙·마무리)에는 음악을 계속 줄여 둔다 (음악과 함께 모드만). 소리 없는 음성을 이어서 읽는 동안 아이폰이 음악을 줄인다
+const isQuiet=s=>s&&(s.type==='talk'||s.tag==='준비');
+let holding=false;
+function holdDuck(){ holding=true; clearTimeout(duckT); try{ if(navigator.audioSession) navigator.audioSession.type='transient'; }catch(e){}
+  try{ if(!speechSynthesis.speaking){ const u=new SpeechSynthesisUtterance('음 '.repeat(60)); u.lang='ko-KR'; u.volume=0; u.rate=.5; u.onend=()=>{ if(duckU===u) duckU=null; }; duckU=u; speechSynthesis.speak(u); } }catch(e){} }
+function releaseDuck(){ if(!holding) return; holding=false; clearTimeout(duckT); duckT=setTimeout(unduck,2500); }
 function unduck(){ try{ if(duckU){ duckU=null; speechSynthesis.cancel(); } }catch(e){} try{ if(navigator.audioSession) navigator.audioSession.type='ambient'; }catch(e){} }
 function primeSpeech(){ try{ const u=new SpeechSynthesisUtterance(' '); u.volume=0; speechSynthesis.speak(u); }catch(e){} }
 function play(k){ if(!sound) return; if(mixMode){ duck(); liveRing(k); return; } const a=CLIPS[k];
@@ -437,7 +445,7 @@ function render(){
   if(!running) return;
   if(i!==lastStep){ if(lastStep!==-1){ if(s.type==='cool') soft(); else if(PLAN[lastStep].sec!==s.sec) bell(); else ding(); } lastStep=i; }
   const tick=Math.floor(elapsed);
-  if(tick!==lastTick){ lastTick=tick; wakeAudio(); const l=Math.ceil(s.dur-(tick-s.start));
+  if(tick!==lastTick){ lastTick=tick; wakeAudio(); if(mixMode&&isQuiet(s)) holdDuck(); else releaseDuck(); const l=Math.ceil(s.dur-(tick-s.start));
     if(l<=3&&l>=1&&s.type!=='talk'&&s.type!=='cool') play('n'+l); }   // 마지막 3초 음성 three·two·one → 땡땡. 코치는 세지 않고 시범만
 }
 function save(){ try{ localStorage.setItem('ownpace-timer',JSON.stringify({elapsed,at:Date.now()})); }catch(e){} }
@@ -465,7 +473,7 @@ async function start(){
   try{ wake=await navigator.wakeLock.request('screen'); }catch(e){}
   autoHide();
 }
-function pause(){ running=false; $('go').textContent='계속'; if(started) $('paused').hidden=false; save(); render(); document.body.classList.remove('hide'); try{wake&&wake.release();}catch(e){} }
+function pause(){ running=false; releaseDuck(); $('go').textContent='계속'; if(started) $('paused').hidden=false; save(); render(); document.body.classList.remove('hide'); try{wake&&wake.release();}catch(e){} }
 function sync(){ lastStep=stepAt(elapsed); lastTick=-1; save(); render(); }
 function jump(d){ const i=Math.min(PLAN.length-1,Math.max(0,stepAt(elapsed)+d)); elapsed=PLAN[i].start; sync(); }
 function again(){ const sec=PLAN[stepAt(elapsed)].sec; elapsed=SECTIONS.find(s=>s.sec===sec).start; sync(); }
