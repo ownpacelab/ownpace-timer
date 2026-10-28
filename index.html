@@ -244,7 +244,7 @@ const PLAN=[
     ['앞으로, 원원투','앞으로, 원투원투',FW.AL,FW.BL],['앞으로, 원투원투','앞으로, 원투원투',FW.BL,FW.BL],
     ['뒤로 스텝만','뒤로, 원투','↓ ↓ 가드 가드 / 가드 가드 ↑ ↑',BW.OT],['뒤로, 원투','뒤로, 원원투',BW.OT,BW.AL],
     ['뒤로, 원원투','뒤로, 원투원투',BW.AL,BW.BL],['뒤로, 원투원투','뒤로, 원투원투',BW.BL,BW.BL],
-    ['앞으로 원투, 뒤로 원투','앞으로 원투, 뒤로 원투',FW.OT+' / '+BW.OT,FW.OT+' / '+BW.OT]])   // 마지막 1분: 앞으로 원투 → 뒤로(오른손부터) 원투를 이어서 16박
+    ['앞으로 원투, 뒤로 원투','앞으로 원투, 뒤로 원투','↑ ↑ 왼 오 / ↓ ↓ 오 왼','↑ ↑ 왼 오 / ↓ ↓ 오 왼']])   // 마지막 1분(8박): 앞으로 와서 원투 → 뒤로 와서 반대손 원투
     .map(s=>{ const k=s.min*2+(s.type==='up'?1:0);
       if(k===1) s.sub='왼발 나가면 왼손부터';
       if(k===9) s.sub='오른발 빼면 오른손부터';
@@ -302,13 +302,13 @@ function synthStrike(c,dest,t0,vol=1,base=1250){
   src.buffer=n; bp.type='bandpass'; bp.frequency.value=3200; bp.Q.value=1.2; g.gain.value=.35*vol;
   src.connect(bp).connect(g).connect(dest); src.start(t0);
 }
-function synthTick(c,dest,t){ // 3·2·1: 낮고 둥근 톡 소리
-  [[660,.22],[990,.06]].forEach(([f,v])=>{ const o=c.createOscillator(), g=c.createGain();
+function synthTick(c,dest,t){ // 4·3·2·1: 음악 속에서도 들리는 또렷한 톡 소리
+  [[1320,.5],[1980,.18],[880,.2]].forEach(([f,v])=>{ const o=c.createOscillator(), g=c.createGain();
     o.type='sine'; o.frequency.value=f; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+.004); g.gain.exponentialRampToValueAtTime(.0001,t+.16);
     o.connect(g).connect(dest); o.start(t); o.stop(t+.2); }); }
 const SOUNDS={ // name: [length s, draw]
   bell:[2.2,(c,d)=>[0,.16,.32].forEach(t=>synthStrike(c,d,.01+t))],   // 땡땡땡: 수업 시작, 새 구간, 수업 끝
-  ding:[1.8,(c,d)=>synthStrike(c,d,.01)],                             // 땡: 같은 구간 안 30초 전환
+  ding:[2,(c,d)=>[0,.22].forEach(t=>synthStrike(c,d,.01+t))],          // 땡땡: 같은 구간 안 동작 전환(두 번)
   soft:[1.8,(c,d)=>synthStrike(c,d,.01,.45)],                          // 쿨다운: 작게
   tick:[.3,(c,d)=>synthTick(c,d,.01)] };                              // 3·2·1
 function toWav(buf,level=1){ const x=buf.getChannelData(0), n=x.length; let pk=0; for(let k=0;k<n;k++){ const a=Math.abs(x[k]); if(a>pk) pk=a; } const gain=pk>0?.98*level/pk:1; for(let k=0;k<n;k++) x[k]*=gain; // 피크를 최대치로 맞춰 최대한 크게
@@ -321,7 +321,7 @@ function toWav(buf,level=1){ const x=buf.getChannelData(0), n=x.length; let pk=0
 function renderBuf(len,draw){ const OC=window.OfflineAudioContext||window.webkitOfflineAudioContext; if(!OC) return Promise.reject();
   const oc=new OC(1,Math.ceil(SR*len),SR); draw(oc,chain(oc,1));
   return new Promise((ok,no)=>{ oc.oncomplete=e=>ok(e.renderedBuffer); const pr=oc.startRendering(); if(pr&&pr.then) pr.then(ok,no); }); }
-const CLIPS={}, CLIP_LEVEL={soft:.6, tick:.7};   // 쿨다운 땡과 3·2·1 톡은 조금 작게
+const CLIPS={}, CLIP_LEVEL={soft:.6};   // 쿨다운 땡만 조금 작게. 톡·땡땡은 최대
 async function renderAll(){ for(const k in SOUNDS){ try{ const url=toWav(await renderBuf(...SOUNDS[k]),VOLS[vol]*(CLIP_LEVEL[k]||1));
   const a=CLIPS[k]||new Audio(); a.src=url; a.preload='auto'; a.setAttribute('playsinline',''); CLIPS[k]=a; }catch(e){} } }
 renderAll();
@@ -342,7 +342,7 @@ function play(k){ if(!sound) return; if(mixMode){ liveRing(k); return; } const a
   if(a){ try{ a.muted=false; a.volume=1; a.currentTime=0; const pr=a.play(); if(pr&&pr.catch) pr.catch(()=>{ liveRing(k); if(!ctx||ctx.state!=='running') blockedHint(); }); return; }catch(e){} }
   liveRing(k); }
 function liveRing(k){ if(!ctx){ blockedHint(); return; } if(!liveOut) liveOut=chain(ctx); liveOut.gain.value=2.4*VOLS[vol]; try{ const t=ctx.currentTime; // live fallback
-  if(k==='tick') synthTick(ctx,liveOut,t+.01); else if(k==='bell') [0,.16,.32].forEach(d=>synthStrike(ctx,liveOut,t+.01+d)); else synthStrike(ctx,liveOut,t+.01,k==='soft'?.45:1); }catch(e){} }
+  if(k==='tick') synthTick(ctx,liveOut,t+.01); else if(k==='bell') [0,.16,.32].forEach(d=>synthStrike(ctx,liveOut,t+.01+d)); else if(k==='ding') [0,.22].forEach(d=>synthStrike(ctx,liveOut,t+.01+d)); else synthStrike(ctx,liveOut,t+.01,k==='soft'?.45:1); }catch(e){} }
 const bell=()=>play('bell'), ding=()=>play('ding'), soft=()=>play('soft'), countTick=()=>play('tick');
 // 박자판 그리기: '가드' = 쉬는 박, 화살표 = 이동, 왼/오 = 손(한 칸에 두 손이면 한 박에 두 번)
 function cell(t){
@@ -374,7 +374,7 @@ function render(){
   const late=s.late&&left<=s.late.at;
   const done=elapsed>=TOTAL-0.01;
   const soon=running&&n&&!done&&left<=8&&s.type!=="talk"; // 8초 전에 다음을 강조: 코치가 미리 말할 시간
-  const cls=['t-'+s.type]; if(running&&left<=3&&s.type!=='talk') cls.push('warn'); if(soon) cls.push('soon'); if(document.body.classList.contains('hide')) cls.push('hide');
+  const cls=['t-'+s.type]; if(running&&left<=4&&s.type!=='talk') cls.push('warn'); if(soon) cls.push('soon'); if(document.body.classList.contains('hide')) cls.push('hide');
   document.body.className=cls.join(' ');
   $('sec').innerHTML=nm(s.sec)+(s.mins?`<span>${s.min+1}/${s.mins}</span>`:'');
   const intro=!started&&elapsed===0; // 시작 화면은 맨 처음에서만. 시작 전에 이전/다음으로 옮기면 그 구간을 미리 보여준다
@@ -403,7 +403,7 @@ function render(){
   if(i!==lastStep){ if(lastStep!==-1){ if(s.type==='cool') soft(); else if(PLAN[lastStep].sec!==s.sec) bell(); else ding(); } lastStep=i; }
   const tick=Math.floor(elapsed);
   if(tick!==lastTick){ lastTick=tick; wakeAudio(); const l=Math.ceil(s.dur-(tick-s.start));
-    if(l<=3&&l>=1&&s.type!=='talk'&&s.type!=='cool') countTick(); }
+    if(l<=4&&l>=1&&s.type!=='talk'&&s.type!=='cool') countTick(); }   // 마지막 4초 톡 4번 = 코치 '넷, 셋, 둘, 하나'
 }
 function save(){ try{ localStorage.setItem('ownpace-timer',JSON.stringify({elapsed,at:Date.now()})); }catch(e){} }
 function loop(t){ if(!running) return; elapsed+=(t-last)/1000; last=t;
