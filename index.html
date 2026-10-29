@@ -373,14 +373,17 @@ function duck(){ try{ if(navigator.audioSession) navigator.audioSession.type='tr
   try{ if(!duckU&&!speechSynthesis.speaking){ const u=new SpeechSynthesisUtterance('음 '.repeat(40)); u.lang='ko-KR'; u.volume=0; u.rate=.5; u.onend=()=>{ if(duckU===u) duckU=null; }; duckU=u; speechSynthesis.speak(u); } }catch(e){}
   clearTimeout(duckT); if(!holding) duckT=setTimeout(unduck,2500); }
 // 말하는 시간(인사·준비 설명·규칙·마무리)에는 음악을 계속 줄여 둔다 (음악과 함께 모드만). 소리 없는 음성을 이어서 읽는 동안 아이폰이 음악을 줄인다
-const isQuiet=s=>s&&(s.type==='talk'||s.tag==='준비');
+const isQuiet=s=>s&&(s.type==='talk'||s.tag==='준비'||s.sec==='함께하기');   // 함께하기는 코치가 숫자를 계속 부르니 구간 내내 음악을 줄인다 (10/29)
 let holding=false;
 function holdDuck(){ holding=true; clearTimeout(duckT); try{ if(navigator.audioSession) navigator.audioSession.type='transient'; }catch(e){}
   try{ if(!speechSynthesis.speaking){ const u=new SpeechSynthesisUtterance('음 '.repeat(60)); u.lang='ko-KR'; u.volume=0; u.rate=.5; u.onend=()=>{ if(duckU===u) duckU=null; }; duckU=u; speechSynthesis.speak(u); } }catch(e){} }
 function releaseDuck(){ if(!holding) return; holding=false; clearTimeout(duckT); duckT=setTimeout(unduck,2500); }
 function unduck(){ try{ if(duckU){ duckU=null; speechSynthesis.cancel(); } }catch(e){} try{ if(navigator.audioSession) navigator.audioSession.type='ambient'; }catch(e){} }
 function primeSpeech(){ try{ const u=new SpeechSynthesisUtterance(' '); u.volume=0; speechSynthesis.speak(u); }catch(e){} }
-function play(k){ if(!sound) return; if(mixMode){ duck(); liveRing(k); return; } const a=CLIPS[k];
+// 음악과 함께 모드: 아이폰이 오디오를 잠깐 멈춰 두면(음성 안내·화면 전환 뒤) 먼저 깨운 다음 울린다. 그래도 안 되면 일반 재생으로 대신
+function mixPlay(k){ const go=()=>{ if(ctx&&ctx.state==='running'){ liveRing(k); return; } const a=CLIPS[k]; if(a){ try{ a.currentTime=0; const pr=a.play(); if(pr&&pr.catch) pr.catch(()=>blockedHint()); return; }catch(e){} } blockedHint(); };
+  if(ctx&&ctx.state!=='running'){ try{ const pr=ctx.resume(); if(pr&&pr.then){ pr.then(go,go); return; } }catch(e){} } go(); }
+function play(k){ if(!sound) return; if(mixMode){ duck(); mixPlay(k); return; } const a=CLIPS[k];
   if(a){ try{ a.muted=false; a.volume=1; a.currentTime=0; const pr=a.play(); if(pr&&pr.catch) pr.catch(()=>{ liveRing(k); if(!ctx||ctx.state!=='running') blockedHint(); }); return; }catch(e){} }
   liveRing(k); }
 function liveRing(k){ if(!ctx){ blockedHint(); return; } if(BUFS[k]){ try{ const src=ctx.createBufferSource(), g=ctx.createGain(); src.buffer=BUFS[k]; g.gain.value=1; src.connect(g).connect(ctx.destination); src.start(); return; }catch(e){} }
