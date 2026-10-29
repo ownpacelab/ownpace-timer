@@ -362,23 +362,26 @@ function pickVoice(){ try{ const vs=speechSynthesis.getVoices().filter(v=>/^ko/i
   koVoice=pref.map(p=>vs.find(v=>v.name.includes(p))).find(Boolean)||vs[0]||null; }catch(e){} }
 try{ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }catch(e){}
 // 소리(종)를 꺼도 음성은 나온다: 코치 폰 = 소리 끔 + 음성 켬
-function say(t){ if(!voiceOn) return; try{ duckU=null; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t.replace(/,/g,' ')); u.lang='ko-KR'; if(koVoice) u.voice=koVoice; u.rate=1; u.pitch=1; u.volume=1; speechSynthesis.speak(u);
-  if(holding){ const d=new SpeechSynthesisUtterance('음 '.repeat(60)); d.lang='ko-KR'; d.volume=0; d.rate=.5; d.onend=()=>{ if(duckU===d) duckU=null; }; duckU=d; speechSynthesis.speak(d); }   // 말하는 구간이면 음성 바로 뒤에 소리 없는 음성을 이어 붙여 음악이 다시 커지지 않게
-  }catch(e){} }
+function say(t){ if(!voiceOn) return; try{ const u=new SpeechSynthesisUtterance(t.replace(/,/g,' ')); u.lang='ko-KR'; if(koVoice) u.voice=koVoice; u.rate=1; u.pitch=1; u.volume=1;
+  u.onend=u.onerror=()=>{ if(holding||Date.now()<duckUntil) keepDuck(); };
+  speechSynthesis.speak(u); }catch(e){} }   // cancel 없이 줄 세움: 앞의 짧은 무음(최대 약 2초)이 끝나면 바로 읽는다
 let warned=false;
 function blockedHint(){ if(warned) return; warned=true; toast('소리가 안 나면 화면을 한 번 누르고, 기기 음량과 무음 모드를 확인해 주세요'); }
 // 음악과 함께 모드: 종·톡이 날 때 음악을 잠깐 줄인다(음성 안내처럼). 소리 없는 음성으로 아이폰의 '음악 줄이기'를 켜고, 마지막 소리 2.5초 뒤 되돌린다
-let duckU=null, duckT=0;
+// 음악 줄이기: 짧은 소리 없는 음성(약 2초)을 이어 읽는 동안 아이폰이 음악을 줄인다.
+// cancel()을 쓰지 않는다: 아이폰은 읽는 중 cancel 직후 새 음성을 삼키는 문제가 있어, 안내 음성은 짧은 무음 뒤에 줄 서서 나온다 (10/29)
+let duckU=null, duckT=0, duckUntil=0;
+function quietUtter(){ const u=new SpeechSynthesisUtterance('음 음 음 음'); u.lang='ko-KR'; u.volume=0; u.rate=.6;
+  u.onend=u.onerror=()=>{ if(duckU===u) duckU=null; if(holding||Date.now()<duckUntil) keepDuck(); }; return u; }
+function keepDuck(){ try{ if(duckU) return; if(speechSynthesis.speaking&&!duckU) return; const u=quietUtter(); duckU=u; speechSynthesis.speak(u); }catch(e){} }
 function duck(){ try{ if(navigator.audioSession) navigator.audioSession.type='transient'; }catch(e){}
-  try{ if(!duckU&&!speechSynthesis.speaking){ const u=new SpeechSynthesisUtterance('음 '.repeat(40)); u.lang='ko-KR'; u.volume=0; u.rate=.5; u.onend=()=>{ if(duckU===u) duckU=null; }; duckU=u; speechSynthesis.speak(u); } }catch(e){}
-  clearTimeout(duckT); if(!holding) duckT=setTimeout(unduck,2500); }
-// 말하는 시간(인사·준비 설명·규칙·마무리)에는 음악을 계속 줄여 둔다 (음악과 함께 모드만). 소리 없는 음성을 이어서 읽는 동안 아이폰이 음악을 줄인다
-const isQuiet=s=>s&&(s.type==='talk'||s.tag==='준비'||s.sec==='함께하기');   // 함께하기는 코치가 숫자를 계속 부르니 구간 내내 음악을 줄인다 (10/29)
+  duckUntil=Math.max(duckUntil,Date.now()+2500); keepDuck(); clearTimeout(duckT); if(!holding) duckT=setTimeout(unduck,2600); }
+// 말하는 시간(인사·준비 설명·규칙·함께하기·마무리)에는 음악을 계속 줄여 둔다 (음악과 함께 모드만)
+const isQuiet=s=>s&&(s.type==='talk'||s.tag==='준비'||s.sec==='함께하기');
 let holding=false;
-function holdDuck(){ holding=true; clearTimeout(duckT); try{ if(navigator.audioSession) navigator.audioSession.type='transient'; }catch(e){}
-  try{ if(!speechSynthesis.speaking){ const u=new SpeechSynthesisUtterance('음 '.repeat(60)); u.lang='ko-KR'; u.volume=0; u.rate=.5; u.onend=()=>{ if(duckU===u) duckU=null; }; duckU=u; speechSynthesis.speak(u); } }catch(e){} }
-function releaseDuck(){ if(!holding) return; holding=false; clearTimeout(duckT); duckT=setTimeout(unduck,2500); }
-function unduck(){ try{ if(duckU){ duckU=null; speechSynthesis.cancel(); } }catch(e){} try{ if(navigator.audioSession) navigator.audioSession.type='ambient'; }catch(e){} }
+function holdDuck(){ holding=true; clearTimeout(duckT); try{ if(navigator.audioSession) navigator.audioSession.type='transient'; }catch(e){} keepDuck(); }
+function releaseDuck(){ if(!holding) return; holding=false; duckUntil=Math.max(duckUntil,Date.now()+2500); clearTimeout(duckT); duckT=setTimeout(unduck,2600); }
+function unduck(){ if(holding||Date.now()<duckUntil-50) return; try{ if(navigator.audioSession) navigator.audioSession.type='ambient'; }catch(e){} }
 function primeSpeech(){ try{ const u=new SpeechSynthesisUtterance(' '); u.volume=0; speechSynthesis.speak(u); }catch(e){} }
 // 음악과 함께 모드: 아이폰이 오디오를 잠깐 멈춰 두면(음성 안내·화면 전환 뒤) 먼저 깨운 다음 울린다. 그래도 안 되면 일반 재생으로 대신
 function mixPlay(k){ const go=()=>{ if(ctx&&ctx.state==='running'){ liveRing(k); return; } const a=CLIPS[k]; if(a){ try{ a.currentTime=0; const pr=a.play(); if(pr&&pr.catch) pr.catch(()=>blockedHint()); return; }catch(e){} } blockedHint(); };
@@ -449,7 +452,8 @@ function render(){
   if(i!==lastStep){ if(lastStep!==-1){ if(s.type==='cool') soft(); else if(PLAN[lastStep].sec!==s.sec) bell(); else ding(); } lastStep=i; }
   const tick=Math.floor(elapsed);
   if(tick!==lastTick){ lastTick=tick; wakeAudio(); if(mixMode&&isQuiet(s)) holdDuck(); else releaseDuck(); const l=Math.ceil(s.dur-(tick-s.start));
-    if(l<=3&&l>=1&&s.type!=='talk'&&s.type!=='cool'&&s.sec!=='함께하기') play('n'+l); }   // 마지막 3초 음성 three·two·one → 땡땡. 함께하기는 코치가 숫자를 부르니 벨만. 코치는 세지 않고 시범만
+    if(l<=3&&l>=1&&s.type!=='talk'&&s.type!=='cool'&&s.sec!=='함께하기') play('n'+l);
+    if(s.type==='cool'&&s.dur===30&&((/15초씩/.test(s.sub||'')&&l===15)||(/10초씩/.test(s.sub||'')&&(l===20||l===10)))) play('soft'); }   // 쿨다운: 양쪽 15초씩은 15초에, 10초씩은 10·20초에 작은 땡 = 반대쪽으로 (화면 없이 진행할 때, 10/29)   // 마지막 3초 음성 three·two·one → 땡땡. 함께하기는 코치가 숫자를 부르니 벨만. 코치는 세지 않고 시범만
 }
 function save(){ try{ localStorage.setItem('ownpace-timer',JSON.stringify({elapsed,at:Date.now()})); }catch(e){} }
 function loop(t){ if(!running) return; elapsed+=(t-last)/1000; last=t;
