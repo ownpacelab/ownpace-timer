@@ -9,8 +9,7 @@
 <meta name="theme-color" content="#F5F0DF">
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="icon" href="icon.png">
-</head><body>
-<!-- © 2026 오운랩(Own Pace LAB). All rights reserved. 무단 복제·배포·사용 금지 -->
+</head><body><!-- © 2026 오운랩(Own Pace LAB). All rights reserved. 무단 복제·배포·사용 금지 -->
 <title>오운랩 라운드 타이머</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,7 +36,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);tra
 .wrap{height:100%;box-sizing:border-box;display:grid;grid-template-rows:auto 1fr;gap:clamp(6px,1.2vh,14px);padding-block:clamp(10px,2.4vh,28px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 
 header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
-.sec{font-family:var(--f-head);font-weight:900;font-size:clamp(18px,2.6vw,38px);letter-spacing:-.01em;display:flex;align-items:baseline;gap:.5em}
+.sec{font-family:var(--f-head);font-weight:900;font-size:clamp(18px,2.8vw,42px);letter-spacing:-.01em;display:flex;align-items:baseline;gap:.5em}
 .sec span{font-family:var(--f-num);font-weight:500;font-size:.85em;color:var(--muted);font-variant-numeric:tabular-nums}
 .stats{font-family:var(--f-num);font-size:clamp(16px,2.2vw,32px);font-variant-numeric:tabular-nums;color:var(--muted)}
 .stats b{color:var(--fg)}
@@ -50,7 +49,14 @@ main{--fit:1;--s1:calc(clamp(4px,1.1vh,14px)*var(--fit));--s2:calc(clamp(10px,2.
   display:grid;grid-template-columns:1fr;grid-template-rows:1fr auto auto 1fr auto;grid-template-areas:"." "info" "num" "." "next";
   justify-items:center;row-gap:var(--s2);min-height:0;overflow:hidden;text-align:center;padding-bottom:clamp(44px,7vh,64px)}
 .info{grid-area:info;display:flex;flex-direction:column;align-items:center;min-width:0;max-width:100%}
-.info .tag{margin-bottom:var(--s1)}
+.info .tagrow{margin-bottom:var(--s1)}
+.tagrow{display:flex;flex-wrap:wrap;gap:.4em;align-items:center;justify-content:inherit}
+/* 스탠스 칩: 왼발 앞 = 테두리, 오른발 앞(반대로) = 주황으로 채워 한눈에. 바뀌는 블록은 깜빡 */
+.st{font-family:var(--f-head);font-weight:900;font-size:clamp(22px,3.4vw,52px);line-height:1;padding:.28em .8em;border-radius:99px;border:.12em solid currentColor;color:var(--fg)}
+.st.R{background:var(--warn);border-color:var(--warn);color:#fff}
+.st.chg{animation:stp 1s ease-in-out 3}
+@keyframes stp{50%{transform:scale(1.12)}}
+@media (prefers-reduced-motion:reduce){.st.chg{animation:none}}
 .info .who{margin-top:var(--s1)}
 .info .beats{margin-top:var(--s2)}
 @media (min-width:640px) and (min-aspect-ratio:5/4){
@@ -61,21 +67,24 @@ main{--fit:1;--s1:calc(clamp(4px,1.1vh,14px)*var(--fit));--s2:calc(clamp(10px,2.
     align-items:center;justify-items:start;text-align:left;column-gap:3vw;row-gap:0}
   .info{align-items:flex-start}
   .move{font-size:calc(clamp(38px,8.4vw,172px)*var(--fit))!important;max-width:100%!important;line-height:1.05}
-  .tag{font-size:clamp(15px,1.6vw,32px)!important;padding:.3em .8em!important}
-  .who{font-size:calc(clamp(16px,2.3vw,46px)*var(--fit))!important}
+  .tag,.st{font-size:clamp(16px,2vw,40px)!important;padding:.3em .8em!important}
+  .who{font-size:calc(clamp(17px,2.6vw,52px)*var(--fit))!important}
+  main .anchor{text-align:left;font-size:calc(clamp(22px,3.4vw,68px)*var(--fit));max-width:100%}
   .beats{font-size:calc(clamp(17px,3.3vw,66px)*var(--fit))!important}
   .num{justify-self:center;font-size:calc(min(40vh,17vw)*var(--fit))!important}
-  .next{font-size:clamp(15px,1.8vw,36px)!important;margin-left:-.8em;transform-origin:left center}
+  .next{font-size:clamp(16px,2.1vw,42px)!important;margin-left:-.8em;transform-origin:left center}
 }
 .tag{font-family:var(--f-head);font-weight:900;font-size:clamp(22px,3.4vw,52px);line-height:1;display:inline-flex;align-items:center;justify-content:center;background:var(--tag);color:var(--tagfg);padding:.32em .95em;border-radius:99px}
 .move .seg,.who .seg{white-space:nowrap}
+.c .mv{position:absolute;top:.1em;left:.18em;font-size:.62em;line-height:1;opacity:.85}
+.c .sm{font-size:.72em;white-space:nowrap;font-weight:900;letter-spacing:-.02em}
 .move{font-family:var(--f-head);font-weight:900;letter-spacing:-.02em;font-size:calc(clamp(40px,9vw,160px)*var(--fit));line-height:1.08;text-wrap:balance;max-width:94vw;word-break:keep-all;overflow-wrap:anywhere}
-/* beat boxes: one box = one beat, 4 per line, at most 2 lines. 왼 = filled, 오 = outline, 가드 = faint, arrow = dashed (moving) */
+/* beat boxes: one box = one beat, 4 per line, at most 2 lines. 앞(원) = filled, 뒤(투) = outline, 가드 = faint, arrow = dashed (moving) */
 .beats{display:flex;flex-direction:column;gap:.16em;font-size:calc(clamp(17px,5.8vw,40px)*var(--fit))}
 .beats:empty{display:none}
 .beats .ln:nth-child(2):not(:last-child){margin-bottom:.35em} /* 16박(앞뒤 루틴)은 8박씩 두 덩어리로 보이게 */
 .beats .ln{display:grid;grid-template-columns:repeat(4,3.3em);gap:.14em}
-.beats .c{height:2.25em;border-radius:.4em;display:flex;align-items:center;justify-content:center;box-sizing:border-box;font-family:var(--f-head);font-weight:900;letter-spacing:-.02em;overflow:hidden}
+.beats .c{position:relative;height:2.25em;border-radius:.4em;display:flex;align-items:center;justify-content:center;box-sizing:border-box;font-family:var(--f-head);font-weight:900;letter-spacing:-.02em;overflow:hidden}
 .beats .L{background:var(--fg);color:var(--bg)}
 .beats .R{border:.12em solid var(--fg);color:var(--fg)}
 .beats .G{background:color-mix(in srgb,var(--fg) 10%,transparent);color:color-mix(in srgb,var(--fg) 55%,transparent);font-weight:700;font-size:.72em;height:3.125em;border-radius:.555em}
@@ -84,8 +93,25 @@ main{--fit:1;--s1:calc(clamp(4px,1.1vh,14px)*var(--fit));--s2:calc(clamp(10px,2.
 .beats .mix{border:.12em solid var(--fg);padding:0}
 .beats .mix i{flex:1;height:100%;display:grid;place-items:center;font-style:normal;color:var(--fg)}
 .beats .mix i.L{background:var(--fg);color:var(--bg)}
-.who{max-width:100%;font-size:calc(clamp(17px,4.4vw,40px)*var(--fit));font-weight:700;color:color-mix(in srgb,var(--fg) 78%,transparent);line-height:1.3;word-break:keep-all}
+.who{max-width:100%;font-size:calc(clamp(17px,4.4vw,40px)*var(--fit));font-weight:700;color:color-mix(in srgb,var(--fg) 88%,transparent);line-height:1.3;word-break:keep-all}
 .who:empty{display:none}
+/* 지금 동작의 남은 시간: 멀리서도 숫자를 읽지 않고 '곧 바뀐다'를 느끼게 화면 맨 위 얇은 막대 */
+.bar{position:fixed;left:0;right:0;top:0;height:clamp(6px,1vh,14px);background:var(--track);z-index:3}
+.bar i{display:block;height:100%;background:var(--fill);transform-origin:left center;transform:scaleX(1)}
+body.warn .bar i{background:var(--warn)}
+.anchor{margin-top:var(--s2,18px);max-width:94vw;font-family:var(--f-head);font-weight:900;font-size:calc(clamp(22px,6vw,64px)*var(--fit,1));line-height:1.25;color:var(--fill);word-break:keep-all;text-wrap:balance;text-align:center}
+.anchor:empty{display:none}
+/* 시작 전 화면 = 오늘의 수업 안내판: 일찍 온 회원이 오늘 배울 것을 미리 본다 */
+/* 안내판: 훑어보게 = 큰 제목(이번 주) → 한마디 → 키워드 세 칸. 문장 대신 단어로 */
+.today{margin:calc(var(--s2)*1.4) 0 0;display:flex;flex-wrap:wrap;gap:.5em;justify-content:center;font-size:calc(clamp(15px,4vw,34px)*var(--fit))}
+.today>div{display:flex;align-items:baseline;gap:.45em;padding:.45em .85em;border-radius:.6em;background:color-mix(in srgb,var(--fg) 9%,transparent)}
+.today dt{font-weight:700;font-size:.72em;color:var(--muted)}
+.today dd{margin:0;font-weight:900;word-break:keep-all;white-space:nowrap}
+body.board .next{visibility:hidden}
+body.board .anchor{margin-top:calc(var(--s2)*1.1)}
+@media (min-width:640px) and (min-aspect-ratio:5/4){ .today{font-size:calc(clamp(16px,2.1vw,42px)*var(--fit));justify-content:flex-start} }
+.anchor::before{content:"“"}.anchor::after{content:"”"}
+body.t-talk .anchor,body.t-finish .anchor{color:#7fd8b4}
 .num{grid-area:num;font-family:var(--f-num);font-weight:700;font-size:calc(min(24vh,34vw)*var(--fit));line-height:.9;font-variant-numeric:tabular-nums}
 main .num.mmss{font-size:calc(min(24vh,17vw)*var(--fit))}
 @media (min-width:640px) and (min-aspect-ratio:5/4){ main .num.mmss{font-size:calc(min(28vh,11vw)*var(--fit))!important} }
@@ -130,35 +156,64 @@ button:focus-visible{outline:3px solid var(--warn);outline-offset:3px}
 body.hide footer{opacity:0;pointer-events:none}
 body.hide{cursor:none}
 
-/* section menu */
-.menu{position:fixed;inset:0;background:var(--ink);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;overflow-y:auto;padding-block:24px;padding-inline:16px;z-index:5}
-.menu h2{font-family:var(--f-head);font-weight:900;font-size:clamp(24px,3vw,40px);margin:0}
-.menu .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;width:min(960px,100%)}
-.menu .grid button{border-color:#555;color:var(--cream);text-align:left;border-radius:14px;padding:.85em 1em;display:flex;flex-direction:column;align-items:flex-start;gap:.35em;word-break:keep-all;line-height:1.25}
+/* 운영자 메뉴: 코치의 순서대로 = 지금 위치 확인 → 수업·구간 → 소리 → 화면 → 수업 전 확인 */
+.menu{position:fixed;inset:0;background:var(--ink);color:var(--cream);overflow-y:auto;z-index:5;padding:0 max(16px,env(safe-area-inset-right,0px)) 28px max(16px,env(safe-area-inset-left,0px));box-sizing:border-box}
+.mhead{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:max(14px,env(safe-area-inset-top,0px)) 0 14px;background:var(--ink);border-bottom:1px solid #2c2c2c;max-width:1040px;margin:0 auto}
+.mnow{display:flex;flex-direction:column;gap:2px;min-width:0}
+.mnow span{font-size:14px;font-weight:700;color:#9c968a}
+.mnow b{font-family:var(--f-head);font-weight:900;font-size:clamp(20px,2.4vw,30px);letter-spacing:-.01em}
+.mcols{display:grid;grid-template-columns:1fr;gap:16px;max-width:1040px;margin:16px auto 0}
+@media (min-width:860px){ .mcols{grid-template-columns:1.25fr 1fr;align-items:start} }
+@media (max-width:859px){ .menu.pre .mcard.snd{order:0} .menu.pre .lsel{order:-1} .menu.pre .mcard:not(.snd):not(.lsel){order:1} }   /* 폰에서 수업 전에는 소리 점검이 먼저, 수업 중에는 구간 이동이 먼저 */
+.mcard{background:#202020;border:1px solid #2e2e2e;border-radius:18px;padding:18px 18px 20px}
+.mcard h3{margin:0 0 12px;font-family:var(--f-head);font-weight:900;font-size:17px;color:#9c968a}
+.mcard h3:not(:first-child){margin-top:22px}
+.menu .hint{margin:10px 0;font-size:14px;line-height:1.5;color:#9c968a}
+.menu .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:8px}
+.menu .grid button{border:1px solid #3a3a3a;color:var(--cream);text-align:left;border-radius:12px;padding:.8em .9em;display:flex;flex-direction:column;align-items:flex-start;gap:.3em;word-break:keep-all;line-height:1.25;font-size:15px}
 .menu .grid button span{font-family:var(--f-num);color:#9c968a;font-weight:500}
 .menu .grid button.cur{border-color:var(--green);background:var(--green)}
 .menu .grid button.cur span{color:var(--cream)}
-.menu .row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.menu .row button{border-color:#777;color:var(--cream)}
-.menu .keys{margin:0;font-size:14px;line-height:1.6;color:#b4ad9e;text-align:center}
-.menu .close{border-color:var(--cream);color:var(--cream);min-width:10em}
-.menu .row button.on{background:var(--cream);color:var(--ink);border-color:var(--cream)}
-.menu .row button.arm{background:var(--warn);border-color:var(--warn);color:#fff}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.row2 button{border:1px solid #555;color:var(--cream);font-size:15px;padding:.85em .6em}
+.set{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid #2c2c2c}
+.set:first-of-type{border-top:0}
+.set>span:first-child{display:flex;flex-direction:column;gap:3px;font-weight:700;font-size:16px;min-width:0}
+.set small{font-weight:500;font-size:13px;color:#9c968a;line-height:1.4}
+.menu .tg{min-width:5.2em;border:1px solid #555;color:#cfc8b8;font-size:15px;padding:.6em 1em;flex:none}
+.menu .tg.on{background:var(--green);border-color:var(--green);color:var(--cream)}
+.volc{display:flex;gap:6px;flex:none}
+.volc button{border:1px solid #555;color:var(--cream);font-size:16px;padding:.55em .9em;min-width:2.6em}
+.volc #vol{font-family:var(--f-num);background:var(--cream);color:var(--ink);border-color:var(--cream)}
+.check{margin-top:18px;border-top:1px solid #2c2c2c;padding-top:12px}
+.check summary{cursor:pointer;font-weight:900;font-size:16px}
+.check ol{margin:10px 0 0;padding-left:1.3em;line-height:1.7;font-size:15px;color:#e8e2d2}
+.menu .close{border:2px solid var(--cream);color:var(--cream);min-width:6em;font-size:16px;flex:none}
+.menu .copy{max-width:1040px;margin:18px auto 0;font-size:12px;color:#6f6a60;line-height:1.5}
+.menu button.arm{background:var(--warn);border-color:var(--warn);color:#fff}
+.mcols .lsel{grid-column:1/-1;padding:14px 18px}
+.lsel{display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:700;font-size:16px}
+.lsel select{font:700 16px var(--f-body);padding:.6em .9em;border-radius:12px;background:var(--cream);color:var(--ink);border:0;flex:1;max-width:70%}
+.soundfix{position:fixed;left:50%;top:max(16px,env(safe-area-inset-top,0px));transform:translateX(-50%);background:#C8102E;color:#fff;font:800 clamp(18px,2.4vw,28px)/1.3 var(--f-body);padding:.8em 1.4em;border-radius:18px;z-index:10;box-shadow:0 8px 28px rgba(0,0,0,.3);text-align:center;border:0;width:min(560px,88vw)}
+.soundfix small{display:block;font-weight:600;font-size:.6em;opacity:.9;margin-top:.2em}
 .toast{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--cream);font:700 clamp(15px,1.8vw,22px)/1.3 var(--f-body);padding:.75em 1.3em;border-radius:99px;z-index:9;box-shadow:0 6px 24px rgba(0,0,0,.25);max-width:90vw;text-align:center}
 @media (prefers-reduced-motion:reduce){body.soon .next{animation:none}body.warn .num{animation:none}body,.next{transition:none}}
 </style>
 
+<div class="bar" aria-hidden="true"><i id="bar"></i></div>
 <div class="wrap">
   <header>
     <div class="sec" id="sec">인사</div>
-    <div class="stats"><span class="brand">오운랩 · </span><b id="total">0:00</b> / 50:00</div>
+    <div class="stats"><b id="total">0:00</b> / 50:00</div>
   </header>
   <main>
     <div class="info">
-      <div class="tag" id="tag">시작 전</div>
+      <div class="tagrow"><div class="tag" id="tag">시작 전</div><div class="st" id="st" hidden></div></div>
       <div class="move" id="move">내 페이스 복싱</div>
       <div class="beats" id="beats"></div>
       <div class="who" id="who"></div>
+      <div class="anchor" id="anchor"></div>
+      <dl class="today" id="today" hidden></dl>
     </div>
     <div class="num" id="num">1:00</div>
     <div class="links" id="links" hidden>
@@ -176,101 +231,56 @@ body.hide{cursor:none}
 </div>
 <div class="paused" id="paused" hidden>잠깐 쉬어요<small>내 페이스로 괜찮아요</small></div>
 <div class="menu" id="menu" hidden>
-  <h2>어디서부터 할까요?</h2>
-  <p class="keys">누르면 그 구간 처음으로 이동해요.</p>
-  <div class="grid" id="grid"></div>
-  <div class="row">
-    <button id="again">지금 구간 처음부터</button>
-    <button id="reset">수업 처음부터</button>
+  <div class="mhead">
+    <div class="mnow"><span id="mlesson"></span><b id="mnow"></b></div>
+    <button id="close" class="close">닫기</button>
   </div>
-  <div class="row">
-    <button id="snd">소리: 켜짐</button>
-    <button id="volDown" aria-label="종소리 작게">−</button><button id="vol">종소리 크기 10</button><button id="volUp" aria-label="종소리 크게">+</button>
-    <button id="voice">음성 안내: 꺼짐</button>
-    <button id="mix">음악과 함께: 꺼짐</button>
-    <button id="fs">전체화면</button>
+  <div class="mcols">
+    <label class="lsel mcard"><span>오늘 수업</span><select id="lesson"></select></label>
+    <section class="mcard">
+      <h3>구간 이동</h3>
+      <p class="hint">구간을 누르면 그 구간 처음으로 가요.</p>
+      <div class="grid" id="grid"></div>
+      <div class="row2"><button id="again">지금 구간 처음부터</button><button id="reset">수업 처음부터</button></div>
+    </section>
+    <section class="mcard snd">
+      <h3>소리</h3>
+      <div class="set"><span>소리<small>종소리와 3·2·1</small></span><button id="snd" class="tg">켜짐</button></div>
+      <div class="set"><span>종소리 크기<small>숫자를 누르면 들어 봐요</small></span><span class="volc"><button id="volDown" aria-label="종소리 작게">−</button><button id="vol">10</button><button id="volUp" aria-label="종소리 크게">+</button></span></div>
+      <div class="set"><span>음성 안내<small>다음 동작을 읽어 줘요</small></span><button id="voice" class="tg">꺼짐</button></div>
+      <div class="set"><span>음악과 함께<small>폰 하나로 유튜브 뮤직과 같이 쓸 때</small></span><button id="mix" class="tg">꺼짐</button></div>
+      <div class="set" id="duckRow"><span>음악 자동 줄이기<small>말할 때 음악을 줄여요 · 블루투스에서 끊기면 끄기</small></span><button id="duck" class="tg">꺼짐</button></div>
+      <h3>화면</h3>
+      <div class="set"><span>전체화면<small>TV·노트북에서</small></span><button id="fs" class="tg">켜기</button></div>
+      <details class="check"><summary>수업 전 확인</summary>
+        <ol><li>무음 모드·방해금지 끄기, 기기 음량 최대</li><li>자동 잠금 끄기</li><li>음악 먼저 틀고 → 타이머 시작, 그다음엔 앱을 바꾸지 않기</li><li>종소리 크기 숫자를 눌러 땡 소리 확인</li></ol>
+        <p class="hint">수업 중에는 화면을 한 번 누르면 버튼이 다시 보여요.</p></details>
+    </section>
   </div>
-  <button id="close" class="close">닫기</button>
-  <p class="keys">‘음악과 함께’는 폰 하나로 유튜브 뮤직과 같이 쓸 때만 켜세요. 아이폰은 무음 스위치를 꺼 주세요.<br>수업 중 화면을 한 번 누르면 버튼이 다시 보여요.</p>
-  <p class="keys">© 2026 오운랩(Own Pace LAB). All rights reserved.<br>수업 구성·대본·타이머의 무단 복제와 사용을 금합니다.</p>
+  <p class="copy">© 2026 오운랩(Own Pace LAB). 수업 구성·대본·타이머의 무단 복제와 사용을 금합니다.</p>
 </div>
+<button class="soundfix" id="soundfix" hidden>소리가 멈췄어요 · 눌러서 다시 켜기<small>누른 뒤 땡 소리가 나면 그대로 진행해요</small></button>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <script>
-// ===== Class plan (공통 체험 수업계획서 기준) =====
-// ===== 박자판: 박스 한 칸 = 한 박, 한 줄 4박, 최대 2줄. '/' = 줄바꿈 =====
-// 박자 = 난이도 다이얼. 기술 1: 한 박에 펀치 하나 + 가드. 기술 2: 이동 2박 + 펀치를 2박에 압축(한 칸에 두 손).
-// 편하게 하는 분은 같은 박스를 한 박에 하나씩(코치 구령). 위 문구 = 무엇을, 박스 = 어느 손·어느 박에.
-// 기술 1 (제자리)
-const P={ O:'왼 가드 왼 가드', R:'오 가드 오 가드', OT:'왼 오 가드 가드', OR:'오 왼 가드 가드',
-  AL:'왼 왼 오 가드', AR:'오 오 왼 가드', BL:'왼 오 왼 오 / 가드 가드 가드 가드', BR:'오 왼 오 왼 / 가드 가드 가드 가드' };
-const th=(a,b)=>a.split(' / ')[0]+' / '+b.split(' / ')[0];      // a 다음 b, 쉬지 않고 이어서 (항상 2줄)
-// 기술 2 (앞뒤만, 박자는 기술 1과 같이 한 박에 펀치 하나): 이동 2박 + 펀치 + 돌아오기 2박 = 늘 8박. 
-const FW={ OT:'↑ ↑ 왼 오 / 가드 가드 ↓ ↓', AL:'↑ ↑ 왼 왼 / 오 가드 ↓ ↓', BL:'↑ ↑ 왼 오 / 왼 오 ↓ ↓' };   // 앞으로: 왼손부터
-const BW={ OT:'↓ ↓ 오 왼 / 가드 가드 ↑ ↑', AL:'↓ ↓ 오 오 / 왼 가드 ↑ ↑', BL:'↓ ↓ 오 왼 / 오 왼 ↑ ↑' };   // 뒤로: 오른손부터
-
-function work(sec,pairs){
-  return pairs.flatMap((p,i)=>[
-    {sec,type:'base',tag:'기본',move:p[0],hands:p[2],dur:30,min:i,mins:pairs.length},
-    {sec,type:'up',tag:'레벨업',move:p[1],hands:p[3]===undefined?p[2]:p[3],dur:30,min:i,mins:pairs.length}]);
-}
-const water=(dur,sec,move,sub)=>({sec,type:'rest',tag:'쉬어요',move,sub,dur});
+// ===== 수업 데이터 (10/29 구조화) =====
+// 수업 내용은 코드가 아니라 lessons/ 폴더의 json 파일에 있다. 매주 파일 하나를 추가하고 index.json 목록에 한 줄을 더한다.
+// 단계(step) 형식: sec 구간 · type base/up/finish/rest/talk/cool · tag 화면 태그 · move 큰 글씨 · sub 보조 문구(코칭 포인트, ' · '로 구분)
+//   · hands 박자 박스('앞 뒤 가드 가드 / ...', 화살표 ↑↓←→) · dur 초 · min/mins 구간 안 몇 번째 분 · qr 채널 QR · lv2 2단계(재등록) 문구
+// 원본 대본은 노션 수업계획서. 이 파일은 타이머용 사본이다.
 // 회원에게 보이는 구간 이름 (수업계획서의 코치용 이름 → TV 표시 이름)
 const SECNAME={'웜업':'몸 깨우기','기술 1':'펀치 배우기','함께하기':'함께하기','기술 2':'스텝 붙이기','피지컬':'체력 운동','물 마시기':'휴식','물 · 자리 정돈':'휴식','피니시':'다 같이 완성','쿨다운':'몸 돌보기','인사':'인사','마무리':'마무리'};
 const nm=sec=>SECNAME[sec]||sec;
-const PLAN=[
-  {sec:'인사',type:'talk',tag:'인사',move:'환영합니다!',sub:'작게, 천천히 해도 괜찮아요',dur:60},
-  // 화면 문구 원칙 (수업계획서 1번과 같음)
-  //  태그 = 지금 상태만: 기본 · 레벨업 · 다 같이 · 마지막 30초 · 쉬어요 · 천천히 · 인사 · 마무리. 구간 이름은 왼쪽 위에만.
-  //  운동 칸 = 짧은 명령형 '동작, 동작', 느낌표 없음. 쉬어요·천천히 보조 문구와 인사·마무리 = '~요'의 따뜻한 말투. 느낌표는 인사·마지막 30초·수업 끝만.
-  //  손·박자는 박스가, 오른손부터·손 바꿔·편하게/힘차게 선택은 코치 구령이 맡는다. 복싱 용어와 영어(곡 이름 등)는 화면에 쓰지 않는다.
-  ...work('웜업',[
-    // 강도를 계단처럼: 관절 → 하체 → 이동 → 고강도. 마지막 통통에서 심박 최고점, 가드는 기술 1 자세에서 처음
-    ['제자리 걷기','앞으로, 뒤로'],['발꿈치 들고, 팔 교차','팔 위로, 크게 교차'],['살짝 앉기','앉고, 옆으로'],
-    ['옆으로 한 발, 날개짓','옆으로 둘, 날개 크게'],['무릎 올리기','반대 손으로 무릎 터치'],['제자리 통통','앞으로 통, 뒤로 통']]),
-  {sec:'기술 1',type:'base',tag:'준비',move:'제자리 걷기',sub:'가드 자세 먼저 볼게요',dur:30},   // 30초 준비: 걸으며 다음 동작 설명 (10/27 회고)
-  ...work('기술 1',[  // 0-1분 자세(리듬 = 가드 4박 → 다음 1분 원은 1·3박만 펀치로). 레벨업 = 펀치 하나 더. 1-5분 왼손부터, 5-9분 오른손부터
-    ['발 어깨너비, 가드','가드하고 통통','','가드 가드 가드 가드'],
-    ['원','원투',P.O,P.OT],['원투','원원투',P.OT,P.AL],['원원투','원투원투',P.AL,P.BL],['원투원투','원투원투 + 원원투',P.BL,th(P.BL,P.AL)],
-    ['오른손부터, 원','원투',P.R,P.OR],['원투','원원투',P.OR,P.AR],['원원투','원투원투',P.AR,P.BR],['원투원투','원투원투 + 원원투',P.BR,th(P.BR,P.AR)]]),   // '반대로'는 정규반 레벨업으로 (10/27)
-  water(40,'물 마시기','물 한 모금 마셔요','잘하고 있어요'),
-  // 함께하기 (10/28 리허설): 규칙 15초 → 각자 40초 → 짝 인사 20초 → 짝 손뼉 90초 → 규칙 15초 → 숫자 펀치 170초 → 마무리 인사 10초 = 6분
-  ...[['규칙, 숫자만큼 손뼉','제자리 걸으며 들어요 · 하나 짝, 둘 짝짝',15,'준비'],['하나 짝, 둘 짝짝','숫자만큼 손뼉 · 점점 빠르게',40],
-      ['짝 정하고, 인사','바로 옆 분과 주먹 인사',20],['짝과 손뼉','하나 짝, 둘 짝짝 · 점점 빠르게',90],
-      ['규칙, 이번엔 펀치','하나 원 · 둘 원투 · 셋 원원투 · 넷 원투원투',15,'준비'],['마주 보고, 숫자만큼 펀치','하나 원 · 둘 원투 · 셋 원원투 · 넷 원투원투',170],
-      ['짝과 마무리 인사','주먹 인사, 톡',10]]
-    .map(([m,sub,dur,tag],i)=>({sec:'함께하기',type:i%2?'up':'base',tag:tag||'다 같이',move:m,sub,dur,min:i,mins:7})),
-  {sec:'기술 2',type:'base',tag:'준비',move:'제자리 걷기',sub:'발 순서 먼저 볼게요',dur:30},   // 30초 준비: 걸으며 다음 동작 설명 (10/27 회고)
-  // 기술 2 (10/28 리허설): 1분 = 같은 동작 두 번(익히고 성공). 같은 동작은 최대 1분. 스텝만은 가드 없이 4박(웜업처럼)
-  // 앞으로 3분 30초 → 뒤로 3분 30초 → 앞뒤 원투 1분(8박) → 앞뒤 원원투 1분(한 박에 빠르게 한 걸음 + 원원투 = 4박씩 8박, 은서 아이디어). 앞뒤 방향·박이 같아 원투로 해도 부딪히지 않음
-  ...[['앞으로, 뒤로','↑ ↑ ↓ ↓','가는 쪽 발 먼저, 가드 없이'],
-      ['앞으로, 원투',FW.OT,'왼발 나가면 왼손부터'],['앞으로, 원투',FW.OT],
-      ['앞으로, 원원투',FW.AL],['앞으로, 원원투',FW.AL],
-      ['앞으로, 원투원투',FW.BL],['앞으로, 원투원투',FW.BL],
-      ['뒤로, 앞으로','↓ ↓ ↑ ↑','이번엔 오른발로 뒤로'],
-      ['뒤로, 원투',BW.OT,'오른발 빼면 오른손부터'],['뒤로, 원투',BW.OT],
-      ['뒤로, 원원투',BW.AL],['뒤로, 원원투',BW.AL],
-      ['뒤로, 원투원투',BW.BL],['뒤로, 원투원투',BW.BL],
-      ['앞으로 원투, 뒤로 원투','↑ ↑ 왼 오 / ↓ ↓ 오 왼','발 따라 손, 천천히'],
-      ['앞으로 원투, 뒤로 원투','↑ ↑ 왼 오 / ↓ ↓ 오 왼','음악에 맞춰'],
-      ['앞으로 원원투, 뒤로 원원투','↑ 왼 왼 오 / ↓ 오 오 왼','한 박에 빠르게 한 걸음 · 힘들면 원투','레벨업'],
-      ['앞으로 원원투, 뒤로 원원투','↑ 왼 왼 오 / ↓ 오 오 왼','소리 내며 · 힘들면 원투','마지막 30초']]
-    .map(([m,hd,sub,tag],i)=>{ const k=i+1; return {sec:'기술 2',type:tag?(tag==='레벨업'?'up':'finish'):'base',tag:tag||'기본',move:m,hands:hd,sub,dur:30,min:Math.floor(k/2),mins:9}; }),
-  water(40,'물 마시기','물 한 모금 마셔요','잘하고 있어요'),
-  ...work('피지컬',[  // 체력 운동: 1세트 = 2세트(같은 구성). 마지막은 옆으로 한 걸음(2박) → 멈춰서 반대손(투). 이동 기준: 한 걸음 = 2박 = 화살표 2칸. 모두 같은 방향, 왼쪽 먼저
-    ['앉았다 일어나기','앉고, 팔 위로'],['뒤로 발 콕','뒤로 콕, 무릎 올리기'],['옆으로, 원 가드','옆으로, 원투','← ← 왼 가드 / → → 오 가드','← ← 왼 오 / → → 오 왼'],
-    ['앉았다 일어나기','앉고, 팔 위로'],['뒤로 발 콕','뒤로 콕, 무릎 올리기'],['옆으로, 원 가드','옆으로, 원투','← ← 왼 가드 / → → 오 가드','← ← 왼 오 / → → 오 왼']]),
-  {...water(40,'물 · 자리 정돈','물 마시면서, QR 한 번','오늘 동작 복습 영상'),qr:true},   // 폰이 손에 있을 때 채널 안내. 물은 모두 40초(회고), 피니시는 40:00에 Bounce와 같이 시작
-  // 피니시 (10/28): 앞으로·뒤로 원투 → 원원투 2분 → 마지막 1분은 심박 올리기(제자리 달리기 → 원투 연타)
-  ...[['앞으로, 원투',FW.OT,'오늘 배운 거, 다 같이'],['앞으로, 원원투',FW.AL],['뒤로, 원투',BW.OT,'발 따라 손'],['뒤로, 원원투',BW.AL],
-      ['제자리 달리기','','힘들면 빠르게 걷기'],['원투 연타, 끝까지!','왼 오 왼 오']]
-    .map(([m,hd,sub],i)=>({sec:'피니시',type:'finish',tag:i===5?'마지막 30초':i===4?'마지막 1분':'다 같이',move:m,hands:hd,sub,dur:30,min:i,mins:6})),
-  // 순서: 심박 내리기 → 상체(목→어깨→가슴) → 하체(허벅지 앞→종아리) → 전신 → 호흡
-  ...[['천천히 걷기','숨을 길게 내쉬어요'],['고개 돌리기','왼쪽, 오른쪽, 위, 아래 · 천천히요'],['팔 가로로 당기기','양쪽 15초씩'],['가슴 열기','깍지 끼고 뒤로, 두 번'],
-      ['허벅지 앞 늘리기','양쪽 15초씩 · 흔들리면 벽 잡아요'],['종아리 늘리기','양쪽 15초씩'],['기지개','위로, 왼쪽, 오른쪽 10초씩'],['숨 고르기','크게 세 번 · 오늘 수고하셨어요']]
-    .map(c=>({sec:'쿨다운',type:'cool',tag:'천천히',move:c[0],sub:c[1],dur:30})),
-  {sec:'마무리',type:'talk',tag:'마무리',move:'오늘 동작, 영상으로 다시',sub:'다음 주에도, 내 페이스로',qr:true,dur:180},
-];
+function getJSON(u){ const x=new XMLHttpRequest(); x.open('GET',u,false); x.send(null); if(x.status!==200&&x.status!==0) throw new Error(u); return JSON.parse(x.responseText); }
+function cached(key,u){ try{ const d=getJSON(u); try{ localStorage.setItem(key,JSON.stringify(d)); }catch(e){} return d; }
+  catch(e){ try{ return JSON.parse(localStorage.getItem(key)); }catch(e2){ return null; } } }   // 인터넷이 잠깐 안 돼도 마지막으로 받은 수업으로
+const IDX=cached('ownpace-idx','lessons/index.json')||{default:'',lessons:[]};
+let LESSON=IDX.default; try{ const v=localStorage.getItem('ownpace-lesson'); if(IDX.lessons.some(l=>l.id===v)) LESSON=v; }catch(e){}
+const LESSON_META=IDX.lessons.find(l=>l.id===LESSON)||IDX.lessons[0]||{id:'',name:'',file:''};
+const LDATA=LESSON_META.file?cached('ownpace-l-'+LESSON_META.id,'lessons/'+LESSON_META.file):null;
+// 오늘의 한마디(앵커링): 시작 화면 → 쿨다운 숨 고르기(anchor:'text') → 마무리(anchor:'ask', 자기 말로 바꿔 보는 질문)
+const ANCHOR=(LDATA&&LDATA.anchor)||{};
+const PLAN=(LDATA&&LDATA.steps&&LDATA.steps.length)?LDATA.steps:[{sec:'인사',type:'talk',tag:'인사',move:'수업을 불러오지 못했어요',sub:'인터넷 연결을 확인하고 새로고침해 주세요',dur:60}];
 let acc=0; PLAN.forEach(s=>{s.start=acc; acc+=s.dur;}); const TOTAL=acc;
 const SECTIONS=PLAN.filter((s,i)=>i===0||PLAN[i-1].sec!==s.sec);
 
@@ -355,6 +365,8 @@ renderAll();
 let liveOut=null;
 // 한 폰 모드: 다른 앱 음악(유튜브 뮤직 등)을 끊지 않도록 실시간 소리만 쓰고, 다른 소리와 섞어서 재생
 let mixMode=false; try{ mixMode=localStorage.getItem('ownpace-mix')==='1'; }catch(e){}
+// 음악 자동 줄이기(음악과 함께 모드에서만): 아이폰 오디오 설정을 바꿔 가며 음악을 줄인다. 블루투스에서 종이 끊기는 원인 후보라 기본은 꺼짐 (10/29 언남)
+let duckOn=false; try{ duckOn=localStorage.getItem('ownpace-duck')==='1'; }catch(e){}
 // 음성 안내(기본 꺼짐): 8초 전에 '다음, 동작'을 한 번 읽는다. 기기에 있는 한국어 음성 중 자연스러운 것을 고른다
 let voiceOn=false; try{ voiceOn=localStorage.getItem('ownpace-voice')==='1'; }catch(e){}
 let koVoice=null;
@@ -386,20 +398,29 @@ function primeSpeech(){ try{ const u=new SpeechSynthesisUtterance(' '); u.volume
 // 음악과 함께 모드: 아이폰이 오디오를 잠깐 멈춰 두면(음성 안내·화면 전환 뒤) 먼저 깨운 다음 울린다. 그래도 안 되면 일반 재생으로 대신
 function mixPlay(k){ const go=()=>{ if(ctx&&ctx.state==='running'){ liveRing(k); return; } const a=CLIPS[k]; if(a){ try{ a.currentTime=0; const pr=a.play(); if(pr&&pr.catch) pr.catch(()=>blockedHint()); return; }catch(e){} } blockedHint(); };
   if(ctx&&ctx.state!=='running'){ try{ const pr=ctx.resume(); if(pr&&pr.then){ pr.then(go,go); return; } }catch(e){} } go(); }
-function play(k){ if(!sound) return; if(mixMode){ duck(); mixPlay(k); return; } const a=CLIPS[k];
+function play(k){ if(!sound) return; if(mixMode){ if(duckOn) duck(); mixPlay(k); return; } const a=CLIPS[k];
   if(a){ try{ a.muted=false; a.volume=1; a.currentTime=0; const pr=a.play(); if(pr&&pr.catch) pr.catch(()=>{ liveRing(k); if(!ctx||ctx.state!=='running') blockedHint(); }); return; }catch(e){} }
   liveRing(k); }
 function liveRing(k){ if(!ctx){ blockedHint(); return; } if(BUFS[k]){ try{ const src=ctx.createBufferSource(), g=ctx.createGain(); src.buffer=BUFS[k]; g.gain.value=1; src.connect(g).connect(ctx.destination); src.start(); return; }catch(e){} }
   if(/^n[123]$/.test(k)) k='tick'; if(!liveOut) liveOut=chain(ctx); liveOut.gain.value=2.4*LV(); try{ const t=ctx.currentTime; // 합성음 비상용
   if(k==='tick') synthTick(ctx,liveOut,t+.01); else if(k==='bell') [0,.16,.32].forEach(d=>synthStrike(ctx,liveOut,t+.01+d)); else if(k==='ding') [0,.22].forEach(d=>synthStrike(ctx,liveOut,t+.01+d)); else synthStrike(ctx,liveOut,t+.01,k==='soft'?.45:1); }catch(e){} }
 const bell=()=>play('bell'), ding=()=>play('ding'), soft=()=>play('soft'), countTick=()=>play('tick');
-// 박자판 그리기: '가드' = 쉬는 박, 화살표 = 이동, 왼/오 = 손(한 칸에 두 손이면 한 박에 두 번)
+// 박자판 그리기: 한 칸 = 한 박. 칸 글자 = 펀치 이름(원·투·훅·어퍼…), 칸 색 = 손(채움 = 앞손, 테두리 = 뒷손).
+// 앞손 펀치 = 원·훅·어퍼, 뒷손 펀치 = 투·뒤훅·뒤어퍼(글자는 훅·어퍼로 보임). 스탠스를 바꿔도 그대로 맞다. 정면 자세는 왼·오.
+// '↑원'처럼 화살표+펀치 = 이동하면서 동시에 치기(칸 왼쪽 위에 작은 화살표). 방어(슬립·더킹·위빙) = 점선, 화살표 = 이동(점선), 가드 = 쉬는 박. '원원'처럼 한 칸에 두 개 = 한 박에 두 번. 한 블록은 8박(2줄)까지.
+const PUNCH={'원':['L','원'],'앞':['L','원'],'왼':['L','왼'],'훅':['L','훅'],'어퍼':['L','어퍼'],
+  '투':['R','투'],'뒤':['R','투'],'오':['R','오'],'뒤훅':['R','훅'],'뒤어퍼':['R','어퍼']};
+const isL=x=>(PUNCH[x]||[])[0]==='L';
 function cell(t){
   if(t==='가드') return '<div class="c G">가드</div>';
   if(/^[↑↓←→]$/.test(t)) return `<div class="c M">${t}</div>`;
-  const hs=[...t]; if(hs.length===1) return `<div class="c ${t==='왼'?'L':'R'}">${t}</div>`;
-  if(hs.every(x=>x===hs[0])) return `<div class="c two ${hs[0]==='왼'?'L':'R'}">${t}</div>`;
-  return '<div class="c two mix">'+hs.map(x=>`<i class="${x==='왼'?'L':'R'}">${x}</i>`).join('')+'</div>'; }
+  if(['슬립','더킹','위빙'].includes(t)) return `<div class="c M"><span class="sm">${t}</span></div>`;
+  const mv=t.match(/^([↑↓←→])(.+)$/); // 이동하면서 동시에 치기: '↑원' = 나가면서 원
+  if(mv&&PUNCH[mv[2]]) return cell(mv[2]).replace('">','"><b class="mv">'+mv[1]+'</b>');
+  if(PUNCH[t]){ const [h,l]=PUNCH[t]; return `<div class="c ${h}">${l.length>1?`<span class="sm">${l}</span>`:l}</div>`; }
+  const hs=[...t]; // 한 칸에 두 번(원원, 원투 등)
+  if(hs.every(x=>x===hs[0])) return `<div class="c two ${isL(hs[0])?'L':'R'}">${hs.map(x=>PUNCH[x][1]).join('')}</div>`;
+  return '<div class="c two mix">'+hs.map(x=>`<i class="${isL(x)?'L':'R'}">${(PUNCH[x]||[0,x])[1]}</i>`).join('')+'</div>'; }
 const beats=b=>b?b.split(' / ').map(l=>'<div class="ln">'+l.split(' ').map(cell).join('')+'</div>').join(''):'';
 const stepAt=t=>{ for(let i=PLAN.length-1;i>=0;i--) if(t>=PLAN[i].start) return i; return 0; };
 const nextLabel=(n,s)=>n.move+(s&&s.sec===n.sec&&s.move===n.move&&s.hands===n.hands?' 한 번 더':''); // 기본/레벨업은 배경색이 알려주니 '다음'에는 동작만. 같은 동작이 이어지면 '한 번 더'
@@ -427,12 +448,18 @@ function render(){
   document.body.className=cls.join(' ');
   $('sec').innerHTML=nm(s.sec)+(s.mins?`<span>${s.min+1}/${s.mins}</span>`:'');
   const intro=!started&&elapsed===0; // 시작 화면은 맨 처음에서만. 시작 전에 이전/다음으로 옮기면 그 구간을 미리 보여준다
-  $('tag').textContent=intro?'내 페이스 복싱':done?'수업 끝':(s.qr&&s.type==='rest'?s.tag+' · '+Math.max(1,Math.ceil(left))+'초':s.tag); // QR 물 시간도 남은 초가 보이게
+  const restPrev=!intro&&!done&&s.type==='rest'&&!s.qr&&n&&n.sec!==s.sec; // 물 시간 = 다음 구간 예고 시간(코치가 설명할 때)
+  { const sv=(!intro&&!done&&!restPrev&&s.st)||''; const el=$('st'); el.hidden=!sv; el.textContent=sv==='R'?'오른발 앞':sv==='F'?'정면':'왼발 앞'; el.className='st'+(sv==='R'?' R':'')+(sv&&i>0&&PLAN[i-1].st&&PLAN[i-1].st!==sv?' chg':''); }
+  $('tag').textContent=intro?'내 페이스 복싱':restPrev?'쉬어요':done?'수업 끝':(s.qr&&s.type==='rest'?s.tag+' · '+Math.max(1,Math.ceil(left))+'초':s.tag); // QR 물 시간도 남은 초가 보이게
   setMove(late?s.late.move:s.move);
   $('beats').innerHTML=beats(s.hands);
-  const whoT=intro?'처음이어도 괜찮아요':done?'다음 주에도, 내 페이스로':late?'':(s.sub||''); // ' · '로 나뉜 덩어리는 중간에서 줄이 바뀌지 않게
+  $('bar').style.transform='scaleX('+(intro||done?1:Math.max(0,Math.min(1,left/s.dur))).toFixed(4)+')';
+  const aT=intro||done?(ANCHOR.text||''):(s.anchor&&ANCHOR[s.anchor])||''; $('anchor').textContent=aT;
+  const whoT=(aT&&(intro||done||s.anchor==='ask'))?'':intro?'처음이어도 괜찮아요':done?'다음 주에도, 내 페이스로':late?'':((s.sub||'')+(s.lv2?((s.sub?' · ':'')+'2단계 '+s.lv2):''));   // 한마디가 있으면 겹치는 보조 문구는 숨긴다(메시지는 한 번에 하나) // ' · '로 나뉜 덩어리는 중간에서 줄이 바뀌지 않게
   $('who').innerHTML=whoT.split(' · ').map(x=>'<span class="seg">'+x.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))+'</span>').join(' · ');
-  if(intro) setMove('오늘은 나를 위한 50분');
+  if(intro) setMove((LDATA&&LDATA.hero)||'오늘은 나를 위한 50분');
+  if(restPrev){ setMove('다음은 '+nm(n.sec)); $('who').innerHTML='<span class="seg">물 한 모금 마시면서 들어요</span>'; }
+  const td=intro&&LDATA&&LDATA.learn; $('today').hidden=!td; document.body.classList.toggle('board',!!td); if(td&&!$('today').childElementCount) $('today').innerHTML=LDATA.learn.map(r=>'<div><dt>'+r[0]+'</dt><dd>'+r[1]+'</dd></div>').join('');
   if(done){ setMove('오늘 해냈어요!'); $('beats').innerHTML=''; }
   // 8초 전: 큰 화면은 끝까지 '지금 동작'. 아래 '다음' 띠만 크게 반전해 강조(코치는 읽고 미리 말하고, 회원은 숫자가 끝나면 바꾼다)
   if(soon!==lastSoon){ lastSoon=soon; lastFit=-1; }
@@ -442,16 +469,16 @@ function render(){
     if(left>vAt+.5&&saidStep===i) saidStep=-1;
     if(running&&left<=vAt&&saidStep!==i){ saidStep=i; const nx=newSec?'다음은 '+nm(n.sec)+'. '+n.move:'다음, '+nextLabel(n,s); say(s.late?s.late.move+'. '+nx:nx); } }
   const qr=!intro&&!!(done||s.qr); // 꼭 true/false로(undefined면 toggle이 매 프레임 뒤집힘)
-  $('links').hidden=!qr; $('num').hidden=qr; document.body.classList.toggle('qrmode',qr); // 마무리 3분은 남은 시간보다 채널 안내가 중요
+  $('links').hidden=!qr; $('num').hidden=qr||intro; // 시작 전에는 숫자 대신 오늘의 수업 안내 document.body.classList.toggle('qrmode',qr); // 마무리 3분은 남은 시간보다 채널 안내가 중요
   $('num').textContent=done?'':left>60?fmt(left):Math.max(1,Math.ceil(left));
   $('num').classList.toggle('mmss',!done&&left>60); // 1:40 처럼 긴 숫자는 칸을 넘지 않게 조금 작게
   $('total').textContent=fmt(elapsed);
-  $('next').innerHTML=done||!n?'':'다음 · <b>'+(n.sec!==s.sec?'<span style="white-space:nowrap">'+nm(n.sec)+'</span> · <span style="white-space:nowrap">'+nextLabel(n)+'</span>':nextLabel(n,s))+'</b>';
+  $('next').innerHTML=done||!n?'':restPrev?'첫 동작 · <b>'+nextLabel(n)+'</b>':'다음 · <b>'+(n.sec!==s.sec?'<span style="white-space:nowrap">'+nm(n.sec)+'</span> · <span style="white-space:nowrap">'+nextLabel(n)+'</span>':nextLabel(n,s))+'</b>';
   if(i!==lastFit){ lastFit=i; fit(); }
   if(!running) return;
   if(i!==lastStep){ if(lastStep!==-1){ if(s.type==='cool') soft(); else if(PLAN[lastStep].sec!==s.sec) bell(); else ding(); } lastStep=i; }
   const tick=Math.floor(elapsed);
-  if(tick!==lastTick){ lastTick=tick; wakeAudio(); if(mixMode&&isQuiet(s)) holdDuck(); else releaseDuck(); const l=Math.ceil(s.dur-(tick-s.start));
+  if(tick!==lastTick){ lastTick=tick; wakeAudio(); if(mixMode&&duckOn&&isQuiet(s)) holdDuck(); else releaseDuck(); checkSound(); const l=Math.ceil(s.dur-(tick-s.start));
     if(l<=3&&l>=1&&s.type!=='talk'&&s.type!=='cool'&&s.sec!=='함께하기') play('n'+l);
     if(s.type==='cool'&&s.dur===30&&((/15초씩/.test(s.sub||'')&&l===15)||(/10초씩/.test(s.sub||'')&&(l===20||l===10)))) play('soft'); }   // 쿨다운: 양쪽 15초씩은 15초에, 10초씩은 10·20초에 작은 땡 = 반대쪽으로 (화면 없이 진행할 때, 10/29)   // 마지막 3초 음성 three·two·one → 땡땡. 함께하기는 코치가 숫자를 부르니 벨만. 코치는 세지 않고 시범만
 }
@@ -469,6 +496,9 @@ function unlockAudio(skip=[]){
   for(const k in CLIPS){ if(skip.includes(k)) continue; const a=CLIPS[k];
     try{ a.muted=true; const pr=a.play(); if(pr&&pr.then) pr.then(()=>{ if(a.muted){ a.pause(); a.currentTime=0; a.muted=false; } }).catch(()=>{ a.muted=false; }); }catch(e){} }
 }
+// 소리 중단 감지: 아이폰이 소리를 멈춰 두면(다른 앱·블루투스 전환 등) 큰 알림을 띄우고, 누르면 다시 켠다
+function checkSound(){ const bad=sound&&mixMode&&ctx&&ctx.state!=='running'; if(bad){ wakeAudio(); setTimeout(()=>{ $('soundfix').hidden=!(sound&&ctx&&ctx.state!=='running'); },400); } else $('soundfix').hidden=true; }
+function fixSound(e){ if(e) e.stopPropagation(); primeSpeech(); unlockAudio(); setTimeout(()=>{ if(ctx&&ctx.state==='running'){ $('soundfix').hidden=true; ding(); } else toast('그래도 안 되면 기기 음량·무음 모드를 확인하고, 음악 앱을 잠깐 멈췄다 다시 틀어 주세요'); },300); }
 function wakeAudio(){ if(ctx&&ctx.state!=='running'){ try{ ctx.resume(); }catch(e){} } }
 async function start(){
   primeSpeech();   // 아이폰: 음성은 탭 안에서 한 번 깨워야 이후에도 나온다
@@ -486,12 +516,12 @@ function jump(d){ const i=Math.min(PLAN.length-1,Math.max(0,stepAt(elapsed)+d));
 function again(){ const sec=PLAN[stepAt(elapsed)].sec; elapsed=SECTIONS.find(s=>s.sec===sec).start; sync(); }
 function reset(){ running=false; started=false; elapsed=0; $('paused').hidden=true; $('go').textContent='시작'; try{localStorage.removeItem('ownpace-timer');}catch(e){} sync(); }
 const toggle=()=>running?pause():start();
-function openMenu(){ const cur=PLAN[stepAt(elapsed)].sec; [...$('grid').children].forEach((b,k)=>b.classList.toggle('cur',SECTIONS[k].sec===cur)); $('menu').hidden=false; document.body.classList.remove('hide'); }
+function openMenu(){ const cur=PLAN[stepAt(elapsed)].sec; $('mlesson').textContent=(LESSON_META.name||'')+' · 지금 위치'; $('mnow').textContent=nm(cur)+' · '+fmt(elapsed)+' / '+fmt(TOTAL); [...$('grid').children].forEach((b,k)=>b.classList.toggle('cur',SECTIONS[k].sec===cur)); $('menu').classList.toggle('pre',!started); $('menu').hidden=false; document.body.classList.remove('hide'); }
 function closeMenu(){ $('menu').hidden=true; }
 let toastT; function toast(msg){ const t=$('toast'); t.textContent=msg; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,2200); }
-function setLabels(){ $('snd').textContent='소리: '+(sound?'켜짐':'꺼짐'); $('snd').classList.toggle('on',sound); $('vol').textContent='종소리 크기 '+vol+(vol>10?' 부스트':''); $('voice').textContent='음성 안내: '+(voiceOn?'켜짐':'꺼짐'); $('voice').classList.toggle('on',voiceOn);
-  $('mix').textContent='음악과 함께: '+(mixMode?'켜짐':'꺼짐'); $('mix').classList.toggle('on',mixMode);
-  $('fs').textContent=document.fullscreenElement?'전체화면 끄기':'전체화면'; }
+function setLabels(){ const t=(id,on,a='켜짐',b='꺼짐')=>{ $(id).textContent=on?a:b; $(id).classList.toggle('on',on); $(id).setAttribute('aria-pressed',on); };
+  t('snd',sound); t('voice',voiceOn); t('mix',mixMode); t('duck',duckOn); $('duckRow').hidden=!mixMode;
+  $('vol').textContent=vol+(vol>10?'+':''); t('fs',!!document.fullscreenElement,'끄기','켜기'); }
 function fullscreen(){ const d=document; try{ d.fullscreenElement?d.exitFullscreen():d.documentElement.requestFullscreen().catch(()=>{}); }catch(e){} }
 function autoHide(){ document.body.classList.remove('hide'); clearTimeout(hideT); if(running) hideT=setTimeout(()=>document.body.classList.add('hide'),3000); }
 
@@ -502,6 +532,11 @@ $('reset').onclick=()=>{ const b=$('reset');
   clearTimeout(resetArm); resetArm=null; b.classList.remove('arm'); b.textContent='수업 처음부터'; reset(); closeMenu(); toast('처음으로 돌아왔어요 · 시작을 누르세요'); };
 $('prev').onclick=()=>jump(-1); $('nextBtn').onclick=()=>jump(1); $('again').onclick=()=>{ again(); closeMenu(); toast(nm(PLAN[stepAt(elapsed)].sec)+' 처음으로 이동했어요'); };
 $('list').onclick=openMenu; $('close').onclick=closeMenu; $('paused').onclick=start;
+IDX.lessons.forEach(l=>{ const o=document.createElement('option'); o.value=l.id; o.textContent=l.name; if(l.id===LESSON) o.selected=true; $('lesson').appendChild(o); });
+$('lesson').onchange=e=>{ if(running){ e.target.value=LESSON; toast('멈춘 뒤에 바꿀 수 있어요'); return; }
+  try{ localStorage.setItem('ownpace-lesson',e.target.value); localStorage.removeItem('ownpace-timer'); }catch(err){} location.reload(); };
+$('duck').onclick=()=>{ duckOn=!duckOn; try{ localStorage.setItem('ownpace-duck',duckOn?'1':'0'); }catch(e){} if(!duckOn){ holding=false; duckUntil=0; unduck(); } setLabels(); toast(duckOn?'말할 때 음악을 자동으로 줄여요':'음악 음량은 직접 조절해요 · 소리가 더 안정적이에요'); };
+$('soundfix').onclick=fixSound;
 $('mix').onclick=()=>{ mixMode=!mixMode; try{ localStorage.setItem('ownpace-mix',mixMode?'1':'0'); }catch(e){}
   for(const k in CLIPS){ try{ CLIPS[k].pause(); }catch(e){} } setLabels(); unlockAudio(); ding();
   toast(mixMode?'음악과 함께 켜짐 · 유튜브 뮤직을 끊지 않아요':'음악과 함께 꺼짐 · 수업용 기본 소리'); };
@@ -534,5 +569,4 @@ try{ const v=JSON.parse(localStorage.getItem('ownpace-timer')||'null');
   if(v&&v.elapsed>1&&v.elapsed<TOTAL&&Date.now()-v.at<7200000){ elapsed=v.elapsed; started=true; $('go').textContent=`이어서 (${fmt(elapsed)})`; } }catch(e){}
 render();
 </script>
-
 </body></html>
