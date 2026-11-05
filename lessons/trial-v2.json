@@ -1,0 +1,576 @@
+{
+ "id": "trial2",
+ "name": "시범교육 v2 · 복싱 피트니스",
+ "week": "2026-11 시범교육",
+ "anchor": {
+  "text": "치고, 가드. 오늘의 나를 지켜 봐요.",
+  "ask": "오늘 몸이 기억한 펀치는?"
+ },
+ "theme": "라운드 · 미트 데이",
+ "together": "두 줄 패드",
+ "hero": "펀치, 시원하게 날려 보세요.",
+ "ui": "v2",
+ "learn": [
+  [
+   "발",
+   "앞뒤로 뛰는 스텝"
+  ],
+  [
+   "손",
+   "원부터 원투원투"
+  ],
+  [
+   "패드",
+   "패드에 원투"
+  ]
+ ],
+ "steps": [
+  {
+   "sec": "READY",
+   "type": "talk",
+   "tag": "인사",
+   "move": "환영합니다!",
+   "sub": "힘들면 언제든 걸어도 돼요",
+   "dur": 120
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "몸 풀기",
+   "move": "고개 돌리기",
+   "sub": "천천히, 크게",
+   "dur": 30,
+   "rd": 1,
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "몸 풀기",
+   "move": "어깨 돌리기",
+   "sub": "앞으로, 뒤로",
+   "dur": 30,
+   "rd": 1,
+   "noCount": true
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "몸 풀기",
+   "move": "허리, 고관절 돌리기",
+   "sub": "무릎 살짝 굽히고 크게",
+   "dur": 30,
+   "rd": 1,
+   "noCount": true
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "몸 풀기",
+   "move": "손목, 발목 돌리기",
+   "sub": "양쪽 다",
+   "dur": 30,
+   "rd": 1,
+   "ten": true
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "심박 올리기",
+   "move": "달리기",
+   "sub": "원을 그리며 기차처럼",
+   "dur": 60,
+   "rd": 2,
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "심박 올리기",
+   "move": "점핑잭",
+   "sub": "힘들면 옆으로 발만 벌려요",
+   "dur": 30,
+   "rd": 2,
+   "noCount": true
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "심박 올리기",
+   "move": "스쿼트",
+   "sub": "무릎은 발끝 방향",
+   "dur": 30,
+   "rd": 2,
+   "ten": true
+  },
+  {
+   "sec": "FOOTWORK",
+   "type": "base",
+   "tag": "코치 따라",
+   "move": "앞뒤로 뛰는 스텝",
+   "sub": "코치 따라: 통통 뛰면서 앞으로, 뒤로",
+   "dur": 30,
+   "rd": 3,
+   "st": "L",
+   "ph": "follow",
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "FOOTWORK",
+   "type": "base",
+   "tag": "내 페이스",
+   "move": "앞뒤로 뛰는 스텝",
+   "sub": "발볼로 낮게, 계속 뛰면서",
+   "dur": 90,
+   "rd": 3,
+   "st": "L",
+   "ph": "own",
+   "ten": true
+  },
+  {
+   "sec": "BASICS",
+   "type": "base",
+   "tag": "코치 따라",
+   "move": "자세, 원, 투",
+   "sub": "코치 따라 천천히",
+   "dur": 30,
+   "rd": 4,
+   "st": "L",
+   "ph": "follow",
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "BASICS",
+   "type": "base",
+   "tag": "내 페이스",
+   "move": "자세, 원, 투",
+   "sub": "어깨너비, 앞손 원, 뒷발로 밀어서 투",
+   "dur": 90,
+   "rd": 4,
+   "st": "L",
+   "ph": "own",
+   "ten": true
+  },
+  {
+   "sec": "BASICS",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "base",
+   "tag": "코치 따라",
+   "move": "원",
+   "sub": "앞으로, 원, 뒤로",
+   "dur": 30,
+   "rd": 5,
+   "st": "L",
+   "ph": "follow",
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "base",
+   "tag": "내 페이스",
+   "move": "원",
+   "sub": "뛰면서 들어가서 원, 바로 빠지기",
+   "dur": 90,
+   "rd": 5,
+   "st": "L",
+   "ph": "own",
+   "ten": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "base",
+   "tag": "코치 따라",
+   "move": "원투",
+   "sub": "앞으로, 원투, 뒤로",
+   "dur": 30,
+   "rd": 6,
+   "st": "L",
+   "ph": "follow",
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "base",
+   "tag": "내 페이스",
+   "move": "원투",
+   "sub": "뒷발로 밀어서 투",
+   "dur": 90,
+   "rd": 6,
+   "st": "L",
+   "ph": "own",
+   "ten": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "base",
+   "tag": "코치 따라",
+   "move": "원투원투",
+   "sub": "앞으로, 원투원투, 뒤로",
+   "dur": 30,
+   "rd": 7,
+   "st": "L",
+   "ph": "follow",
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "base",
+   "tag": "내 페이스",
+   "move": "원투원투",
+   "sub": "한 번 들어가서 네 번 다 뻗고 빠지기",
+   "dur": 90,
+   "rd": 7,
+   "st": "L",
+   "ph": "own",
+   "ten": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "base",
+   "tag": "코치 따라",
+   "move": "원투, 백스텝, 원투",
+   "sub": "원투, 뒤로, 원투",
+   "dur": 30,
+   "rd": 8,
+   "st": "L",
+   "ph": "follow",
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "base",
+   "tag": "내 페이스",
+   "move": "원투, 백스텝, 원투",
+   "sub": "치고 뒤로 빠졌다가 다시 원투",
+   "dur": 90,
+   "rd": 8,
+   "st": "L",
+   "ph": "own",
+   "ten": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "FREE SHADOW",
+   "type": "base",
+   "tag": "내 페이스",
+   "move": "배운 콤보, 자유롭게",
+   "sub": "원부터 원투원투까지, 앞뒤 스텝 섞어서",
+   "dur": 120,
+   "rd": 9,
+   "st": "L",
+   "ph": "own",
+   "bellIn": true,
+   "ten": true
+  },
+  {
+   "sec": "FREE SHADOW",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "FREE SHADOW",
+   "type": "base",
+   "tag": "내 페이스",
+   "move": "배운 콤보, 자유롭게",
+   "sub": "한 번 더, 오늘 제일 좋았던 콤보로",
+   "dur": 120,
+   "rd": 10,
+   "st": "L",
+   "ph": "own",
+   "bellIn": true,
+   "ten": true
+  },
+  {
+   "sec": "FREE SHADOW",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "PAD DEMO",
+   "type": "talk",
+   "tag": "보고 준비",
+   "move": "패드 시범",
+   "sub": "글러브 끼고 두 줄로",
+   "dur": 60,
+   "bellIn": true
+  },
+  {
+   "sec": "PAD WORK",
+   "type": "base",
+   "tag": "줄 서서 한 사람씩",
+   "move": "원투, 원투원투",
+   "sub": "치고 줄 뒤로, 기다리며 섀도",
+   "dur": 120,
+   "rd": 11,
+   "st": "L",
+   "ph": "own",
+   "bellIn": true,
+   "ten": true
+  },
+  {
+   "sec": "PAD WORK",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "PAD WORK",
+   "type": "base",
+   "tag": "줄 서서 한 사람씩",
+   "move": "원투, 원투원투",
+   "sub": "치고 줄 뒤로, 기다리며 섀도",
+   "dur": 120,
+   "rd": 12,
+   "st": "L",
+   "ph": "own",
+   "bellIn": true,
+   "ten": true
+  },
+  {
+   "sec": "PAD WORK",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "PAD WORK",
+   "type": "base",
+   "tag": "줄 서서 한 사람씩",
+   "move": "원투, 원투원투",
+   "sub": "치고 줄 뒤로, 기다리며 섀도",
+   "dur": 120,
+   "rd": 13,
+   "st": "L",
+   "ph": "own",
+   "bellIn": true,
+   "ten": true
+  },
+  {
+   "sec": "PAD WORK",
+   "type": "rest",
+   "tag": "1분 휴식",
+   "move": "1분 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 60,
+   "bellIn": true
+  },
+  {
+   "sec": "STRENGTH",
+   "type": "base",
+   "tag": "근력 1 / 3",
+   "move": "스쿼트",
+   "sub": "무릎은 발끝 방향, 가슴 펴고",
+   "dur": 40,
+   "rd": 14,
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "STRENGTH",
+   "type": "base",
+   "tag": "근력 1 / 3",
+   "move": "푸시업",
+   "sub": "힘들면 무릎 대고",
+   "dur": 40,
+   "rd": 14,
+   "noCount": true
+  },
+  {
+   "sec": "STRENGTH",
+   "type": "base",
+   "tag": "근력 1 / 3",
+   "move": "플랭크",
+   "sub": "엉덩이 높이 그대로, 배에 힘",
+   "dur": 40,
+   "rd": 14,
+   "ten": true
+  },
+  {
+   "sec": "STRENGTH",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "STRENGTH",
+   "type": "base",
+   "tag": "근력 2 / 3",
+   "move": "뒤로 런지",
+   "sub": "번갈아, 상체 세우고",
+   "dur": 40,
+   "rd": 15,
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "STRENGTH",
+   "type": "base",
+   "tag": "근력 2 / 3",
+   "move": "인치웜",
+   "sub": "무릎 굽혀도 돼요, 손으로 걸어 나가기",
+   "dur": 40,
+   "rd": 15,
+   "noCount": true
+  },
+  {
+   "sec": "STRENGTH",
+   "type": "base",
+   "tag": "근력 2 / 3",
+   "move": "마운틴 클라이머",
+   "sub": "천천히 해도 돼요, 끝까지",
+   "dur": 40,
+   "rd": 15,
+   "ten": true
+  },
+  {
+   "sec": "STRENGTH",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "STRENGTH",
+   "type": "base",
+   "tag": "근력 3 / 3",
+   "move": "브릿지",
+   "sub": "엉덩이 꽉, 천천히 올리고 내리기",
+   "dur": 40,
+   "rd": 16,
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "STRENGTH",
+   "type": "base",
+   "tag": "근력 3 / 3",
+   "move": "슈퍼맨",
+   "sub": "팔다리 들고 등 펴기",
+   "dur": 40,
+   "rd": 16,
+   "noCount": true
+  },
+  {
+   "sec": "STRENGTH",
+   "type": "base",
+   "tag": "근력 3 / 3",
+   "move": "러시안 트위스트",
+   "sub": "몸통 돌리기, 펀치 힘의 시작",
+   "dur": 40,
+   "rd": 16,
+   "ten": true
+  },
+  {
+   "sec": "COOL DOWN",
+   "type": "cool",
+   "tag": "정리 운동",
+   "move": "어깨와 팔",
+   "sub": "오늘 쓴 어깨부터 풀어요",
+   "dur": 40,
+   "rd": 17,
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "COOL DOWN",
+   "type": "cool",
+   "tag": "정리 운동",
+   "move": "가슴과 옆구리",
+   "sub": "팔 뒤로, 크게 열기",
+   "dur": 40,
+   "rd": 17,
+   "noCount": true
+  },
+  {
+   "sec": "COOL DOWN",
+   "type": "cool",
+   "tag": "정리 운동",
+   "move": "허벅지와 종아리",
+   "sub": "균형 어려우면 벽 잡기",
+   "dur": 40,
+   "rd": 17,
+   "ten": true
+  },
+  {
+   "sec": "WRAP UP",
+   "type": "talk",
+   "tag": "마무리",
+   "move": "오늘 몸이 기억한 펀치는?",
+   "sub": "한마디씩 나누고 마쳐요",
+   "dur": 390,
+   "anchor": "ask",
+   "bellIn": true
+  }
+ ],
+ "total": 3000
+}

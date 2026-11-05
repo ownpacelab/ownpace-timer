@@ -1,6 +1,12 @@
 {
-  "default": "w1",
+  "default": "trial2",
   "lessons": [
+    {
+      "id": "trial2",
+      "name": "시범교육 v2 · 복싱 피트니스",
+      "file": "trial-v2.json",
+      "from": "2026-11-21"
+    },
     {
       "id": "w1",
       "name": "1주 · 펀치",
