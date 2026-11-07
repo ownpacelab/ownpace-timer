@@ -1,0 +1,483 @@
+{
+ "id": "v2w4",
+ "name": "4주 통합 (패드 데이)",
+ "week": "4주 통합 (패드 데이)",
+ "anchor": {
+  "text": "치고, 가드. 오늘의 나를 지켜 봐요.",
+  "ask": "오늘 몸이 기억한 펀치는?"
+ },
+ "theme": "통합",
+ "together": "패드 데이",
+ "hero": "한 달 동안 배운 걸, 패드에 날려요.",
+ "ui": "v2",
+ "learn": [
+  [
+   "발",
+   "스텝 섞기"
+  ],
+  [
+   "손",
+   "한 달 콤보"
+  ],
+  [
+   "패드",
+   "배운 콤보로"
+  ]
+ ],
+ "steps": [
+  {
+   "sec": "READY",
+   "type": "talk",
+   "tag": "인사",
+   "move": "오늘은 한 달 콤보를 잇는 날",
+   "sub": "힘들면 언제든 걸어도 돼요",
+   "dur": 120,
+   "bellIn": true
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "몸 풀기",
+   "move": "고개 돌리기",
+   "sub": "천천히, 크게",
+   "dur": 30,
+   "rd": 1,
+   "st": "L",
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "몸 풀기",
+   "move": "어깨 돌리기",
+   "sub": "앞으로, 뒤로",
+   "dur": 30,
+   "rd": 1,
+   "st": "L",
+   "noCount": true
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "몸 풀기",
+   "move": "허리, 고관절 돌리기",
+   "sub": "무릎 살짝 굽히고 크게",
+   "dur": 30,
+   "rd": 1,
+   "st": "L",
+   "noCount": true
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "몸 풀기",
+   "move": "손목, 발목 돌리기",
+   "sub": "양쪽 다",
+   "dur": 30,
+   "rd": 1,
+   "st": "L"
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "심박 올리기",
+   "move": "달리기",
+   "sub": "원을 그리며 기차처럼",
+   "dur": 60,
+   "rd": 2,
+   "st": "L",
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "심박 올리기",
+   "move": "무릎 올리며 팔꿈치 터치",
+   "sub": "반대쪽 무릎과 팔꿈치, 번갈아",
+   "dur": 30,
+   "rd": 2,
+   "st": "L",
+   "noCount": true
+  },
+  {
+   "sec": "WARM UP",
+   "type": "base",
+   "tag": "심박 올리기",
+   "move": "발꿈치 들며 팔 교차",
+   "sub": "까치발로 가볍게",
+   "dur": 30,
+   "rd": 2,
+   "st": "L"
+  },
+  {
+   "sec": "FOOTWORK",
+   "type": "talk",
+   "tag": "시범",
+   "move": "앞뒤, 옆, 피벗 섞기",
+   "sub": "한 달 스텝 이어 보기",
+   "dur": 120,
+   "bellIn": true
+  },
+  {
+   "sec": "FOOTWORK",
+   "type": "base",
+   "tag": "내 페이스",
+   "move": "앞뒤, 옆, 피벗 섞기",
+   "sub": "코치 콜에 맞춰 섞어서",
+   "dur": 120,
+   "rd": 3,
+   "st": "L",
+   "bellIn": true
+  },
+  {
+   "sec": "FOOTWORK",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "talk",
+   "tag": "시범",
+   "move": "한 달 콤보 잇기",
+   "sub": "보고, 짧게 듣고, 천천히 따라 해요",
+   "dur": 120,
+   "bellIn": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "base",
+   "tag": "지난주 복습",
+   "move": "원투원투",
+   "sub": "1주 콤보",
+   "dur": 120,
+   "rd": 4,
+   "st": "L",
+   "bellIn": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "base",
+   "tag": "내 페이스",
+   "move": "원투훅",
+   "sub": "2주 콤보",
+   "dur": 120,
+   "rd": 5,
+   "st": "L",
+   "bellIn": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "base",
+   "tag": "내 페이스",
+   "move": "원투, 슬립, 투",
+   "sub": "3주 콤보",
+   "dur": 120,
+   "rd": 6,
+   "st": "L",
+   "bellIn": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "base",
+   "tag": "내 페이스",
+   "move": "나만의 콤보",
+   "sub": "배운 것 중 골라서 이어 보기",
+   "dur": 120,
+   "rd": 7,
+   "st": "L",
+   "bellIn": true
+  },
+  {
+   "sec": "SHADOW",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "FREE SHADOW",
+   "type": "base",
+   "tag": "내 페이스",
+   "move": "배운 콤보, 자유롭게",
+   "sub": "내 페이스로, 스텝도 섞어서",
+   "dur": 120,
+   "rd": 8,
+   "st": "L",
+   "bellIn": true
+  },
+  {
+   "sec": "FREE SHADOW",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "PAD DEMO",
+   "type": "talk",
+   "tag": "보고 준비",
+   "move": "패드 시범",
+   "sub": "글러브 끼고 두 줄로",
+   "dur": 60,
+   "bellIn": true
+  },
+  {
+   "sec": "PAD WORK",
+   "type": "base",
+   "tag": "줄 서서 한 사람씩",
+   "move": "배운 콤보로 패드 치기",
+   "sub": "치고 줄 뒤로, 기다리며 섀도",
+   "dur": 120,
+   "rd": 9,
+   "st": "L",
+   "bellIn": true
+  },
+  {
+   "sec": "PAD WORK",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "PAD WORK",
+   "type": "base",
+   "tag": "줄 서서 한 사람씩",
+   "move": "배운 콤보로 패드 치기",
+   "sub": "치고 줄 뒤로, 기다리며 섀도",
+   "dur": 120,
+   "rd": 10,
+   "st": "L",
+   "bellIn": true
+  },
+  {
+   "sec": "PAD WORK",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "PARTNER",
+   "type": "base",
+   "tag": "짝과 함께",
+   "move": "짝 손바닥에 원투",
+   "sub": "짝이 없으면 코치와, 또는 혼자 섀도",
+   "dur": 60,
+   "rd": 11,
+   "st": "L",
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "PARTNER",
+   "type": "base",
+   "tag": "짝과 함께",
+   "move": "역할 바꾸기",
+   "sub": "치고 바로 가드",
+   "dur": 60,
+   "rd": 11,
+   "st": "L"
+  },
+  {
+   "sec": "PARTNER",
+   "type": "rest",
+   "tag": "1분 휴식",
+   "move": "1분 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 60,
+   "bellIn": true
+  },
+  {
+   "sec": "CONDITIONING",
+   "type": "base",
+   "tag": "체력 1 / 3",
+   "move": "버피 20개",
+   "sub": "천천히 해도 돼요",
+   "dur": 40,
+   "rd": 12,
+   "st": "L",
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "CONDITIONING",
+   "type": "base",
+   "tag": "체력 1 / 3",
+   "move": "마운틴 클라이머 20개",
+   "sub": "끝까지",
+   "dur": 40,
+   "rd": 12,
+   "st": "L",
+   "noCount": true
+  },
+  {
+   "sec": "CONDITIONING",
+   "type": "base",
+   "tag": "체력 1 / 3",
+   "move": "점프 스쿼트 20개",
+   "sub": "힘들면 점프 없이",
+   "dur": 40,
+   "rd": 12,
+   "st": "L"
+  },
+  {
+   "sec": "CONDITIONING",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "CONDITIONING",
+   "type": "base",
+   "tag": "체력 2 / 3",
+   "move": "버피 20개",
+   "sub": "천천히 해도 돼요",
+   "dur": 40,
+   "rd": 13,
+   "st": "L",
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "CONDITIONING",
+   "type": "base",
+   "tag": "체력 2 / 3",
+   "move": "마운틴 클라이머 20개",
+   "sub": "끝까지",
+   "dur": 40,
+   "rd": 13,
+   "st": "L",
+   "noCount": true
+  },
+  {
+   "sec": "CONDITIONING",
+   "type": "base",
+   "tag": "체력 2 / 3",
+   "move": "점프 스쿼트 20개",
+   "sub": "힘들면 점프 없이",
+   "dur": 40,
+   "rd": 13,
+   "st": "L"
+  },
+  {
+   "sec": "CONDITIONING",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "CONDITIONING",
+   "type": "base",
+   "tag": "코어",
+   "move": "슈퍼맨 20개",
+   "sub": "다 하면 쉬어요",
+   "dur": 120,
+   "rd": 14,
+   "st": "L",
+   "bellIn": true
+  },
+  {
+   "sec": "COOL DOWN",
+   "type": "cool",
+   "tag": "정리 운동",
+   "move": "어깨와 팔",
+   "sub": "오늘 쓴 어깨부터 풀어요",
+   "dur": 30,
+   "rd": 15,
+   "st": "L",
+   "bellIn": true,
+   "noCount": true
+  },
+  {
+   "sec": "COOL DOWN",
+   "type": "cool",
+   "tag": "정리 운동",
+   "move": "가슴과 옆구리",
+   "sub": "팔 뒤로, 크게 열기",
+   "dur": 30,
+   "rd": 15,
+   "st": "L",
+   "noCount": true
+  },
+  {
+   "sec": "COOL DOWN",
+   "type": "cool",
+   "tag": "정리 운동",
+   "move": "허벅지",
+   "sub": "균형 어려우면 벽 잡기",
+   "dur": 30,
+   "rd": 15,
+   "st": "L",
+   "noCount": true
+  },
+  {
+   "sec": "COOL DOWN",
+   "type": "cool",
+   "tag": "정리 운동",
+   "move": "종아리와 발목",
+   "sub": "천천히 길게 내쉬어요",
+   "dur": 30,
+   "rd": 15,
+   "st": "L"
+  },
+  {
+   "sec": "WRAP UP",
+   "type": "talk",
+   "tag": "마무리",
+   "move": "오늘 몸이 기억한 펀치는?",
+   "sub": "다음 달은 다음 단계로",
+   "dur": 240,
+   "anchor": "ask",
+   "bellIn": true
+  }
+ ],
+ "total": 2820
+}

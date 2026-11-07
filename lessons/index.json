@@ -3,25 +3,44 @@
   "lessons": [
     {
       "id": "trial2",
-      "name": "시범교육 v2 · 복싱 피트니스",
-      "file": "trial-v2.json",
-      "from": "2026-11-21"
+      "name": "시범교육 v2",
+      "file": "trial-v2.json"
+    },
+    {
+      "id": "v2w1",
+      "name": "1주 펀치",
+      "file": "v2-w1.json"
+    },
+    {
+      "id": "v2w2",
+      "name": "2주 파워",
+      "file": "v2-w2.json"
+    },
+    {
+      "id": "v2w3",
+      "name": "3주 디펜스",
+      "file": "v2-w3.json"
+    },
+    {
+      "id": "v2w4",
+      "name": "4주 통합 (패드 데이)",
+      "file": "v2-w4.json"
     },
     {
       "id": "w1",
-      "name": "1주 · 펀치",
+      "name": "(지난 버전) 1주 펀치",
       "file": "2026-11-w1.json",
       "from": "2026-11-02"
     },
     {
       "id": "w2",
-      "name": "2주 · 힘 (초안)",
+      "name": "(지난 버전) 2주 힘 (초안)",
       "file": "2026-11-w2.json",
       "from": "2026-11-09"
     },
     {
       "id": "trial",
-      "name": "체험",
+      "name": "(지난 버전) 체험",
       "file": "trial.json",
       "from": "2026-10-26"
     }
