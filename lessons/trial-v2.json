@@ -94,8 +94,8 @@
    "sec": "WARM UP",
    "type": "base",
    "tag": "심박 올리기",
-   "move": "점핑잭",
-   "sub": "힘들면 옆으로 발만 벌려요",
+   "move": "무릎 올리며 팔꿈치 터치",
+   "sub": "반대쪽 무릎과 팔꿈치, 번갈아",
    "dur": 30,
    "rd": 2,
    "st": "L",
@@ -105,8 +105,8 @@
    "sec": "WARM UP",
    "type": "base",
    "tag": "심박 올리기",
-   "move": "스쿼트",
-   "sub": "무릎은 발끝 방향",
+   "move": "발꿈치 들며 팔 교차",
+   "sub": "까치발로 가볍게, 팔은 앞에서 크게 교차",
    "dur": 30,
    "rd": 2,
    "st": "L"
@@ -299,18 +299,29 @@
    "bellIn": true
   },
   {
-   "sec": "PAD WORK",
+   "sec": "PARTNER",
    "type": "base",
-   "tag": "줄 서서 한 사람씩",
-   "move": "원투, 원투원투",
-   "sub": "치고 줄 뒤로, 기다리며 섀도",
-   "dur": 120,
+   "tag": "짝과 함께",
+   "move": "짝과 원투",
+   "sub": "짝이 글러브를 들어 주면 원투, 거리는 팔 길이",
+   "dur": 60,
    "rd": 11,
    "st": "L",
-   "bellIn": true
+   "bellIn": true,
+   "noCount": true
   },
   {
-   "sec": "PAD WORK",
+   "sec": "PARTNER",
+   "type": "base",
+   "tag": "짝과 함께",
+   "move": "짝과 원투, 교대",
+   "sub": "역할 바꿔서, 치고 바로 가드",
+   "dur": 60,
+   "rd": 11,
+   "st": "L"
+  },
+  {
+   "sec": "PARTNER",
    "type": "rest",
    "tag": "1분 휴식",
    "move": "1분 휴식",
@@ -319,11 +330,11 @@
    "bellIn": true
   },
   {
-   "sec": "STRENGTH",
+   "sec": "CONDITIONING",
    "type": "base",
-   "tag": "근력 1 / 3",
+   "tag": "체력 1 / 3",
    "move": "스쿼트",
-   "sub": "무릎은 발끝 방향, 가슴 펴고",
+   "sub": "뒷발로 밀어내는 힘, 무릎은 발끝 방향",
    "dur": 40,
    "rd": 12,
    "st": "L",
@@ -331,28 +342,28 @@
    "noCount": true
   },
   {
-   "sec": "STRENGTH",
+   "sec": "CONDITIONING",
    "type": "base",
-   "tag": "근력 1 / 3",
+   "tag": "체력 1 / 3",
    "move": "푸시업",
-   "sub": "힘들면 무릎 대고",
+   "sub": "펀치를 뻗는 힘, 힘들면 무릎 대고",
    "dur": 40,
    "rd": 12,
    "st": "L",
    "noCount": true
   },
   {
-   "sec": "STRENGTH",
+   "sec": "CONDITIONING",
    "type": "base",
-   "tag": "근력 1 / 3",
-   "move": "플랭크",
-   "sub": "엉덩이 높이 그대로, 배에 힘",
+   "tag": "체력 1 / 3",
+   "move": "플랭크 숄더탭",
+   "sub": "가드처럼 몸통 단단하게, 엉덩이 흔들지 않기",
    "dur": 40,
    "rd": 12,
    "st": "L"
   },
   {
-   "sec": "STRENGTH",
+   "sec": "CONDITIONING",
    "type": "rest",
    "tag": "30초 휴식",
    "move": "30초 휴식",
@@ -361,11 +372,11 @@
    "bellIn": true
   },
   {
-   "sec": "STRENGTH",
+   "sec": "CONDITIONING",
    "type": "base",
-   "tag": "근력 2 / 3",
+   "tag": "체력 2 / 3",
    "move": "스쿼트",
-   "sub": "무릎은 발끝 방향, 가슴 펴고",
+   "sub": "뒷발로 밀어내는 힘, 무릎은 발끝 방향",
    "dur": 40,
    "rd": 13,
    "st": "L",
@@ -373,28 +384,28 @@
    "noCount": true
   },
   {
-   "sec": "STRENGTH",
+   "sec": "CONDITIONING",
    "type": "base",
-   "tag": "근력 2 / 3",
+   "tag": "체력 2 / 3",
    "move": "푸시업",
-   "sub": "힘들면 무릎 대고",
+   "sub": "펀치를 뻗는 힘, 힘들면 무릎 대고",
    "dur": 40,
    "rd": 13,
    "st": "L",
    "noCount": true
   },
   {
-   "sec": "STRENGTH",
+   "sec": "CONDITIONING",
    "type": "base",
-   "tag": "근력 2 / 3",
-   "move": "플랭크",
-   "sub": "엉덩이 높이 그대로, 배에 힘",
+   "tag": "체력 2 / 3",
+   "move": "플랭크 숄더탭",
+   "sub": "가드처럼 몸통 단단하게, 엉덩이 흔들지 않기",
    "dur": 40,
    "rd": 13,
    "st": "L"
   },
   {
-   "sec": "STRENGTH",
+   "sec": "CONDITIONING",
    "type": "rest",
    "tag": "30초 휴식",
    "move": "30초 휴식",
@@ -403,37 +414,15 @@
    "bellIn": true
   },
   {
-   "sec": "STRENGTH",
+   "sec": "CONDITIONING",
    "type": "base",
-   "tag": "근력 3 / 3",
-   "move": "스쿼트",
-   "sub": "무릎은 발끝 방향, 가슴 펴고",
-   "dur": 40,
+   "tag": "코어 2분",
+   "move": "윗몸 일으키기 20개",
+   "sub": "다음 레그레이즈 15개, 남은 시간은 플랭크로 끝까지",
+   "dur": 120,
    "rd": 14,
    "st": "L",
-   "bellIn": true,
-   "noCount": true
-  },
-  {
-   "sec": "STRENGTH",
-   "type": "base",
-   "tag": "근력 3 / 3",
-   "move": "푸시업",
-   "sub": "힘들면 무릎 대고",
-   "dur": 40,
-   "rd": 14,
-   "st": "L",
-   "noCount": true
-  },
-  {
-   "sec": "STRENGTH",
-   "type": "base",
-   "tag": "근력 3 / 3",
-   "move": "플랭크",
-   "sub": "엉덩이 높이 그대로, 배에 힘",
-   "dur": 40,
-   "rd": 14,
-   "st": "L"
+   "bellIn": true
   },
   {
    "sec": "COOL DOWN",
