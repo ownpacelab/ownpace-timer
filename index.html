@@ -253,7 +253,7 @@ body.v2.ph-follow #v2{--acc:#F5F0DF} body.v2.ph-own #v2{--acc:#2fd19c} body.v2.p
 .v2chips{display:flex;flex-wrap:wrap;gap:.5em;margin-top:.4em;font-size:clamp(15px,2.2vw,30px)}
 .v2chips i{font-style:normal;font-weight:800;color:#f5f0df;border:2px solid #3a3833;border-radius:99px;padding:.25em .9em}
 body.v2.warn #v2num{animation:pulse .5s ease-in-out infinite alternate}
-@media (max-aspect-ratio:1/1){.v2move{font-size:clamp(40px,12vw,96px)}.v2cue{font-size:clamp(17px,4.6vw,34px)}.v2mid{grid-template-columns:1fr}.v2ring{width:min(42vh,80vw);justify-self:center}}
+@media (max-aspect-ratio:1/1){.v2move{font-size:clamp(40px,12vw,96px)}.v2cue{font-size:clamp(17px,4.6vw,34px)}.v2mid{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}.v2ring{width:auto;height:100%;max-width:min(80vw,46vh);max-height:min(80vw,46vh);justify-self:center;align-self:center}}
 </style>
 
 <div class="bar" aria-hidden="true"><i id="bar"></i></div>
