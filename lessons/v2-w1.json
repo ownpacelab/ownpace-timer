@@ -3,12 +3,12 @@
  "name": "1주 펀치",
  "week": "1주 펀치",
  "anchor": {
-  "text": "치고, 가드. 오늘의 나를 지켜 봐요.",
-  "ask": "오늘 몸이 기억한 펀치는?"
+  "text": "배울수록 강해지는 복싱",
+  "ask": "원투 뒤 가드로 돌아왔나요?"
  },
  "theme": "펀치",
- "together": "짝 드릴",
- "hero": "펀치, 시원하게 날려 보세요.",
+ "together": "파트너 훈련",
+ "hero": "원투부터, 내 페이스로.",
  "ui": "v2",
  "learn": [
   [
@@ -20,8 +20,8 @@
    "원부터 원투원투"
   ],
   [
-   "짝",
-   "거리 맞추기"
+   "함께",
+   "거리 유지"
   ]
  ],
  "steps": [
@@ -158,7 +158,9 @@
    "dur": 120,
    "rd": 4,
    "st": "L",
-   "bellIn": true
+   "bellIn": true,
+   "easy": "제자리 원",
+   "challenge": "가드와 균형을 유지하며 연결"
   },
   {
    "sec": "SHADOW",
@@ -194,7 +196,7 @@
    "type": "base",
    "tag": "내 페이스",
    "move": "원투원투",
-   "sub": "앞으로, 원투원투, 뒤로",
+   "sub": "팔꿈치를 잠그지 않고, 치고 가드",
    "dur": 120,
    "rd": 6,
    "st": "L",
@@ -253,32 +255,37 @@
    "sec": "PARTNER DEMO",
    "type": "talk",
    "tag": "보고 준비",
-   "move": "짝 드릴 시범",
-   "sub": "짝이 없으면 코치와, 또는 혼자 섀도",
+   "move": "파트너 훈련 시범",
+   "sub": "거리와 멈춤 위치 확인, 1분마다 교대",
    "dur": 60,
    "bellIn": true
   },
   {
    "sec": "PARTNER DRILL",
    "type": "base",
-   "tag": "짝과 함께",
-   "move": "거리 맞추기",
-   "sub": "짝 손바닥 한 뼘 앞에서 원투 멈추기",
+   "tag": "파트너 훈련",
+   "move": "미러 스텝 앞뒤",
+   "sub": "리더와 간격 유지",
    "dur": 60,
    "rd": 9,
    "st": "L",
    "bellIn": true,
-   "noCount": true
+   "noCount": true,
+   "easy": "앞뒤 한 걸음",
+   "challenge": "이동 후 정지 신호"
   },
   {
    "sec": "PARTNER DRILL",
    "type": "base",
-   "tag": "짝과 함께",
+   "tag": "파트너 훈련",
    "move": "역할 바꾸기",
-   "sub": "치고 바로 가드",
+   "sub": "리더와 간격 유지",
    "dur": 60,
    "rd": 9,
-   "st": "L"
+   "st": "L",
+   "easy": "앞뒤 한 걸음",
+   "challenge": "이동 후 정지 신호",
+   "bellIn": true
   },
   {
    "sec": "PARTNER DRILL",
@@ -292,24 +299,29 @@
   {
    "sec": "PARTNER DRILL",
    "type": "base",
-   "tag": "짝과 함께",
-   "move": "콤보 쌓기",
-   "sub": "짝과 번갈아 한 칸씩 콤보 쌓기",
+   "tag": "파트너 훈련",
+   "move": "콤보 따라 하기",
+   "sub": "자기 앞 허공에 펀치",
    "dur": 60,
    "rd": 10,
    "st": "L",
    "bellIn": true,
-   "noCount": true
+   "noCount": true,
+   "easy": "원 또는 원투 따라 하기",
+   "challenge": "원투원투까지 쌓기"
   },
   {
    "sec": "PARTNER DRILL",
    "type": "base",
-   "tag": "짝과 함께",
+   "tag": "파트너 훈련",
    "move": "역할 바꾸기",
-   "sub": "치고 바로 가드",
+   "sub": "자기 앞 허공에 펀치",
    "dur": 60,
    "rd": 10,
-   "st": "L"
+   "st": "L",
+   "easy": "원 또는 원투 따라 하기",
+   "challenge": "원투원투까지 쌓기",
+   "bellIn": true
   },
   {
    "sec": "PARTNER DRILL",
@@ -323,24 +335,29 @@
   {
    "sec": "PARTNER DRILL",
    "type": "base",
-   "tag": "짝과 체력",
-   "move": "마주 보고 스쿼트",
-   "sub": "일어나며 하이파이브",
+   "tag": "파트너 훈련",
+   "move": "거리 회복",
+   "sub": "간격 찾고 가드에서 정지",
    "dur": 60,
    "rd": 11,
    "st": "L",
    "bellIn": true,
-   "noCount": true
+   "noCount": true,
+   "easy": "전진에 후진으로 반응",
+   "challenge": "앞뒤 두 방향에 반응"
   },
   {
    "sec": "PARTNER DRILL",
    "type": "base",
-   "tag": "짝과 체력",
-   "move": "플랭크 하이파이브",
-   "sub": "엉덩이 높이 그대로, 번갈아",
+   "tag": "파트너 훈련",
+   "move": "역할 바꾸기",
+   "sub": "간격 찾고 가드에서 정지",
    "dur": 60,
    "rd": 11,
-   "st": "L"
+   "st": "L",
+   "easy": "전진에 후진으로 반응",
+   "challenge": "앞뒤 두 방향에 반응",
+   "bellIn": true
   },
   {
    "sec": "PARTNER DRILL",
@@ -494,12 +511,14 @@
    "sec": "WRAP UP",
    "type": "talk",
    "tag": "마무리",
-   "move": "오늘 몸이 기억한 펀치는?",
+   "move": "원투 뒤 가드로 돌아왔나요?",
    "sub": "다음 주는 몸통으로 치는 훅",
    "dur": 240,
    "anchor": "ask",
    "bellIn": true
   }
  ],
- "total": 2820
+ "total": 2820,
+ "reviewStatus": "draft",
+ "revision": "2026-11-11"
 }
