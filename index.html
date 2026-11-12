@@ -255,6 +255,7 @@ body.v2.ph-follow #v2{--acc:#F5F0DF} body.v2.ph-own #v2{--acc:#2fd19c} body.v2.p
 body.v2.warn #v2num{animation:pulse .5s ease-in-out infinite alternate}
 @media (max-aspect-ratio:1/1){.v2move{font-size:clamp(40px,12vw,96px)}.v2cue{font-size:clamp(17px,4.6vw,34px)}.v2mid{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}.v2ring{width:auto;height:100%;max-width:min(80vw,46vh);max-height:min(80vw,46vh);justify-self:center;align-self:center}}
 </style>
+<link rel="stylesheet" href="ui-v3.css">
 
 <div class="bar" aria-hidden="true"><i id="bar"></i></div>
 <div class="wrap">
@@ -588,7 +589,7 @@ function render(){
 }
 
 // ===== v2 화면 그리기 =====
-const V2=!!(LDATA&&LDATA.ui==='v2');
+const V2=true; // unified circular timer view; data and audio engine unchanged
 const PH=(s,inS)=>s.type==='rest'?'rest':s.ph==='block'?(s.lastBlk?'last':'follow'):s.ph||(s.type==='talk'?'own':'follow');
 function comboHTML(h){ if(!h) return ''; return '<div class="v2combo">'+h.split(' / ').map(l=>'<div>'+l.split(' ').map(t=>{
   if(/^×\d+$/.test(t)) return `<span class="x">${t}</span>`;
@@ -705,3 +706,4 @@ try{ const v=JSON.parse(localStorage.getItem('ownpace-timer')||'null');
   if(v&&v.elapsed>1&&v.elapsed<TOTAL&&Date.now()-v.at<7200000){ elapsed=v.elapsed; started=true; $('go').textContent=`이어서 (${fmt(elapsed)})`; } }catch(e){}
 render();
 </script>
+<script src="ui-v3.js"></script>
