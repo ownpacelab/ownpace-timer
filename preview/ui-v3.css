@@ -121,3 +121,44 @@ body.v2 footer button{padding:11px 12px}
 #opl-shell .opl-footnote{margin:10px 0 0}
 @media(max-width:400px){body.v2 #v2{gap:6px}body.v2 .v2next{font-size:13px;padding:10px 11px}body.v2 .v2ring{width:min(78vw,36vh)}body.v2 .v2move{font-size:clamp(21px,6vw,32px)}#opl-shell .opl-detail summary{padding:12px 9px;gap:8px}}
 @media(max-height:620px){body.v2 .v2ring{width:min(55vw,30vh)}body.v2 .v2next{padding:8px 12px;min-height:42px}}
+
+/* v3.2 · one task per screen, fewer containers */
+#opl-shell .opl-frame{max-width:520px}
+#opl-shell .opl-head{margin-bottom:22px}
+#opl-shell .opl-card{border:0;border-bottom:1px solid #364039;border-radius:0;background:transparent;padding:19px 4px;margin:0}
+#opl-shell .opl-card.selected{border:0;border-bottom:1px solid #009f73;background:transparent}
+#opl-shell .opl-card.selected::before{content:"";width:4px;height:34px;border-radius:4px;background:#009f73}
+#opl-shell .opl-card strong{font-size:17px}
+#opl-shell .opl-total-row{margin-top:3px}
+#opl-shell .opl-flat-list{display:flex;flex-direction:column;margin:0 0 8px}
+#opl-shell .opl-flat-group{border-bottom:1px solid #343d35}
+#opl-shell .opl-flat-row{display:flex;align-items:center;gap:13px;padding:16px 0}
+#opl-shell .opl-flat-index{font-size:12px;color:#75ad91;font-variant-numeric:tabular-nums;width:24px;flex:none}
+#opl-shell .opl-flat-body{display:flex;flex-direction:column;min-width:0;gap:4px;flex:1}
+#opl-shell .opl-flat-body strong{font-size:15px;font-weight:800}
+#opl-shell .opl-flat-body small{font-size:12px;color:#a5b3a8;line-height:1.45}
+#opl-shell .opl-flat-row time{font-size:14px;color:#F5F0DF;flex:none;font-variant-numeric:tabular-nums}
+#opl-shell .opl-text-btn{background:transparent;color:#91c1a7;border:0;border-radius:0;text-align:left;padding:16px 0;font-size:13px}
+#opl-shell .opl-detail-all[hidden]{display:none}
+#opl-shell .opl-detail-section{margin:12px 0 22px;padding:0}
+#opl-shell .opl-detail-section>strong{display:block;font-size:14px;margin:0 0 10px;color:#98ccb1}
+#opl-shell .opl-flat-step{display:flex;gap:15px;justify-content:space-between;align-items:baseline;padding:8px 0;font-size:12px;color:#d1d7cf}
+#opl-shell .opl-flat-step time{flex:none;font-variant-numeric:tabular-nums;color:#a9b8ad}
+#opl-shell .opl-bottom{background:linear-gradient(transparent,#171717 12%);padding:20px 0 14px;bottom:-25px}
+#opl-shell .opl-quiet-action{width:100%;background:transparent;border:0;color:#c9d4cb;font-size:13px;padding:15px 10px}
+#opl-shell .opl-settings{margin:2px 0 30px}
+#opl-shell .opl-setting{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:19px 0;border-bottom:1px solid #364139}
+#opl-shell .opl-setting>div{min-width:0;flex:1;display:flex;flex-direction:column;gap:5px}
+#opl-shell .opl-setting strong{font-size:15px}
+#opl-shell .opl-setting small{font-size:11px;line-height:1.5;color:#a0ada2}
+#opl-shell .opl-switch{border:1px solid #566056;border-radius:100px;padding:10px 16px;font-size:12px;flex:none;color:#b2bcb2;background:transparent}
+#opl-shell .opl-switch.on{border-color:#009f73;background:#1b3d2c;color:#a1ebc6}
+body.v2 .v2next{background:transparent;border:0;border-top:1px solid #343d35;border-radius:0;padding:13px 0 5px;min-height:40px;text-align:left;max-width:550px}
+body.v2 .v2next .lb{color:#8cbca0;font-weight:700}
+body.v2 footer{border:0;border-top:1px solid #38443b;border-radius:0;background:#171717;box-shadow:0 0 0 7px #171717;padding:8px 0 3px;gap:7px}
+body.v2 footer button{border:0;background:transparent;min-width:0}
+body.v2 footer button.main{background:#f5f0df;border-radius:50px;color:#171717}
+body.v2 .v2cue{display:none}
+body.v2.t-talk .v2cue,body.v2.t-cool .v2cue{display:block}
+body.v2 .v2tag{background:transparent;border:0;color:#96bda6;padding:0;font-size:13px}
+@media(max-width:400px){body.v2 .v2next{padding:9px 0 3px}#opl-shell .opl-flat-row{gap:10px}#opl-shell .opl-flat-body small{font-size:11px}body.v2 footer button{padding:12px 8px;font-size:12px}}
