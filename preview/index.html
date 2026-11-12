@@ -650,7 +650,7 @@ function queueAfterBell(index,step,previous,delay){
   if(!phrase)return;
   spokenAfterStep=index;
   // Rest cues should begin promptly after the transition signal, not at the next work start.
-  spokenTimer=setTimeout(()=>{spokenTimer=null;if(running&&stepAt(elapsed)===index)say(phrase);},isRest?Math.min(delay,700):delay);
+  spokenTimer=setTimeout(()=>{spokenTimer=null;if(running&&stepAt(elapsed)===index)say(phrase);},delay);
 }
 function save(){ try{ localStorage.setItem('ownpace-preview-timer',JSON.stringify({elapsed,at:Date.now()})); }catch(e){} }
 function loop(t){ if(!running) return; elapsed+=(t-last)/1000; last=t;
