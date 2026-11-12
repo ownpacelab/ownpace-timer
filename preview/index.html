@@ -588,7 +588,7 @@ function render(){
   if(i!==lastStep){ if(lastStep!==-1){ if(s.type==='cool') soft(); else if(s.bellIn||PLAN[lastStep].sec!==s.sec) bell(); else ding(); } lastStep=i; }
   const tick=Math.floor(elapsed);
   if(tick!==lastTick){ lastTick=tick; wakeAudio(); if(mixMode&&duckOn&&isQuiet(s)) holdDuck(); else releaseDuck(); checkSound(); const l=Math.ceil(s.dur-(tick-s.start));
-    if(l<=3&&l>=1&&s.type!=='talk'&&s.type!=='cool'&&s.sec!=='함께하기'&&s.dur>=5) play('n'+l);
+    if(l<=3&&l>=1&&s.type!=='cool'&&s.sec!=='함께하기'&&s.dur>=5) play('n'+l);
     if(s.ten&&l===(s.tenAt||10)) play('knock');
     if(s.type==='cool'&&s.dur===30&&((/15초씩/.test(s.sub||'')&&l===15)||(/10초씩/.test(s.sub||'')&&(l===20||l===10)))) play('soft'); }   // 쿨다운: 양쪽 15초씩은 15초에, 10초씩은 10·20초에 작은 땡 = 반대쪽으로 (화면 없이 진행할 때, 10/29)   // 마지막 3초 음성 three·two·one → 땡땡. 함께하기는 코치가 숫자를 부르니 벨만. 코치는 세지 않고 시범만
 }
@@ -631,11 +631,11 @@ function unlockAudio(skip=[]){
     try{ a.muted=true; const pr=a.play(); if(pr&&pr.then) pr.then(()=>{ if(a.muted){ a.pause(); a.currentTime=0; a.muted=false; } }).catch(()=>{ a.muted=false; }); }catch(e){} }
 }
 // 소리 중단 감지: 아이폰이 소리를 멈춰 두면(다른 앱·블루투스 전환 등) 큰 알림을 띄우고, 누르면 다시 켠다
-function checkSound(){ const bad=sound&&mixMode&&ctx&&ctx.state!=='running'; if(bad){ wakeAudio(); setTimeout(()=>{ $('soundfix').hidden=!(sound&&ctx&&ctx.state!=='running'); },400); } else $('soundfix').hidden=true; }
+function checkSound(){ const bad=sound&&ctx&&ctx.state!=='running'; if(bad){ wakeAudio(); setTimeout(()=>{ $('soundfix').hidden=!(sound&&ctx&&ctx.state!=='running'); },400); } else $('soundfix').hidden=true; }
 function fixSound(e){ if(e) e.stopPropagation(); primeSpeech(); unlockAudio(); setTimeout(()=>{ if(ctx&&ctx.state==='running'){ $('soundfix').hidden=true; ding(); } else toast('그래도 안 되면 기기 음량·무음 모드를 확인하고, 음악 앱을 잠깐 멈췄다 다시 틀어 주세요'); },300); }
 function wakeAudio(){ if(ctx&&ctx.state!=='running'){ try{ ctx.resume(); }catch(e){} } }
 async function start(){
-  primeSpeech();   // 아이폰: 음성은 탭 안에서 한 번 깨워야 이후에도 나온다
+  if(voiceOn) primeSpeech();   // 음성이 꺼졌다면 불필요한 무음 발화를 시작하지 않는다
   unlockAudio(started?[]:['bell']);
   if(!started){ started=true; bell(); }
   lastStep=stepAt(elapsed);
