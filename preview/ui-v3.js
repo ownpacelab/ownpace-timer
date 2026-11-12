@@ -27,7 +27,7 @@ function home(){
 function selectLesson(id){
  if(id!==LESSON){
    if(running){ alert('수업을 멈춘 뒤 변경해 주세요.');return; }
-   try{localStorage.setItem('ownpace-lesson',id);localStorage.removeItem('ownpace-timer')}catch(e){}
+   try{localStorage.setItem('ownpace-preview-lesson',id);localStorage.removeItem('ownpace-preview-timer')}catch(e){}
    location.reload();return;
  }
  page='preview';renderShell();
