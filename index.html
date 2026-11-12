@@ -317,7 +317,7 @@ body.v2.warn #v2num{animation:pulse .5s ease-in-out infinite alternate}
       <div class="set"><span>종소리 크기<small>숫자를 누르면 들어 봐요</small></span><span class="volc"><button id="volDown" aria-label="종소리 작게">−</button><button id="vol">10</button><button id="volUp" aria-label="종소리 크게">+</button></span></div>
       <div class="set"><span>음성 안내<small>다음 동작을 읽어 줘요</small></span><button id="voice" class="tg">꺼짐</button></div>
       <div class="set"><span>음악과 함께<small>폰 하나로 유튜브 뮤직과 같이 쓸 때</small></span><button id="mix" class="tg">꺼짐</button></div>
-      <div class="set" id="duckRow"><span>음악 자동 줄이기<small>말할 때 음악을 줄여요 · 블루투스에서 끊기면 끄기</small></span><button id="duck" class="tg">꺼짐</button></div>
+      <div class="set" id="duckRow"><span>음악 자동 줄이기<small>휴식·안내 때 줄이기 · 블루투스에서 끊기면 끄기</small></span><button id="duck" class="tg">꺼짐</button></div>
       <h3>화면</h3>
       <div class="set"><span>전체화면<small>TV·노트북에서</small></span><button id="fs" class="tg">켜기</button></div>
       <details class="check"><summary>수업 전 확인</summary>
@@ -484,7 +484,7 @@ function keepDuck(){ try{ if(duckU) return; if(speechSynthesis.speaking&&!duckU)
 function duck(){ try{ if(navigator.audioSession) navigator.audioSession.type='transient'; }catch(e){}
   duckUntil=Math.max(duckUntil,Date.now()+2500); keepDuck(); clearTimeout(duckT); if(!holding) duckT=setTimeout(unduck,2600); }
 // 말하는 시간(인사·준비 설명·규칙·함께하기·마무리)에는 음악을 계속 줄여 둔다 (음악과 함께 모드만)
-const isQuiet=s=>s&&(s.type==='talk'||s.tag==='준비'||s.sec==='함께하기');
+const isQuiet=s=>s&&(s.type==='talk'||s.type==='rest'||s.tag==='준비'||s.sec==='함께하기');
 let holding=false;
 function holdDuck(){ holding=true; clearTimeout(duckT); try{ if(navigator.audioSession) navigator.audioSession.type='transient'; }catch(e){} keepDuck(); }
 function releaseDuck(){ if(!holding) return; holding=false; duckUntil=Math.max(duckUntil,Date.now()+2500); clearTimeout(duckT); duckT=setTimeout(unduck,2600); }
