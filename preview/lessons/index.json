@@ -1,0 +1,48 @@
+{
+  "default": "v2w1",
+  "lessons": [
+    {
+      "id": "trial2",
+      "name": "시범교육 v2",
+      "file": "../../lessons/trial-v2.json"
+    },
+    {
+      "id": "v2w1",
+      "name": "1주 펀치 · 수업 리듬 v6",
+      "file": "v2-w1.json"
+    },
+    {
+      "id": "v2w2",
+      "name": "2주 파워 · 수업 리듬 v6",
+      "file": "v2-w2.json"
+    },
+    {
+      "id": "v2w3",
+      "name": "3주 디펜스 · 수업 리듬 v6",
+      "file": "v2-w3.json"
+    },
+    {
+      "id": "v2w4",
+      "name": "4주 통합 (패드 데이) · 수업 리듬 v6",
+      "file": "v2-w4.json"
+    },
+    {
+      "id": "w1",
+      "name": "(지난 버전) 1주 펀치",
+      "file": "../../lessons/2026-11-w1.json",
+      "from": "2026-11-02"
+    },
+    {
+      "id": "w2",
+      "name": "(지난 버전) 2주 힘 (초안)",
+      "file": "../../lessons/2026-11-w2.json",
+      "from": "2026-11-09"
+    },
+    {
+      "id": "trial",
+      "name": "(지난 버전) 체험",
+      "file": "../../lessons/trial.json",
+      "from": "2026-10-26"
+    }
+  ]
+}
