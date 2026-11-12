@@ -162,3 +162,18 @@ body.v2 .v2cue{display:none}
 body.v2.t-talk .v2cue,body.v2.t-cool .v2cue{display:block}
 body.v2 .v2tag{background:transparent;border:0;color:#96bda6;padding:0;font-size:13px}
 @media(max-width:400px){body.v2 .v2next{padding:9px 0 3px}#opl-shell .opl-flat-row{gap:10px}#opl-shell .opl-flat-body small{font-size:11px}body.v2 footer button{padding:12px 8px;font-size:12px}}
+
+/* Secondary coach menu: same flat-list system as class selection */
+.menu .mcols{gap:0}
+.menu .mcard{background:transparent;border:0;border-bottom:1px solid #353f37;border-radius:0;padding:20px 0}
+.menu .mcard.snd{padding-top:18px}
+.menu .mcard h3{color:#e0e4dc;font-size:16px}
+.menu .grid{display:flex;flex-direction:column;gap:0}
+.menu .grid button{flex-direction:row;justify-content:space-between;align-items:center;border:0;border-bottom:1px solid #343d35;background:transparent;border-radius:0;min-height:53px;padding:12px 8px;font-size:14px}
+.menu .grid button.cur{background:#1b3b2a;border:0;border-bottom:1px solid #009f73}
+.menu .grid button span{font-family:var(--f-body);font-size:12px;white-space:nowrap;color:#aab6ab}
+.menu .lsel{background:transparent;border-bottom:1px solid #353f37}
+.menu .row2 button{background:transparent;border:1px solid #4b5b4e}
+.menu .set{padding:15px 0}
+.menu .tg{border:1px solid #526053;border-radius:100px}
+@media(min-width:860px){.menu .mcols{grid-template-columns:1.1fr 1fr;column-gap:32px}.menu .mcard{border-bottom:0}}
