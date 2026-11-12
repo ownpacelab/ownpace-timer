@@ -32,18 +32,37 @@ function selectLesson(id){
  }
  page='preview';renderShell();
 }
+function mode(values){const ct=new Map();for(const v of values)ct.set(v,(ct.get(v)||0)+1);return [...ct].sort((a,b)=>b[1]-a[1])[0]?.[0]||0}
+function sectionDetails(sec,index){
+  const end=index+1<SECTIONS.length?SECTIONS[index+1].start:TOTAL;
+  const items=PLAN.filter(s=>s.sec===sec.sec);
+  const rounds=new Set(items.filter(s=>s.rd&&s.type!=='rest'&&s.type!=='talk').map(s=>s.rd));
+  const work=items.filter(s=>['base','up','finish','work'].includes(s.type));
+  const rest=items.filter(s=>s.type==='rest');
+  const talk=items.filter(s=>s.type==='talk');
+  const w=mode(work.map(s=>s.dur)),r=mode(rest.map(s=>s.dur));
+  const meta=[];
+  if(rounds.size)meta.push(rounds.size+'라운드');
+  else if(work.length)meta.push('운동 '+work.length+'동작');
+  if(w)meta.push('운동 '+fmtLocal(w));
+  if(r)meta.push('휴식 '+fmtLocal(r));
+  if(talk.length)meta.push('설명 '+fmtLocal(talk.reduce((sum,s)=>sum+s.dur,0)));
+  if(!meta.length)meta.push('구간 '+items.length+'단계');
+  return {title:nm(sec.sec).trim(),seconds:Math.max(0,end-sec.start),sec:sec.sec,items,meta:meta.join(' · ')};
+}
 function preview(){
- const groups=SECTIONS.map((s,k)=>{
- const start=s.start,end=k+1<SECTIONS.length?SECTIONS[k+1].start:TOTAL;
- return {title:nm(s.sec).trim(),seconds:Math.max(0,end-start),sec:s.sec};
- });
- shell.innerHTML='<div class="opl-frame"><div class="opl-head"><span class="opl-brand">OWN PACE LAB</span><button class="opl-icon" id="opl-settings" aria-label="소리 설정">소리 ⚙</button></div><div class="opl-toprow"><button id="opl-back">← 수업 목록</button><span class="opl-muted" style="margin:0">수업 구성</span></div><h1>'+esc(LESSON_META.name||'복싱 수업')+'</h1><p class="opl-muted">검수된 수업 데이터를 그대로 불러옵니다.</p><div class="opl-total">'+fmtLocal(TOTAL)+'</div><div class="opl-items">'+groups.map((g,k)=>'<div class="opl-item"><span class="opl-dot"></span><span><strong>'+esc(g.title)+'</strong><small>'+esc((PLAN.find(x=>x.sec===g.sec)||{}).move||'')+'</small></span><time>'+fmtLocal(g.seconds)+'</time></div>').join('')+'</div><button class="opl-action" id="opl-start">▶ 수업 시작</button><p class="opl-footnote">시작 전 블루투스 스피커·종소리·외부 음악 앱을 확인하세요.</p></div>';
+ const groups=SECTIONS.map(sectionDetails);
+ shell.innerHTML='<div class="opl-frame"><div class="opl-head"><span class="opl-brand">OWN PACE LAB</span><button class="opl-icon" id="opl-settings" aria-label="소리 설정">소리 설정</button></div><div class="opl-toprow"><button id="opl-back">← 수업 선택</button><span class="opl-muted" style="margin:0">수업 구성</span></div><h1>'+esc(LESSON_META.name||'복싱 수업')+'</h1><div class="opl-total-row"><span>전체 수업</span><strong>'+fmtLocal(TOTAL)+'</strong></div><p class="opl-muted">구간을 누르면 세부 동작과 시간을 볼 수 있어요.</p><div class="opl-items">'+groups.map(g=>
+  '<details class="opl-detail"><summary><span class="opl-dot"></span><span class="opl-summary-main"><strong>'+esc(g.title)+'</strong><small>'+esc(g.meta)+'</small></span><time>'+fmtLocal(g.seconds)+'</time><span class="opl-expand">⌄</span></summary><div class="opl-step-list">'+g.items.map((s,j)=>
+  '<div class="opl-step"><span>'+esc(s.move||s.tag||('동작 '+(j+1)))+'</span><small>'+esc(s.type==='rest'?'휴식':s.type==='talk'?'안내':'운동')+'</small><time>'+fmtLocal(s.dur)+'</time></div>').join('')+'</div></details>'
+ ).join('')+'</div><div class="opl-bottom"><button class="opl-action" id="opl-start">▶ 수업 시작</button><button class="opl-sound-test" id="opl-test-bell">종소리 테스트 🔔</button><p class="opl-footnote">수업 전 종소리를 확인하세요. 음악 파일을 별도로 넣을 필요는 없어요.</p></div></div>';
  el('opl-back').onclick=()=>{page='home';renderShell()};
  el('opl-settings').onclick=()=>soundSettings();
+ el('opl-test-bell').onclick=()=>{sound=true;unlockAudio(['bell']);bell();};
  el('opl-start').onclick=()=>{
+  // Run the original timer and bell engine inside the user's button gesture.
   shell.hidden=true;
-  if(!started&&!running) el('go').click();
-  else if(!running)el('go').click();
+  if(!running)el('go').click();
  };
 }
 function soundSettings(){
