@@ -255,7 +255,7 @@ body.v2.ph-follow #v2{--acc:#F5F0DF} body.v2.ph-own #v2{--acc:#2fd19c} body.v2.p
 body.v2.warn #v2num{animation:pulse .5s ease-in-out infinite alternate}
 @media (max-aspect-ratio:1/1){.v2move{font-size:clamp(40px,12vw,96px)}.v2cue{font-size:clamp(17px,4.6vw,34px)}.v2mid{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}.v2ring{width:auto;height:100%;max-width:min(80vw,46vh);max-height:min(80vw,46vh);justify-self:center;align-self:center}}
 </style>
-<link rel="stylesheet" href="ui-v3.css?v=5">
+<link rel="stylesheet" href="ui-v3.css?v=6">
 
 <div class="bar" aria-hidden="true"><i id="bar"></i></div>
 <div class="wrap">
@@ -337,15 +337,15 @@ body.v2.warn #v2num{animation:pulse .5s ease-in-out infinite alternate}
 //   · hands 박자 박스('앞 뒤 가드 가드 / ...', 화살표 ↑↓←→) · dur 초 · min/mins 구간 안 몇 번째 분 · qr 채널 QR · lv2 2단계(재등록) 문구
 // 원본 대본은 노션 수업계획서. 이 파일은 타이머용 사본이다.
 // 회원에게 보이는 구간 이름 (수업계획서의 코치용 이름 → TV 표시 이름)
-const SECNAME={'웜업':'몸 깨우기','기술 1':'펀치 배우기','함께하기':'함께하기','기술 2':'스텝 붙이기','피지컬':'체력 운동','물 마시기':'휴식','물 · 자리 정돈':'휴식','피니시':'다 같이 완성','쿨다운':'몸 돌보기','인사':'인사','마무리':'마무리'};
+const SECNAME={'웜업':'몸 깨우기','기술 1':'펀치 배우기','함께하기':'함께하기','기술 2':'스텝 붙이기','피지컬':'체력 운동','물 마시기':'휴식','물 · 자리 정돈':'휴식','피니시':'다 같이 완성','쿨다운':'몸 돌보기','인사':'인사','마무리':'마무리','CALLING FINISH':'콜링 응용'};
 const nm=sec=>SECNAME[sec]||sec;
 function getJSON(u){ const x=new XMLHttpRequest(); x.open('GET',u,false); x.send(null); if(x.status!==200&&x.status!==0) throw new Error(u); return JSON.parse(x.responseText); }
 function cached(key,u){ try{ const d=getJSON(u); try{ localStorage.setItem(key,JSON.stringify(d)); }catch(e){} return d; }
   catch(e){ try{ return JSON.parse(localStorage.getItem(key)); }catch(e2){ return null; } } }   // 인터넷이 잠깐 안 돼도 마지막으로 받은 수업으로
-const IDX=cached('ownpace-preview-idx','../lessons/index.json')||{default:'',lessons:[]};
+const IDX=cached('ownpace-preview-idx','lessons/index.json')||{default:'',lessons:[]};
 let LESSON=IDX.default; try{ const seen=localStorage.getItem('ownpace-preview-default'); if(seen!==IDX.default){ localStorage.setItem('ownpace-preview-default',IDX.default); localStorage.removeItem('ownpace-preview-lesson'); localStorage.removeItem('ownpace-preview-timer'); } const v=localStorage.getItem('ownpace-preview-lesson'); if(IDX.lessons.some(l=>l.id===v)) LESSON=v; }catch(e){}
 const LESSON_META=IDX.lessons.find(l=>l.id===LESSON)||IDX.lessons[0]||{id:'',name:'',file:''};
-const LDATA=LESSON_META.file?cached('ownpace-preview-l-'+LESSON_META.id,'../lessons/'+LESSON_META.file):null;
+const LDATA=LESSON_META.file?cached('ownpace-preview-l-'+LESSON_META.id,'lessons/'+LESSON_META.file):null;
 // 오늘의 한마디(앵커링): 시작 화면 → 쿨다운 숨 고르기(anchor:'text') → 마무리(anchor:'ask', 자기 말로 바꿔 보는 질문)
 const ANCHOR=(LDATA&&LDATA.anchor)||{};
 // 미트: 인원(메뉴에서 입력)에 맞춰 한 사람씩 치기·교대 칸을 만든다. 15명 이하 30초+10초, 많으면 줄여서 약 10분
@@ -631,7 +631,7 @@ function queueAfterBell(index,step,previous,delay){
   const sameMove=step.move===previous.move&&step.type===previous.type&&!sectionChanged;
   const changedRole=/역할|교대|바꾸/.test(step.move||'');
   let phrase='';
-  if(isRest) phrase=step.dur+'초 휴식입니다.';
+  if(isRest){ const follow=PLAN[index+1]; phrase=step.dur<=15&&follow?'다음은 '+(follow.move||'동작')+'.':step.dur+'초 휴식입니다.'; }
   else if(changedRole) phrase='역할을 바꿔주세요.';
   else if(sectionChanged) phrase=nm(step.sec).trim()+'. '+(step.move||'시작')+'.';
   else if(!sameMove) phrase=(step.move||'다음 동작')+'.';
@@ -738,4 +738,4 @@ try{ const v=JSON.parse(localStorage.getItem('ownpace-preview-timer')||'null');
   if(v&&v.elapsed>1&&v.elapsed<TOTAL&&Date.now()-v.at<7200000){ elapsed=v.elapsed; started=true; $('go').textContent=`이어서 (${fmt(elapsed)})`; } }catch(e){}
 render();
 </script>
-<script src="ui-v3.js?v=5"></script>
+<script src="ui-v3.js?v=6"></script>
