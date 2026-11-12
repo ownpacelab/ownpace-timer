@@ -534,7 +534,7 @@ const stepAt=t=>{ for(let i=PLAN.length-1;i>=0;i--) if(t>=PLAN[i].start) return 
 const nextLabel=(n,s)=>n.move+(s&&s.sec===n.sec&&s.move===n.move&&s.hands===n.hands?' 한 번 더':''); // 기본/레벨업은 배경색이 알려주니 '다음'에는 동작만. 같은 동작이 이어지면 '한 번 더'
 
 // shrink the big text until everything fits on one screen (TV, laptop, phone)
-let lastFit=-1, lastSoon=false, saidStep=-1;
+let lastFit=-1, lastSoon=false, saidStep=-1, spokenAfterStep=-1, spokenTimer=null;
 function fit(){ const m=document.querySelector('main'); let f=1; m.style.setProperty('--fit','1'); releaseLongSegs();
   while((m.scrollHeight>m.clientHeight+1||m.scrollWidth>m.clientWidth+1)&&f>.45){ f-=.05; m.style.setProperty('--fit',f.toFixed(2)); } }
 window.addEventListener('resize',()=>{ lastFit=-1; render(); });
@@ -551,8 +551,8 @@ function render(){
   const i=stepAt(elapsed), s=PLAN[i], inS=elapsed-s.start, left=s.dur-inS, n=PLAN[i+1];
   const late=s.late&&left<=s.late.at;
   const done=elapsed>=TOTAL-0.01;
-  const soon=running&&n&&!done&&left<=8&&s.type!=="talk"; // 8초 전에 다음을 강조: 코치가 미리 말할 시간
-  const cls=['t-'+s.type]; if(running&&left<=3&&s.type!=='talk') cls.push('warn'); if(soon) cls.push('soon'); if(document.body.classList.contains('hide')) cls.push('hide');
+  const soon=running&&n&&!done&&left<=5&&s.type!=="talk"; // 마지막 5초는 시각·소리 전환 예고
+  const cls=['t-'+s.type]; if(running&&left<=5&&s.type!=='talk') cls.push('warn'); if(soon) cls.push('soon'); if(document.body.classList.contains('hide')) cls.push('hide');
   if(s.rules&&!done) cls.push('rulecard'); if(V2) cls.push('v2'); // 게임 규칙 화면: 규칙이 주인공, 숫자는 구석으로
   document.body.className=cls.join(' ');
   $('sec').innerHTML=nm(s.sec)+(s.rd?`<span>ROUND ${s.rd}/${RMAX}</span>`:s.mins?`<span>${s.min+1}/${s.mins}</span>`:'');
@@ -572,11 +572,9 @@ function render(){
   if(done){ setMove('오늘 해냈어요!'); $('beats').innerHTML=''; }
   // 8초 전: 큰 화면은 끝까지 '지금 동작'. 아래 '다음' 띠만 크게 반전해 강조(코치는 읽고 미리 말하고, 회원은 숫자가 끝나면 바꾼다)
   if(soon!==lastSoon){ lastSoon=soon; lastFit=-1; }
-  // 음성(코치 이어폰용): 같은 구간 안은 8초 전 '다음, 동작'. 구간이 바뀔 땐 12초 전 '다음은 구간. 첫 동작'.
-  // 주먹 인사가 있는 칸은 10초 전에 '짝과 주먹 인사'부터 알리고 다음 동작을 이어서 말한다.
-  if(n&&!done){ const newSec=n.sec!==s.sec, vAt=s.late?s.late.at:newSec?12:8;
-    if(left>vAt+.5&&saidStep===i) saidStep=-1;
-    if(running&&left<=vAt&&saidStep!==i){ saidStep=i; const nx=newSec?'다음은 '+nm(n.sec)+'. '+n.move:'다음, '+nextLabel(n,s); say(s.late?s.late.move+'. '+nx:nx); } }
+  // No advance speech during an active drill: keep the athlete focused.
+  // The upcoming movement is announced once, after the transition bell.
+  if(!running&&spokenTimer){clearTimeout(spokenTimer);spokenTimer=null;}
   const qr=!intro&&!!(done||s.qr); // 꼭 true/false로(undefined면 toggle이 매 프레임 뒤집힘)
   $('links').hidden=!qr; $('num').hidden=qr||intro; // 시작 전에는 숫자 대신 오늘의 수업 안내 document.body.classList.toggle('qrmode',qr); // 마무리 3분은 남은 시간보다 채널 안내가 중요
   $('num').textContent=done?'':left>60?fmt(left):Math.max(1,Math.ceil(left));
@@ -586,10 +584,17 @@ function render(){
   if(V2) renderV2({i,s,left,n,intro,done,restPrev,late});
   if(i!==lastFit){ lastFit=i; fit(); }
   if(!running) return;
-  if(i!==lastStep){ if(lastStep!==-1){ if(s.type==='cool') soft(); else if(s.bellIn||PLAN[lastStep].sec!==s.sec) bell(); else ding(); } lastStep=i; }
+  if(i!==lastStep){
+    if(lastStep!==-1){
+      const prev=PLAN[lastStep], big=s.type!=='cool'&&(s.bellIn||prev.sec!==s.sec);
+      if(s.type==='cool') soft(); else if(big) bell(); else ding();
+      queueAfterBell(i,s,prev,big?2100:s.type==='cool'?1500:1650);
+    }
+    lastStep=i;
+  }
   const tick=Math.floor(elapsed);
   if(tick!==lastTick){ lastTick=tick; wakeAudio(); if(mixMode&&duckOn&&isQuiet(s)) holdDuck(); else releaseDuck(); checkSound(); const l=Math.ceil(s.dur-(tick-s.start));
-    if(l<=3&&l>=1&&s.type!=='cool'&&s.sec!=='함께하기'&&s.dur>=5) play('n'+l);
+    if(l<=5&&l>=1&&s.type!=='cool'&&s.type!=='talk'&&s.sec!=='함께하기'&&s.dur>=6) play('n'+Math.min(3,l));
     if(s.ten&&l===(s.tenAt||10)) play('knock');
     if(s.type==='cool'&&s.dur===30&&((/15초씩/.test(s.sub||'')&&l===15)||(/10초씩/.test(s.sub||'')&&(l===20||l===10)))) play('soft'); }   // 쿨다운: 양쪽 15초씩은 15초에, 10초씩은 10·20초에 작은 땡 = 반대쪽으로 (화면 없이 진행할 때, 10/29)   // 마지막 3초 음성 three·two·one → 땡땡. 함께하기는 코치가 숫자를 부르니 벨만. 코치는 세지 않고 시범만
 }
@@ -617,6 +622,23 @@ function renderV2(o){ const {i,s,left,n,intro,done,restPrev,late}=o; const esc=x
   const labs=['따라','내 페이스'], k=s.ph==='block'?-1:['follow','own'].indexOf(ph); $('v2ph').innerHTML=s.ph&&!intro&&!done&&k>=0?labs.map((x,j)=>`<i class="${j===k?'on':''}">${x}</i>`).join(''):'';
   $('v2next').innerHTML=done||!n?'':'<span class="lb">다음</span> '+(n.sec!==s.sec&&!restPrev?'<b>'+esc(nm(n.sec).trim())+'</b> <span class="sm">'+esc(n.move)+'</span>':'<b>'+esc(n.move)+'</b>');
 }
+// Announcements occur only after the audible bell/ding. Keep pauses short.
+function queueAfterBell(index,step,previous,delay){
+  if(spokenTimer){clearTimeout(spokenTimer);spokenTimer=null;}
+  if(!voiceOn||spokenAfterStep===index)return;
+  const sectionChanged=previous.sec!==step.sec;
+  const isRest=step.type==='rest';
+  const sameMove=step.move===previous.move&&step.type===previous.type&&!sectionChanged;
+  const changedRole=/역할|교대|바꾸/.test(step.move||'');
+  let phrase='';
+  if(isRest) phrase=step.dur+'초 휴식입니다.';
+  else if(changedRole) phrase='역할을 바꿔주세요.';
+  else if(sectionChanged) phrase=nm(step.sec).trim()+'. '+(step.move||'시작')+'.';
+  else if(!sameMove) phrase=(step.move||'다음 동작')+'.';
+  if(!phrase)return;
+  spokenAfterStep=index;
+  spokenTimer=setTimeout(()=>{spokenTimer=null;if(running&&stepAt(elapsed)===index)say(phrase);},delay);
+}
 function save(){ try{ localStorage.setItem('ownpace-preview-timer',JSON.stringify({elapsed,at:Date.now()})); }catch(e){} }
 function loop(t){ if(!running) return; elapsed+=(t-last)/1000; last=t;
   if(elapsed>=TOTAL){ elapsed=TOTAL-0.001; pause(); $('paused').hidden=true; bell(); $('go').textContent='끝'; return; }
@@ -642,15 +664,15 @@ function wakeAudio(){ if(ctx&&ctx.state!=='running'){ try{ ctx.resume(); }catch(
 async function start(){
   if(voiceOn) primeSpeech();   // 음성이 꺼졌다면 불필요한 무음 발화를 시작하지 않는다
   unlockAudio(started?[]:['bell']);
-  if(!started){ started=true; bell(); }
+  if(!started){ started=true; bell(); if(voiceOn){if(spokenTimer)clearTimeout(spokenTimer);spokenTimer=setTimeout(()=>{spokenTimer=null;if(running)say('수업을 시작합니다.');},2100);} }
   lastStep=stepAt(elapsed);
   running=true; last=performance.now(); $('paused').hidden=true; $('go').textContent='일시정지';
   requestAnimationFrame(loop);
   try{ wake=await navigator.wakeLock.request('screen'); }catch(e){}
   autoHide();
 }
-function pause(){ running=false; releaseDuck(); $('go').textContent='계속'; if(started) $('paused').hidden=false; save(); render(); document.body.classList.remove('hide'); try{wake&&wake.release();}catch(e){} }
-function sync(){ lastStep=stepAt(elapsed); lastTick=-1; save(); render(); }
+function pause(){ running=false; if(spokenTimer){clearTimeout(spokenTimer);spokenTimer=null;} releaseDuck(); $('go').textContent='계속'; if(started) $('paused').hidden=false; save(); render(); document.body.classList.remove('hide'); try{wake&&wake.release();}catch(e){} }
+function sync(){ if(spokenTimer){clearTimeout(spokenTimer);spokenTimer=null;} lastStep=stepAt(elapsed); lastTick=-1; spokenAfterStep=-1; save(); render(); }
 function jump(d){ const i=Math.min(PLAN.length-1,Math.max(0,stepAt(elapsed)+d)); elapsed=PLAN[i].start; sync(); }
 function again(){ const sec=PLAN[stepAt(elapsed)].sec; elapsed=SECTIONS.find(s=>s.sec===sec).start; sync(); }
 function reset(){ running=false; started=false; elapsed=0; $('paused').hidden=true; $('go').textContent='시작'; try{localStorage.removeItem('ownpace-preview-timer');}catch(e){} sync(); }
