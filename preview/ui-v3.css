@@ -82,3 +82,42 @@ body.v2.warn #v2num{animation:none}
 @media (min-width:680px) and (min-aspect-ratio:5/4){body.v2 .v2mid{grid-template-columns:1fr 1fr;grid-template-rows:1fr}body.v2 .v2l{align-items:flex-start;text-align:left}body.v2 .v2tag{align-self:flex-start}body.v2 .v2ring{width:min(36vw,52vh)}body.v2 .v2next{margin-bottom:70px}body.v2 .v2move{font-size:clamp(38px,5vw,85px)}}
 @media (max-height:640px){body.v2 .v2ring{width:min(44vw,38vh)}body.v2 .v2next{margin-bottom:55px;padding:8px}body.v2 .v2mid{gap:0}body.v2 .v2move{font-size:clamp(20px,5vw,30px)}}
 @media (prefers-reduced-motion:reduce){body.v2 .v2ring .fgc{transition:none}}
+
+/* v3.1: prevent the next-step card from clipping or covering the controls */
+body.v2 #v2{grid-template-rows:auto minmax(0,1fr) auto;min-height:0}
+body.v2 .v2mid{min-height:0}
+body.v2 .v2next{box-sizing:border-box;min-height:52px;max-height:none;overflow:visible;overflow-wrap:anywhere;word-break:keep-all;white-space:normal;line-height:1.45;flex-shrink:0;margin:0 auto 0;padding:11px 15px}
+body.v2 .v2next .sm{margin-left:.3em;overflow-wrap:anywhere;white-space:normal}
+body.v2 .v2next b{overflow-wrap:anywhere;white-space:normal}
+body.v2 .wrap{padding-bottom:92px}
+body.v2 .v2ring{width:min(72vw,38vh,350px)}
+body.v2 .v2top #v2tot{font-variant-numeric:tabular-nums}
+body.v2 footer{background:#171717;border:1px solid #38443b;border-radius:40px;padding:6px;box-shadow:0 0 0 7px #171717;z-index:5}
+body.v2 footer button{padding:11px 12px}
+#opl-shell .opl-total-row{display:flex;justify-content:space-between;align-items:baseline;margin:4px 0 16px;padding:12px 0;border-top:1px solid #384238;border-bottom:1px solid #384238}
+#opl-shell .opl-total-row span{font-size:14px;color:#a4b1a7}
+#opl-shell .opl-total-row strong{font-size:30px;font-variant-numeric:tabular-nums}
+#opl-shell .opl-detail{background:#212723;border:1px solid #374138;border-radius:12px;margin-bottom:8px;overflow:hidden}
+#opl-shell .opl-detail[open]{border-color:#51705a}
+#opl-shell .opl-detail summary{display:flex;align-items:center;gap:10px;padding:15px 12px;cursor:pointer;list-style:none}
+#opl-shell .opl-detail summary::-webkit-details-marker{display:none}
+#opl-shell .opl-detail summary .opl-dot{display:block;width:5px;min-width:5px;height:38px;background:#009F73;border-radius:8px}
+#opl-shell .opl-summary-main{display:flex;min-width:0;flex:1;flex-direction:column;gap:4px}
+#opl-shell .opl-summary-main strong{font-size:15px;line-height:1.3}
+#opl-shell .opl-summary-main small{font-size:11px;color:#a8bbad;line-height:1.5;overflow-wrap:anywhere}
+#opl-shell .opl-detail summary time{font-size:13px;flex:none;font-weight:750;font-variant-numeric:tabular-nums}
+#opl-shell .opl-expand{color:#a8bbad;transition:transform .15s}
+#opl-shell .opl-detail[open] .opl-expand{transform:rotate(180deg)}
+#opl-shell .opl-step-list{border-top:1px solid #374138;padding:5px 12px 10px}
+#opl-shell .opl-step{display:flex;align-items:baseline;gap:9px;padding:9px 0;border-bottom:1px solid #313a33;font-size:12px}
+#opl-shell .opl-step:last-child{border-bottom:0}
+#opl-shell .opl-step span{flex:1;min-width:0;overflow-wrap:anywhere}
+#opl-shell .opl-step small{color:#9cb6a3;white-space:nowrap}
+#opl-shell .opl-step time{color:#F5F0DF;white-space:nowrap;font-variant-numeric:tabular-nums}
+#opl-shell .opl-items{margin-bottom:16px}
+#opl-shell .opl-bottom{margin-top:auto;position:sticky;bottom:-26px;padding:11px 0 12px;background:linear-gradient(transparent,#171717 10%)}
+#opl-shell .opl-action{margin-top:0}
+#opl-shell .opl-sound-test{width:100%;margin-top:8px;border:1px solid #415246;color:#F5F0DF;background:#252d27;border-radius:11px;padding:12px;font-size:13px;font-weight:700}
+#opl-shell .opl-footnote{margin:10px 0 0}
+@media(max-width:400px){body.v2 #v2{gap:6px}body.v2 .v2next{font-size:13px;padding:10px 11px}body.v2 .v2ring{width:min(78vw,36vh)}body.v2 .v2move{font-size:clamp(21px,6vw,32px)}#opl-shell .opl-detail summary{padding:12px 9px;gap:8px}}
+@media(max-height:620px){body.v2 .v2ring{width:min(55vw,30vh)}body.v2 .v2next{padding:8px 12px;min-height:42px}}
