@@ -255,7 +255,7 @@ body.v2.ph-follow #v2{--acc:#F5F0DF} body.v2.ph-own #v2{--acc:#2fd19c} body.v2.p
 body.v2.warn #v2num{animation:pulse .5s ease-in-out infinite alternate}
 @media (max-aspect-ratio:1/1){.v2move{font-size:clamp(40px,12vw,96px)}.v2cue{font-size:clamp(17px,4.6vw,34px)}.v2mid{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}.v2ring{width:auto;height:100%;max-width:min(80vw,46vh);max-height:min(80vw,46vh);justify-self:center;align-self:center}}
 </style>
-<link rel="stylesheet" href="ui-v3.css?v=6">
+<link rel="stylesheet" href="ui-v3.css?v=7">
 
 <div class="bar" aria-hidden="true"><i id="bar"></i></div>
 <div class="wrap">
@@ -611,7 +611,7 @@ function renderV2(o){ const {i,s,left,n,intro,done,restPrev,late}=o; const esc=x
   $('v2sec').textContent=intro?'내 페이스 복싱':done?'수업 끝':nm(s.sec).trim();
   $('v2rd').textContent=!intro&&!done&&s.lap?s.lap+'바퀴 '+(s.min+1)+' / '+s.mins:!intro&&!done&&s.rd?'ROUND '+s.rd+' / '+RMAX:!intro&&!done&&s.mins?(s.min+1)+' / '+s.mins:'';
   $('v2tot').textContent=fmt(elapsed)+' / '+fmt(TOTAL);
-  let tag=intro?'':done?'수고했어요':restPrev?'쉬어요':s.ph==='block'?(s.lastBlk?'마지막 30초':''):s.tag, mv=intro?((LDATA&&LDATA.hero)||'오늘은 나를 위한 50분'):done?'오늘 해냈어요!':restPrev?'다음은 '+nm(n.sec).trim():(late?s.late.move:s.move);
+  let tag=intro?'':done?'수고했어요':s.type==='rest'?'휴식 · 다음 동작 준비':s.ph==='block'?(s.lastBlk?'마지막 30초':''):s.tag, mv=intro?((LDATA&&LDATA.hero)||'오늘은 나를 위한 50분'):done?'오늘 해냈어요!':s.type==='rest'?(n?'다음 · '+n.move:'호흡 정리'):(late?s.late.move:s.move);
   let body='', cue=intro?'':done?(ANCHOR.text||'다음에도, 내 페이스로'):restPrev?'물 한 모금 마시면서 들어요':(s.sub||'');
   if(intro) body='<div class="v2chips">'+((LDATA&&LDATA.learn)||[]).map(r=>'<i>'+esc(r[1])+'</i>').join('')+'</div>';
   else if(done) body='';
@@ -626,18 +626,31 @@ function renderV2(o){ const {i,s,left,n,intro,done,restPrev,late}=o; const esc=x
 function queueAfterBell(index,step,previous,delay){
   if(spokenTimer){clearTimeout(spokenTimer);spokenTimer=null;}
   if(!voiceOn||spokenAfterStep===index)return;
-  const sectionChanged=previous.sec!==step.sec;
   const isRest=step.type==='rest';
-  const sameMove=step.move===previous.move&&step.type===previous.type&&!sectionChanged;
-  const changedRole=/역할|교대|바꾸/.test(step.move||'');
+  const nextStep=PLAN[index+1];
+  const previousWasRest=previous.type==='rest';
+  const isRoleSwitch=/역할 바꾸기|교대/.test(step.move||'');
   let phrase='';
-  if(isRest){ const follow=PLAN[index+1]; phrase=step.dur<=15&&follow?'다음은 '+(follow.move||'동작')+'.':step.dur+'초 휴식입니다.'; }
-  else if(changedRole) phrase='역할을 바꿔주세요.';
-  else if(sectionChanged) phrase=nm(step.sec).trim()+'. '+(step.move||'시작')+'.';
-  else if(!sameMove) phrase=(step.move||'다음 동작')+'.';
+  if(isRest){
+    // Speak at the BEGINNING of the break, so the coach can demonstrate before work resumes.
+    // Avoid saying it again when the subsequent work period starts.
+    const nextMove=nextStep?.move||'';
+    const nextIsRest=nextStep?.type==='rest';
+    const simple=nextMove.replace(/^다음\s*[·:]?\s*/,'').replace(/\s*·\s*랜덤 콜링$/,'');
+    phrase=nextStep&&!nextIsRest?'다음, '+simple+'.':'잠깐 쉬세요.';
+  } else if(isRoleSwitch&&!previousWasRest){
+    phrase='역할 교대.';
+  } else if(previousWasRest){
+    phrase=''; // already announced at rest onset
+  } else if(previous.sec!==step.sec&&previous.type==='talk'){
+    phrase=''; // coach has already introduced this movement during demonstration
+  } else if(previous.sec!==step.sec){
+    phrase=nm(step.sec).trim()+'.';
+  }
   if(!phrase)return;
   spokenAfterStep=index;
-  spokenTimer=setTimeout(()=>{spokenTimer=null;if(running&&stepAt(elapsed)===index)say(phrase);},delay);
+  // Rest cues should begin promptly after the transition signal, not at the next work start.
+  spokenTimer=setTimeout(()=>{spokenTimer=null;if(running&&stepAt(elapsed)===index)say(phrase);},isRest?Math.min(delay,700):delay);
 }
 function save(){ try{ localStorage.setItem('ownpace-preview-timer',JSON.stringify({elapsed,at:Date.now()})); }catch(e){} }
 function loop(t){ if(!running) return; elapsed+=(t-last)/1000; last=t;
@@ -738,4 +751,4 @@ try{ const v=JSON.parse(localStorage.getItem('ownpace-preview-timer')||'null');
   if(v&&v.elapsed>1&&v.elapsed<TOTAL&&Date.now()-v.at<7200000){ elapsed=v.elapsed; started=true; $('go').textContent=`이어서 (${fmt(elapsed)})`; } }catch(e){}
 render();
 </script>
-<script src="ui-v3.js?v=6"></script>
+<script src="ui-v3.js?v=7"></script>
