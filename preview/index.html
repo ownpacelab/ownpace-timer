@@ -493,14 +493,9 @@ function primeSpeech(){ try{ const u=new SpeechSynthesisUtterance(' '); u.volume
 // 음악과 함께 모드: 아이폰이 오디오를 잠깐 멈춰 두면(음성 안내·화면 전환 뒤) 먼저 깨운 다음 울린다. 그래도 안 되면 일반 재생으로 대신
 function mixPlay(k){ const go=()=>{ if(ctx&&ctx.state==='running'){ liveRing(k); return; } const a=CLIPS[k]; if(a){ try{ a.currentTime=0; const pr=a.play(); if(pr&&pr.catch) pr.catch(()=>blockedHint()); return; }catch(e){} } blockedHint(); };
   if(ctx&&ctx.state!=='running'){ try{ const pr=ctx.resume(); if(pr&&pr.then){ pr.then(go,go); return; } }catch(e){} } go(); }
-function play(k){ if(!sound) return;
-  // Prefer live Web Audio for precise bell and countdown cues during the class.
-  if(mixMode){ if(duckOn) duck(); mixPlay(k); return; }
-  if(ctx&&ctx.state==='running'){ liveRing(k); return; }
-  try{ if(ctx&&ctx.resume) ctx.resume().then(()=>{ if(ctx.state==='running')liveRing(k); else fallbackClip(k); }).catch(()=>fallbackClip(k)); else fallbackClip(k); }
-  catch(e){fallbackClip(k);}
-}
-function fallbackClip(k){const a=CLIPS[k];if(a){try{a.muted=false;a.volume=1;a.currentTime=0;const p=a.play();if(p&&p.catch)p.catch(()=>blockedHint());return;}catch(e){}}blockedHint();}
+function play(k){ if(!sound) return; if(mixMode){ if(duckOn) duck(); mixPlay(k); return; } const a=CLIPS[k];
+  if(a){ try{ a.muted=false; a.volume=1; a.currentTime=0; const pr=a.play(); if(pr&&pr.catch) pr.catch(()=>{ liveRing(k); if(!ctx||ctx.state!=='running') blockedHint(); }); return; }catch(e){} }
+  liveRing(k); }
 function liveRing(k){ if(!ctx){ blockedHint(); return; } if(BUFS[k]){ try{ const src=ctx.createBufferSource(), g=ctx.createGain(); src.buffer=BUFS[k]; g.gain.value=1; src.connect(g).connect(ctx.destination); src.start(); return; }catch(e){} }
   if(/^n[123]$/.test(k)){ if(!liveOut) liveOut=chain(ctx); liveOut.gain.value=2.4*LV(); try{ synthBeep(ctx,liveOut,ctx.currentTime+.01,k==='n1'); }catch(e){} return; } if(!liveOut) liveOut=chain(ctx); liveOut.gain.value=2.4*LV(); try{ const t=ctx.currentTime; // 합성음 비상용
   if(k==='tick') synthTick(ctx,liveOut,t+.01); else if(k==='bell') [0,.16,.32].forEach(d=>synthStrike(ctx,liveOut,t+.01+d)); else if(k==='ding') [0,.22].forEach(d=>synthStrike(ctx,liveOut,t+.01+d)); else synthStrike(ctx,liveOut,t+.01,k==='soft'?.45:1); }catch(e){} }
