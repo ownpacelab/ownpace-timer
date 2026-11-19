@@ -3,25 +3,25 @@
  "name": "3주 디펜스",
  "week": "3주 디펜스",
  "anchor": {
-  "text": "치고, 가드. 오늘의 나를 지켜 봐요.",
-  "ask": "오늘 몸이 기억한 펀치는?"
+  "text": "배울수록 강해지는 복싱",
+  "ask": "피한 뒤 균형을 지켰나요?"
  },
  "theme": "디펜스",
- "together": "짝 드릴",
- "hero": "피하고 치면, 복싱이 시작돼요.",
+ "together": "파트너 훈련",
+ "hero": "피하고, 다시 가드로.",
  "ui": "v2",
  "learn": [
   [
    "발",
-   "피벗"
+   "앞뒤 스텝 복습"
   ],
   [
    "손",
    "슬립, 슬립 투"
   ],
   [
-   "짝",
-   "피하기"
+   "함께",
+   "방어와 연결"
   ]
  ],
  "steps": [
@@ -29,8 +29,8 @@
    "sec": "READY",
    "type": "talk",
    "tag": "인사",
-   "move": "오늘은 피하고 치기",
-   "sub": "힘들면 언제든 걸어도 돼요",
+   "move": "오늘은 슬립과 가드",
+   "sub": "피한 뒤에도 균형을 지켜요",
    "dur": 120,
    "bellIn": true
   },
@@ -115,21 +115,25 @@
    "sec": "FOOTWORK",
    "type": "talk",
    "tag": "시범",
-   "move": "피벗",
-   "sub": "앞발을 축으로 돌아 각도 바꾸기",
+   "move": "앞뒤 스텝 복습",
+   "sub": "가는 쪽 발 먼저, 간격 유지",
    "dur": 120,
-   "bellIn": true
+   "bellIn": true,
+   "easy": "작게 한 걸음",
+   "challenge": "앞뒤 이동 후 가드 정지"
   },
   {
    "sec": "FOOTWORK",
    "type": "base",
    "tag": "내 페이스",
-   "move": "피벗",
-   "sub": "앞발 축, 작게 돌기",
+   "move": "앞뒤 스텝 복습",
+   "sub": "가는 쪽 발 먼저, 간격 유지",
    "dur": 120,
    "rd": 3,
    "st": "L",
-   "bellIn": true
+   "bellIn": true,
+   "easy": "작게 한 걸음",
+   "challenge": "앞뒤 이동 후 가드 정지"
   },
   {
    "sec": "FOOTWORK",
@@ -144,8 +148,8 @@
    "sec": "SHADOW",
    "type": "talk",
    "tag": "시범",
-   "move": "오늘 배울 것: 슬립",
-   "sub": "보고, 짧게 듣고, 천천히 따라 해요",
+   "move": "가드 확인, 슬립 시범",
+   "sub": "기본 블록 모양을 확인하고 슬립 연습",
    "dur": 120,
    "bellIn": true
   },
@@ -158,7 +162,9 @@
    "dur": 120,
    "rd": 4,
    "st": "L",
-   "bellIn": true
+   "bellIn": true,
+   "easy": "원투만 천천히",
+   "challenge": "가드와 균형을 유지하며 연결"
   },
   {
    "sec": "SHADOW",
@@ -174,11 +180,13 @@
    "type": "base",
    "tag": "내 페이스",
    "move": "슬립",
-   "sub": "고개를 옆으로, 좌우 번갈아",
+   "sub": "작게 피하고 균형 유지",
    "dur": 120,
    "rd": 5,
    "st": "L",
-   "bellIn": true
+   "bellIn": true,
+   "easy": "슬립 후 가드",
+   "challenge": "약속된 방향으로 반복"
   },
   {
    "sec": "SHADOW",
@@ -193,12 +201,14 @@
    "sec": "SHADOW",
    "type": "base",
    "tag": "내 페이스",
-   "move": "슬립, 투",
-   "sub": "피하고 바로 반격",
+   "move": "슬립 후 투",
+   "sub": "치고 다시 가드",
    "dur": 120,
    "rd": 6,
    "st": "L",
-   "bellIn": true
+   "bellIn": true,
+   "easy": "슬립 후 가드",
+   "challenge": "슬립 후 투"
   },
   {
    "sec": "SHADOW",
@@ -213,12 +223,14 @@
    "sec": "SHADOW",
    "type": "base",
    "tag": "내 페이스",
-   "move": "원투, 슬립, 투",
-   "sub": "치고 피하고 다시",
+   "move": "원투 후 슬립 후 투",
+   "sub": "치고 피하고 다시 가드",
    "dur": 120,
    "rd": 7,
    "st": "L",
-   "bellIn": true
+   "bellIn": true,
+   "easy": "슬립 후 가드",
+   "challenge": "원투 후 슬립 후 투"
   },
   {
    "sec": "SHADOW",
@@ -233,12 +245,14 @@
    "sec": "FREE SHADOW",
    "type": "base",
    "tag": "내 페이스",
-   "move": "배운 콤보, 자유롭게",
-   "sub": "내 페이스로, 스텝도 섞어서",
+   "move": "배운 방어 연결",
+   "sub": "내 페이스로 반복",
    "dur": 120,
    "rd": 8,
    "st": "L",
-   "bellIn": true
+   "bellIn": true,
+   "easy": "슬립 후 가드",
+   "challenge": "익힌 콤보 하나로 연결"
   },
   {
    "sec": "FREE SHADOW",
@@ -253,63 +267,37 @@
    "sec": "PARTNER DEMO",
    "type": "talk",
    "tag": "보고 준비",
-   "move": "짝 드릴 시범",
-   "sub": "짝이 없으면 코치와, 또는 혼자 섀도",
+   "move": "파트너 훈련 시범",
+   "sub": "거리와 멈춤 위치 확인, 1분마다 교대",
    "dur": 60,
    "bellIn": true
   },
   {
    "sec": "PARTNER DRILL",
    "type": "base",
-   "tag": "짝과 함께",
-   "move": "피하기",
-   "sub": "짝이 천천히 뻗으면 옆으로 슬립",
-   "dur": 60,
-   "rd": 9,
-   "st": "L",
-   "bellIn": true,
-   "noCount": true
-  },
-  {
-   "sec": "PARTNER DRILL",
-   "type": "base",
-   "tag": "짝과 함께",
-   "move": "역할 바꾸기",
-   "sub": "치고 바로 가드",
-   "dur": 60,
-   "rd": 9,
-   "st": "L"
-  },
-  {
-   "sec": "PARTNER DRILL",
-   "type": "rest",
-   "tag": "30초 휴식",
-   "move": "30초 휴식",
-   "sub": "물 한 모금, 길게 내쉬어요",
-   "dur": 30,
-   "bellIn": true
-  },
-  {
-   "sec": "PARTNER DRILL",
-   "type": "base",
-   "tag": "짝과 함께",
+   "tag": "파트너 훈련",
    "move": "미러 스텝",
-   "sub": "짝이 움직이면 거리 유지하며 따라가기",
+   "sub": "리더와 간격 유지",
    "dur": 60,
-   "rd": 10,
+   "rd": 9,
    "st": "L",
    "bellIn": true,
-   "noCount": true
+   "noCount": true,
+   "easy": "앞뒤 한 걸음",
+   "challenge": "좌우 한 걸음 추가"
   },
   {
    "sec": "PARTNER DRILL",
    "type": "base",
-   "tag": "짝과 함께",
+   "tag": "파트너 훈련",
    "move": "역할 바꾸기",
-   "sub": "치고 바로 가드",
+   "sub": "리더와 간격 유지",
    "dur": 60,
-   "rd": 10,
-   "st": "L"
+   "rd": 9,
+   "st": "L",
+   "easy": "앞뒤 한 걸음",
+   "challenge": "좌우 한 걸음 추가",
+   "bellIn": true
   },
   {
    "sec": "PARTNER DRILL",
@@ -323,24 +311,65 @@
   {
    "sec": "PARTNER DRILL",
    "type": "base",
-   "tag": "짝과 체력",
-   "move": "마주 보고 스쿼트",
-   "sub": "일어나며 하이파이브",
+   "tag": "파트너 훈련",
+   "move": "슬립 신호",
+   "sub": "약속한 방향으로 작게",
    "dur": 60,
-   "rd": 11,
+   "rd": 10,
    "st": "L",
    "bellIn": true,
-   "noCount": true
+   "noCount": true,
+   "easy": "슬립 후 가드",
+   "challenge": "약속된 순서로 슬립 두 번"
   },
   {
    "sec": "PARTNER DRILL",
    "type": "base",
-   "tag": "짝과 체력",
-   "move": "플랭크 하이파이브",
-   "sub": "엉덩이 높이 그대로, 번갈아",
+   "tag": "파트너 훈련",
+   "move": "역할 바꾸기",
+   "sub": "약속한 방향으로 작게",
+   "dur": 60,
+   "rd": 10,
+   "st": "L",
+   "easy": "슬립 후 가드",
+   "challenge": "약속된 순서로 슬립 두 번",
+   "bellIn": true
+  },
+  {
+   "sec": "PARTNER DRILL",
+   "type": "rest",
+   "tag": "30초 휴식",
+   "move": "30초 휴식",
+   "sub": "물 한 모금, 길게 내쉬어요",
+   "dur": 30,
+   "bellIn": true
+  },
+  {
+   "sec": "PARTNER DRILL",
+   "type": "base",
+   "tag": "파트너 훈련",
+   "move": "슬립 후 연결",
+   "sub": "자기 앞 허공에 펀치",
    "dur": 60,
    "rd": 11,
-   "st": "L"
+   "st": "L",
+   "bellIn": true,
+   "noCount": true,
+   "easy": "슬립 후 가드",
+   "challenge": "슬립 후 투"
+  },
+  {
+   "sec": "PARTNER DRILL",
+   "type": "base",
+   "tag": "파트너 훈련",
+   "move": "역할 바꾸기",
+   "sub": "자기 앞 허공에 펀치",
+   "dur": 60,
+   "rd": 11,
+   "st": "L",
+   "easy": "슬립 후 가드",
+   "challenge": "슬립 후 투",
+   "bellIn": true
   },
   {
    "sec": "PARTNER DRILL",
@@ -494,12 +523,14 @@
    "sec": "WRAP UP",
    "type": "talk",
    "tag": "마무리",
-   "move": "오늘 몸이 기억한 펀치는?",
+   "move": "피한 뒤 균형을 지켰나요?",
    "sub": "다음 주는 한 달 콤보와 패드 데이",
    "dur": 240,
    "anchor": "ask",
    "bellIn": true
   }
  ],
- "total": 2820
+ "total": 2820,
+ "reviewStatus": "draft",
+ "revision": "2026-11-11"
 }

@@ -213,7 +213,7 @@ body.hide{cursor:none}
 @media (prefers-reduced-motion:reduce){body.soon .next{animation:none}body.warn .num{animation:none}body,.next{transition:none}}
 /* ===== v2 화면(라운드형): 지금 동작 > 남은 시간 링 > 구간 > 다음 ===== */
 #v2{display:none}
-body.v2{--bg:#121212;--fg:#F5F0DF;color-scheme:dark}
+body.v2{--bg:#171717;--fg:#F5F0DF;color-scheme:dark}
 body.v2 .wrap{grid-template-rows:1fr}
 body.v2 .wrap>header,body.v2 .wrap>main,body.v2 .bar{display:none}
 body.v2 #v2{display:grid;grid-template-rows:auto 1fr auto;height:100%;min-height:0;gap:clamp(8px,2vh,24px);--acc:#2fd19c}
@@ -229,6 +229,7 @@ body.v2.ph-follow #v2{--acc:#F5F0DF} body.v2.ph-own #v2{--acc:#2fd19c} body.v2.p
 .v2move{font-family:var(--f-head);font-weight:900;font-size:clamp(34px,7.2vw,124px);line-height:1.08;letter-spacing:-.035em;word-break:keep-all}
 .v2combo{display:flex;flex-direction:column;gap:.15em;font-family:var(--f-head);font-weight:900;font-size:clamp(22px,3.6vw,60px);letter-spacing:.02em}
 .v2combo .L{color:#F5F0DF}.v2combo .R{color:#2fd19c}.v2combo .m{color:#8f897a;font-weight:700}.v2combo .x{color:#8f897a;font-size:.75em;margin-left:.35em}
+.v2options{font-size:clamp(15px,2vw,28px);line-height:1.5;color:#cfc8b6;margin:14px 0}.v2options b{color:#2fd19c;margin-right:8px}
 .v2cue{font-size:clamp(16px,2.6vw,40px);font-weight:700;color:#cfc8b6}
 .v2rules{display:flex;flex-direction:column;gap:.35em;font-size:clamp(18px,3vw,46px);font-weight:800}
 .v2rules .g{color:#121212;background:var(--acc);border-radius:.4em;padding:.15em .5em;align-self:flex-start}
@@ -265,7 +266,7 @@ body.v2.warn #v2num{animation:pulse .5s ease-in-out infinite alternate}
   <main>
     <div class="info">
       <div class="tagrow"><div class="tag" id="tag">시작 전</div><div class="st" id="st" hidden></div></div>
-      <div class="move" id="move">내 페이스 복싱</div>
+      <div class="move" id="move">오운랩</div>
       <div class="beats" id="beats"></div>
       <div class="who" id="who"></div>
       <div class="anchor" id="anchor"></div>
@@ -337,6 +338,7 @@ body.v2.warn #v2num{animation:pulse .5s ease-in-out infinite alternate}
 // 원본 대본은 노션 수업계획서. 이 파일은 타이머용 사본이다.
 // 회원에게 보이는 구간 이름 (수업계획서의 코치용 이름 → TV 표시 이름)
 const SECNAME={'웜업':'몸 깨우기','기술 1':'펀치 배우기','함께하기':'함께하기','기술 2':'스텝 붙이기','피지컬':'체력 운동','물 마시기':'휴식','물 · 자리 정돈':'휴식','피니시':'다 같이 완성','쿨다운':'몸 돌보기','인사':'인사','마무리':'마무리'};
+Object.assign(SECNAME,{'READY':'수업 준비','WARM UP':'몸 풀기','FOOTWORK':'스텝 연습','SHADOW':'섀도 복싱','FREE SHADOW':'자유 연습','PARTNER DEMO':'파트너 시범','PARTNER DRILL':'파트너 훈련','PARTNER':'파트너 훈련','PAD DEMO':'패드 시범','PAD WORK':'패드 연습','CONDITIONING':'체력 운동','COOL DOWN':'정리 운동','WRAP UP':'마무리'});
 const nm=sec=>SECNAME[sec]||sec;
 function getJSON(u){ const x=new XMLHttpRequest(); x.open('GET',u,false); x.send(null); if(x.status!==200&&x.status!==0) throw new Error(u); return JSON.parse(x.responseText); }
 function cached(key,u){ try{ const d=getJSON(u); try{ localStorage.setItem(key,JSON.stringify(d)); }catch(e){} return d; }
@@ -552,7 +554,7 @@ function render(){
   const intro=!started&&elapsed===0; // 시작 화면은 맨 처음에서만. 시작 전에 이전/다음으로 옮기면 그 구간을 미리 보여준다
   const restPrev=!intro&&!done&&s.type==='rest'&&!s.qr&&n&&n.sec!==s.sec; // 물 시간 = 다음 구간 예고 시간(코치가 설명할 때)
   { const sv=(!intro&&!done&&!restPrev&&s.st)||''; const el=$('st'); el.hidden=!sv; el.textContent=sv==='R'?'오른발 앞':sv==='F'?'정면':'왼발 앞'; el.className='st'+(sv==='R'?' R':'')+(sv&&i>0&&PLAN[i-1].st&&PLAN[i-1].st!==sv?' chg':''); }
-  $('tag').textContent=intro?'내 페이스 복싱':restPrev?'쉬어요':done?'수업 끝':(s.qr&&s.type==='rest'?s.tag+' · '+Math.max(1,Math.ceil(left))+'초':s.tag); // QR 물 시간도 남은 초가 보이게
+  $('tag').textContent=intro?'오운랩':restPrev?'쉬어요':done?'수업 끝':(s.qr&&s.type==='rest'?s.tag+' · '+Math.max(1,Math.ceil(left))+'초':s.tag); // QR 물 시간도 남은 초가 보이게
   setMove(late?s.late.move:s.move);
   $('beats').innerHTML=s.rules?rulesHTML(s.rules):beats(s.hands); // 짝 게임 규칙 카드(보드게임 설명서처럼)
   $('bar').style.transform='scaleX('+(intro||done?1:Math.max(0,Math.min(1,left/s.dur))).toFixed(4)+')';
@@ -562,7 +564,7 @@ function render(){
   if(intro) setMove((LDATA&&LDATA.hero)||'오늘은 나를 위한 50분');
   if(restPrev){ setMove('다음은 '+nm(n.sec)); $('who').innerHTML='<span class="seg">물 한 모금 마시면서 들어요</span>'; }
   const td=intro&&LDATA&&LDATA.learn; $('today').hidden=!td; document.body.classList.toggle('board',!!td); if(td&&!$('today').childElementCount) $('today').innerHTML=LDATA.learn.map(r=>'<div><dt>'+r[0]+'</dt><dd>'+r[1]+'</dd></div>').join('');
-  if(done){ setMove('오늘 해냈어요!'); $('beats').innerHTML=''; }
+  if(done){ setMove('오늘의 연습을 마쳤어요'); $('beats').innerHTML=''; }
   // 8초 전: 큰 화면은 끝까지 '지금 동작'. 아래 '다음' 띠만 크게 반전해 강조(코치는 읽고 미리 말하고, 회원은 숫자가 끝나면 바꾼다)
   if(soon!==lastSoon){ lastSoon=soon; lastFit=-1; }
   // 음성(코치 이어폰용): 같은 구간 안은 8초 전 '다음, 동작'. 구간이 바뀔 땐 12초 전 '다음은 구간. 첫 동작'.
@@ -596,13 +598,14 @@ function comboHTML(h){ if(!h) return ''; return '<div class="v2combo">'+h.split(
   return [...t].map(c=>PUNCH[c]?`<span class="${PUNCH[c][0]}">${PUNCH[c][1]}</span>`:`<span class="m">${c}</span>`).join(''); }).join('')+'</div>').join('')+'</div>'; }
 function renderV2(o){ const {i,s,left,n,intro,done,restPrev,late}=o; const esc=x=>String(x||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
   const inS=s.dur-left, ph=intro||done?'':PH(s,inS); document.body.classList.add('ph-'+(ph||'own'));
-  $('v2sec').textContent=intro?'내 페이스 복싱':done?'수업 끝':nm(s.sec).trim();
+  $('v2sec').textContent=intro?'오운랩':done?'수업 끝':nm(s.sec).trim();
   $('v2rd').textContent=!intro&&!done&&s.lap?s.lap+'바퀴 '+(s.min+1)+' / '+s.mins:!intro&&!done&&s.rd?'ROUND '+s.rd+' / '+RMAX:!intro&&!done&&s.mins?(s.min+1)+' / '+s.mins:'';
   $('v2tot').textContent=fmt(elapsed)+' / '+fmt(TOTAL);
-  let tag=intro?'':done?'수고했어요':restPrev?'쉬어요':s.ph==='block'?(s.lastBlk?'마지막 30초':''):s.tag, mv=intro?((LDATA&&LDATA.hero)||'오늘은 나를 위한 50분'):done?'오늘 해냈어요!':restPrev?'다음은 '+nm(n.sec).trim():(late?s.late.move:s.move);
+  let tag=intro?(LDATA&&LDATA.reviewStatus==='draft'?'검수용 초안':''):done?'수고했어요':restPrev?'쉬어요':s.ph==='block'?(s.lastBlk?'마지막 30초':''):s.tag, mv=intro?((LDATA&&LDATA.hero)||'오늘은 나를 위한 50분'):done?'오늘의 연습을 마쳤어요':restPrev?'다음은 '+nm(n.sec).trim():(late?s.late.move:s.move);
   let body='', cue=intro?'':done?(ANCHOR.text||'다음에도, 내 페이스로'):restPrev?'물 한 모금 마시면서 들어요':(s.sub||'');
   if(intro) body='<div class="v2chips">'+((LDATA&&LDATA.learn)||[]).map(r=>'<i>'+esc(r[1])+'</i>').join('')+'</div>';
   else if(done) body='';
+  else if(s.easy||s.challenge) body='<div class="v2options">'+(s.easy?'<div><b>기본</b> '+esc(s.easy)+'</div>':'')+(s.challenge?'<div><b>확장</b> '+esc(s.challenge)+'</div>':'')+'</div>';
   else if(s.rules) body='<div class="v2rules">'+s.rules.map(x=>x.startsWith('목표')?'<div class="g">'+esc(x.replace('목표:','').trim())+'</div>':'<div>'+esc(x)+'</div>').join('')+'</div>';
   $('v2tag').textContent=tag; $('v2tag').hidden=!tag; $('v2move').textContent=mv; $('v2body').innerHTML=body; $('v2cue').textContent=cue;
   const dur=intro?TOTAL:s.dur, rem=intro?TOTAL:done?0:left; $('v2arc').style.strokeDashoffset=(282.74*(1-Math.max(0,Math.min(1,rem/dur)))).toFixed(2);
