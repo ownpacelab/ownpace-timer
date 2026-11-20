@@ -12,16 +12,16 @@ for(let i=1;i<=6;i++){add('워밍업','워밍업 '+i+'/6',20);add('워밍업','�
 transition();
 for(let i=1;i<=2;i++){add('스탠스와 풋워크','풋워크 '+i+'/2R',180,'work',90);if(i<2)add('스탠스와 풋워크','라운드 휴식',60,'rest');}
 transition();
-for(let i=1;i<=6;i++){add('쉐도우','쉐도우 '+i+'/6R',180,'work',90);if(i<6)add('쉐도우','라운드 휴식',60,'rest');}
+for(let i=1;i<=6;i++){add('쉐도우','쉐도우 '+i+'/6R',180,'work',90);if(i<6)add('쉐도우','라운드 휴식',40,'rest');}
 transition();
-for(let i=1;i<=2;i++){add('파트너','파트너 '+i+'/2R',120,'work',60);if(i<2)add('파트너','라운드 휴식',60,'rest');}
+for(let i=1;i<=2;i++){add('파트너','파트너 '+i+'/2R',180,'work',90);if(i<2)add('파트너','라운드 휴식',40,'rest');}
 transition();
 [[20,10,4],[30,15,2],[30,15,4]].forEach(([work,rest,count],block)=>{for(let i=1;i<=count;i++){add('컨디셔닝','인터벌 '+(block+1)+' / '+i+'세트',work);add('컨디셔닝','인터벌 휴식',rest,'rest');}});
-transition();for(let i=1;i<=3;i++){add('쿨다운','느린 스텝 '+i+'/3',20);add('쿨다운','호흡 정리 '+i+'/3',20);}
+transition();for(let i=1;i<=6;i++)add('쿨다운','마무리 '+i+'/6',20);
 const TOTAL=acc;if(TOTAL!==3000)throw Error('Schedule must total 3000 seconds');
 const $=id=>document.getElementById(id),fmt=n=>{n=Math.max(0,Math.ceil(n));return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');};
 let elapsed=0,running=false,base=0,epoch=0,audio=null,sound=true,wake=null,prevElapsed=0,lastSaved=0;
-const KEY='ownpace-timer-v7';
+const KEY='ownpace-timer-v7-partner90';
 function at(t){return PLAN.findIndex(p=>t<p.end);}
 let volume=.8,voice=true;
 // Boxing Bell: IOII-IOIO-IIOI, CC0. Source: https://commons.wikimedia.org/wiki/File:Dingdingding.wav
@@ -54,7 +54,7 @@ $('reset').onclick=()=>{if(elapsed>0&&!confirm('타이머를 처음으로 되돌
 $('sound').onclick=async()=>{sound=!sound;if(!sound)stopVoice();$('sound').textContent=sound?'소리 켜짐':'소리 꺼짐';$('sound').setAttribute('aria-pressed',String(sound));if(sound){await unlock();tone();}};
 $('test').onclick=async()=>{await unlock();bell(2);};$('full').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch(e){$('full').textContent='전체 화면 미지원';}};
 PLAN.forEach((p,i)=>{if(i===0||p.section!==PLAN[i-1].section){const o=document.createElement('option');o.value=p.start;o.textContent=fmt(p.start)+' '+p.section;$('jump').appendChild(o);}});$('jump').onchange=e=>move(Number(e.target.value));
-[['워밍업','4분'],['스탠스와 풋워크','3분 × 2R / 사이 휴식 1분'],['쉐도우','3분 × 6R / 사이 휴식 1분'],['파트너','2분 × 2R / 사이 휴식 1분'],['컨디셔닝','20초/10초 × 4, 30초/15초 × 2, 30초/15초 × 4'],['쿨다운','20초 + 20초 × 3 / 2분'],['구간 전환','30초 × 5']].forEach(([s,t])=>{const li=document.createElement('li');li.textContent=s+' — '+t;$('outline').appendChild(li);});
+[['워밍업','4분'],['스탠스와 풋워크','3분 × 2R / 사이 휴식 1분'],['쉐도우','3분 × 6R / 사이 휴식 40초'],['파트너','3분 × 2R / 사이 휴식 40초'],['컨디셔닝','20초/10초 × 4, 30초/15초 × 2, 30초/15초 × 4'],['쿨다운','20초 × 6 / 2분'],['구간 전환','30초 × 5']].forEach(([s,t])=>{const li=document.createElement('li');li.textContent=s+' — '+t;$('outline').appendChild(li);});
 document.addEventListener('keydown',e=>{if(['BUTTON','SELECT','INPUT'].includes(e.target.tagName))return;if(e.code==='Space'){e.preventDefault();running?pause():start();}if(e.key==='ArrowRight')$('nextBtn').click();if(e.key==='ArrowLeft')$('prev').click();});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&running)lock();});window.addEventListener('pagehide',()=>{syncTime();save();});
 try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&Date.now()-v.at<7200000&&Number.isFinite(v.elapsed))elapsed=Math.max(0,Math.min(TOTAL,v.elapsed));}catch(e){}
